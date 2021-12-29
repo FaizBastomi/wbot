@@ -9,7 +9,7 @@ module.exports = joinhandler = async (data, sock) => {
             await sock.sendMessage(data.id, { text: "Sorry, but this group member is not more than 80 members, I leave soon." })
                 .then(async (m) => {
                     await sock.groupLeave(data.id);
-                    setTimeout(async () => { await sock.chatModify({ delete: true, lastMessages: m }, data.id) }, 5000)
+                    setTimeout(async () => { await sock.chatModify({ delete: true }, data.id) }, 5000)
                 })
         } else {
             await sock.sendMessage(data.id, { text: "Thanks for letting me join your group :D" })
