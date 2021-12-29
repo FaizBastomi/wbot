@@ -1,0 +1,83 @@
+{
+    "indo": {
+        "stick": "Silahkan kirim/reply gambar/video/dokumen yang ingin di convert ke sticker.\nPastikan ukuran tidak melebihi 2MB dan durasi tidak lebih 10detik.",
+        "util": {
+            "toimg": {
+                "msg": "Silahkan reply sticker yang ingin di convert ke media.\nHanya dapat decrypt non-animated sticker.",
+                "fail": "Gagal convert sticker ke media."
+            },
+            "download": {
+                "igFail": "Gagal mengunduh media instagram dari link yang diberikan.",
+                "twittFail": "Gagal mengunduh media twitter dari link yang diberikan.",
+                "progress": "_Sedang diproses, harap tunggu..._",
+                "ttFail": "Gagal mengunduh video TikTok dari link yang diberikan.",
+                "fbFail": "Gagal mengunduh video Facebook dari link yang diberikan.",
+                "fbPriv": "Tampaknya tautan ini menuju ke sebuah postingan privat."
+            }
+        },
+        "group": {
+            "promote": {
+                "success": "Berhasil menaikan jabatan",
+                "fail": "Gagal menaikan jabatan",
+                "noPerms": "kamu bukan admin grup.",
+                "botNoPerms": "Bot bukan admin grup."
+            },
+            "demote": {
+                "success": "Berhasil menurunkan jabatan",
+                "fail": "Gagal menurunkan jabatan",
+                "noPerms": "kamu bukan admin grup.",
+                "botNoPerms":"Bot bukan admin grup."
+            },
+            "tagall": {
+                "noPerms": "kamu bukan admin grup."
+            },
+            "gcset": {
+                "noPerms": "kamu bukan admin grup.",
+                "botNoPerms":"Bot bukan admin grup.",
+                "fail": "Gagal merubah setelan group.",
+                "success": "Berhasil merubah setelan group."
+            }
+        }
+    },
+    "eng": {
+        "stick": "Please send/reply the image/video/document you want to convert to a sticker.\nMake sure the size does not exceed 2MB and max duration is 10second(s).",
+        "util": {
+            "toimg": {
+                "msg":"Please reply to the sticker you want to convert to media.\nOnly can decrypt non-animated stickers.",
+                "fail":"Failed to convert sticker to media."
+            },
+            "download": {
+                "igFail":"Failed to download instagram media from the given link.",
+                "twittFail":"Failed to download twitter media from the given link.",
+                "progress":"_In progress, please wait..._",
+                "ttFail": "Failed to download TikTok video from the given link.",
+                "fbFail": "Failed to download Facebook video from the given link.",
+                "fbPriv": "This link appears to be leading to a private post.",
+                "notYTURL": "Invalid YouTube URL.\nTry !yts to search a video on YouTube."
+            }
+        },
+        "group": {
+            "promote": {
+                "success":"Successfully promoted",
+                "fail":"Failed to promote",
+                "noPerms":"you are not the group admin.",
+                "botNoPerms":"Bots are not group admins."
+            },
+            "demote": {
+                "success":"Successfully demoted",
+                "fail":"Failed to demote",
+                "noPerms":"you are not the group admin.",
+                "botNoPerms":"Bots are not group admins."
+            },
+            "tagall": {
+                "noPerms":"you are not the group admin."
+            },
+            "gcset": {
+                "noPerms": "you are not the group admin.",
+                "botNoPerms": "Bots are not group admins.",
+                "fail": "Failed to change group settings.",
+                "success": "Successfully changed group settings."
+            }
+        }
+    }
+}
