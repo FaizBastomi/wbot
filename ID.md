@@ -22,7 +22,7 @@ Isi semua yang dibutuhkan di file `config.json`.
 ### Dibutuhkan
 1. [nodejs](https://nodejs.org/en/download) 16x/17x
 2. [ffmpeg](https://ffmpeg.org)
-3. [libWebP](hhtps://developers.google.com/speed/webp/download)
+3. [libWebP](https://developers.google.com/speed/webp/download)
 
 ### Instalasi Ffmpeg
 - Untuk pengguna Windows, kamu bisa lihat tutorial disini [WikiHow](https://www.wikihow.com/Install-Ffmpeg-on-Windows)<br />
