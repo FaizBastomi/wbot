@@ -7,6 +7,7 @@
 ## [![JavaScript](https://img.shields.io/badge/JavaScript-d6cc0f?style=for-the-badge&logo=javascript&logoColor=white)](https://javascript.com) [![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/) [![discord.js](https://img.shields.io/badge/discord.js-0026a3?style=for-the-badge&logo=discord&logoColor=white)](https://discord.js.org)
 
 > Build with Baileys and discord.js ( as a command handler ) <br />
+Untuk instalasi bahasa Indonesia [disini](./ID.md)<br />
 
 </div><br />
 <br />
@@ -21,8 +22,8 @@ Fill in everything needed in the `config.json` file.
 
 ### Require
 1. [nodejs](https://nodejs.org/en/download) 16x/17x
-3. [FFMPEG](https://ffmpeg.org)
-4. [libWebP](https://developers.google.com/speed/webp/download)
+2. [FFMPEG](https://ffmpeg.org)
+3. [libWebP](https://developers.google.com/speed/webp/download)
 
 ### FFMPEG Instalation
 - For Windows User, you can see this website, [WikiHow](https://www.wikihow.com/Install-FFmpeg-on-Windows).
@@ -68,7 +69,7 @@ pacman -S libwebp
 ### Cloning this repo
 ```sh
 # clone begin
-git clone https://github.com/FaizBastomi/wbot.git --branch "multi-device" "wbot"
+git clone https://github.com/FaizBastomi/wbot.git --branch "multi-device"
 
 # change dir
 cd wbot
