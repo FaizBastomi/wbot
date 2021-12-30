@@ -3,7 +3,7 @@ const ex = new Exif();
 const fs = require("fs");
 const { getRandom } = require("../../utils");
 const { sticker } = require("../../lib/convert");
-const { downloadContentFromMessage } = require("@adiwajshing/baileys-md");
+const { downloadMedia } = require("../../utils");
 const run = require("child_process").exec;
 const lang = require("../other/text.json");
 
@@ -27,8 +27,8 @@ module.exports = {
 
         try {
             if ((isMedia && !msg.message.videoMessage) || isQImg) {
-                const media = isQImg ? quoted.message.imageMessage : msg.message.imageMessage;
-                const buffer = await downloadMedia(media, "image");
+                const media = isQImg ? quoted.message : msg.message;
+                const buffer = await downloadMedia(media);
                 const stickerBuffer = await sticker(buffer, {
                     isImage: true, withPackInfo: true, cmdType: "1", packInfo: {
                         packname: packname.toString(),
@@ -40,8 +40,8 @@ module.exports = {
                 (isMedia && msg.message.videoMessage.fileLength < 2 << 20) ||
                 (isQVid && quoted.message.videoMessage.fileLength < 2 << 20)
             ) {
-                const media = isQVid ? quoted.message.videoMessage : msg.message.videoMessage;
-                const buffer = await downloadMedia(media, "video");
+                const media = isQVid ? quoted.message : msg.message;
+                const buffer = await downloadMedia(media);
                 const stickerBuffer = await sticker(buffer, {
                     isVideo: true, withPackInfo: true, cmdType: "1", packInfo: {
                         packname: packname.toString(),
@@ -52,7 +52,7 @@ module.exports = {
             } else if (isQStick) {
                 const name_1 = getRandom('.webp');
                 ex.create(packname.toString(), author.toString(), sender);
-                const buffer = await downloadMedia(quoted.message.stickerMessage, "sticker");
+                const buffer = await downloadMedia(quoted.message);
                 await fs.promises.writeFile(`./temp/${name_1}`, buffer);
                 run(`webpmux -set exif ./temp/${sender}.exif ./temp/${name_1} -o ./temp/${name_1}`, async function (e) {
                     if (e) return await sock.sendMessage(from, { text: "Error" }, { quoted: msg }) && fs.unlinkSync(`./temp/${name_1}`);
@@ -66,7 +66,7 @@ module.exports = {
             ) {
                 let ext = /image/.test(quoted.message.documentMessage.mimetype) ? { isImage: true } : /video/.test(quoted.message.documentMessage.mimetype) ? { isVideo: true } : null;
                 if (!ext) return await sock.sendMessage(from, { text: "Document mimetype unknown" }, { quoted: msg });
-                const buffer = await downloadMedia(quoted.message.documentMessage, "document");
+                const buffer = await downloadMedia(quoted.message);
                 const stickerBuffer = sticker(buffer, {
                     ...ext, withPackInfo: true, cmdType: "1", packInfo: {
                         packname: packname.toString(),
@@ -81,13 +81,4 @@ module.exports = {
             await sock.sendMessage(from, { text: "Error while creating sticker" }, { quoted: msg });
         }
     }
-}
-
-async function downloadMedia(message, type) {
-    const stream = await downloadContentFromMessage(message, type);
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-        buffer = Buffer.concat([buffer, chunk]);
-    }
-    return buffer;
 }

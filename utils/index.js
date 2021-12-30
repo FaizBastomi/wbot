@@ -1,15 +1,41 @@
 const clc = require('chalk');
 const { default: axios } = require("axios");
+const { downloadContentFromMessage } = require("@adiwajshing/baileys-md");
 const fs = require('fs');
 const moment = require('moment-timezone');
+const { sizeFormatter } = require("human-readable");
 const { fromBuffer } = require('file-type');
 const webp = require('webp-converter');
 const { join } = require('path');
-const { openWeather } = require("../config.json")
+const { openWeather } = require("../config.json");
 
 const color = (text, color) => {
   return !color ? clc.green(text) : clc.keyword(color)(text);
 };
+
+const downloadMedia = async (message) => {
+  const type = Object.keys(message)[0];
+  let mimeMap = {
+    "imageMessage": "image",
+    "videoMessage": "video",
+    "stickerMessage": "sticker",
+    "documentMessage": "document",
+    "audioMessage": "audio"
+  }
+  const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
+  let buffer = Buffer.from([]);
+  for await (const chunk of stream) {
+    buffer = Buffer.concat([buffer, chunk]);
+  }
+  return buffer;
+}
+
+const formatSize = sizeFormatter({
+  std: "JEDEC",
+  decimalPlaces: "2",
+  keepTrailingZeroes: false,
+  render: (literal, symbol) => `${literal} ${symbol}B`
+})
 
 const getRandom = (ext) => {
   return `${Date.now()}${ext}`;
@@ -164,12 +190,14 @@ const openWeatherAPI = async function (q, type) {
 module.exports = {
   color,
   getRandom,
+  downloadMedia,
   fetchText,
   fetchJson,
   fetchBuffer,
   calculatePing,
   textParse,
   fixNumber,
+  formatSize,
   UserAgent,
   openWeatherAPI
 };

@@ -1,4 +1,4 @@
-const { downloadContentFromMessage } = require("@adiwajshing/baileys-md");
+const { downloadMedia } = require("../../utils");
 const { sticker } = require("../../lib/convert");
 const lang = require("../other/text.json");
 
@@ -18,16 +18,16 @@ module.exports = {
 
         try {
             if ((isMedia && !msg.message.videoMessage) || isQImg) {
-                const media = isQImg ? quoted.message.imageMessage : msg.message.imageMessage;
-                const buffer = await downloadMedia(media, "image");
+                const media = isQImg ? quoted.message : msg.message;
+                const buffer = await downloadMedia(media);
                 const stickerBuffer = await sticker(buffer, { isImage: true, cmdType: "1" });
                 await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
             } else if (
                 (isMedia && msg.message.videoMessage.fileLength < 2 << 20) ||
                 (isQVid && quoted.message.videoMessage.fileLength < 2 << 20)
             ) {
-                const media = isQVid ? quoted.message.videoMessage : msg.message.videoMessage;
-                const buffer = await downloadMedia(media, "video");
+                const media = isQVid ? quoted.message : msg.message;
+                const buffer = await downloadMedia(media);
                 const stickerBuffer = await sticker(buffer, { isVideo: true, cmdType: "1" });
                 await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
             } else if (
@@ -37,7 +37,7 @@ module.exports = {
                 let ext = /image/.test(quoted.message.documentMessage.mimetype) ? { isImage: true }
                     : /video/.test(quoted.message.documentMessage.mimetype) ? { isVideo: true } : null;
                 if (!ext) return await sock.sendMessage(from, { text: "Document mimetype unknown" }, { quoted: msg });
-                const buffer = await downloadMedia(quoted.message.documentMessage, "document");
+                const buffer = await downloadMedia(quoted.message);
                 const stickerBuffer = await sticker(buffer, { ...ext, cmdType: "1" });
                 await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
             } else {
@@ -47,13 +47,4 @@ module.exports = {
             await sock.sendMessage(from, { text: "Error while creating sticker" }, { quoted: msg });
         }
     }
-}
-
-async function downloadMedia(message, type) {
-    const stream = await downloadContentFromMessage(message, type);
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-        buffer = Buffer.concat([buffer, chunk]);
-    }
-    return buffer;
 }

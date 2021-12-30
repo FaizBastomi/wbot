@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { getRandom } = require("../../utils");
-const { downloadContentFromMessage } = require("@adiwajshing/baileys-md");
+const { downloadMedia } = require("../../utils");
 const run = require("child_process").exec;
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
             if (QStick || QStickEph) {
                 const ran = getRandom('.webp');
                 const ran1 = getRandom('.webp');
-                const buffer = await downloadMedia(quoted.message.stickerMessage, "sticker");
+                const buffer = await downloadMedia(quoted.message.stickerMessage);
                 await fs.promises.writeFile(`./temp/${ran}`, buffer);
                 run(`webpmux -set exif ./temp/d.exif ./temp/${ran} -o ./temp/${ran1}`, async function (err) {
                     fs.unlinkSync(`./temp/${ran}`);
@@ -33,13 +33,4 @@ module.exports = {
             await sock.sendMessage(from, { text: "Error while creating sticker" }, { quoted: msg });
         }
     }
-}
-
-async function downloadMedia(message, type) {
-    const stream = await downloadContentFromMessage(message, type);
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-        buffer = Buffer.concat([buffer, chunk]);
-    }
-    return buffer;
 }
