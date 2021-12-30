@@ -16,8 +16,8 @@ module.exports = {
             if (typeof dataConf !== "object") dataConf = {};
 
             let text = `\`\`\`\nSubject: ${gcMeta?.subject}\nOwner: ${gcMeta?.owner}\nID: ${gcMeta?.id}\nSize: ${gcMeta?.participants?.length}\n`
-            text += `Created: ${new Date(gcMeta?.creation * 1000).toLocaleString()} \nWelcome: ${dataConf?.["join"]?.["active"] ? "ON" : "OFF"}\nLeft: ${dataConf?.["left"]?.["active"] ? "ON" : "OFF"}\`\`\``
-            text += `Desc:\n${gcMeta?.desc ? gcMeta?.desc?.toString() : 'Empty'}`
+            text += `Created: ${new Date(gcMeta?.creation * 1000).toLocaleString()} \nWelcome: ${dataConf?.["join"]?.["active"] ? "ON" : "OFF"}\nLeft: ${dataConf?.["left"]?.["active"] ? "ON" : "OFF"}\n`
+            text += `Desc:\n${gcMeta?.desc ? gcMeta?.desc?.toString() : 'Empty'}\`\`\``
 
             await sock.sendMessage(from, { image: { url: ppGroup }, caption: text }, { quoted: msg });
         } catch {
