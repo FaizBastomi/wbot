@@ -45,7 +45,8 @@ module.exports = {
                 text: str,
                 footer: "Kaguya PublicBot • FaizBastomi",
                 templateButtons: [
-                    { urlButton: { displayText: "Telegram Bot", url: "https://t.me/secondMidnight_bot" } }
+                    { urlButton: { displayText: "Telegram Bot", url: "https://t.me/secondMidnight_bot" } },
+                    { urlButton: { displayText: "Source Code", url: "https://github.com/FaizBastomi/wbot/tree/multi-device" } }
                 ]
             }, { quoted: msg })
         }
