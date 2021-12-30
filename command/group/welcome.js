@@ -30,26 +30,26 @@ module.exports = {
             case "on":
                 dataOn = checkData(filename, "on/join")
                 if (dataOn === "active") {
-                    return await sock.sendMesage(from, { text: "```Already active/Sudah aktif```" }, { quoted: msg })
+                    return await sock.sendMessage(from, { text: "```Already active/Sudah aktif```" }, { quoted: msg })
                 } else if (dataOn === "no_file" || dataOn === "inactive") {
                     modifyData(filename, "on/join");
-                    return await sock.sendMesage(from, { text: "```Activated/Telah diaktifkan```" }, { quoted: msg })
+                    return await sock.sendMessage(from, { text: "```Activated/Telah diaktifkan```" }, { quoted: msg })
                 }
                 break;
             case "off":
                 dataOn = checkData(filename, "on/join")
                 if (dataOn === "inactive") {
-                    return await sock.sendMesage(from, { text: "```Never active/Tidak pernah aktif```" }, { quoted: msg })
+                    return await sock.sendMessage(from, { text: "```Never active/Tidak pernah aktif```" }, { quoted: msg })
                 } else if (dataOn === "no_file") {
-                    return await sock.sendMesage(from, { text: "```Please actived this feature first/Harap aktifkan fitur ini dahulu```" }, { quoted: msg })
+                    return await sock.sendMessage(from, { text: "```Please actived this feature first/Harap aktifkan fitur ini dahulu```" }, { quoted: msg })
                 } else if (dataOn === "active") {
                     modifyData(filename, "on/join")
-                    return await sock.sendMesage(from, { text: "```Success deactivated/Berhasil di nonaktifkan```" }, { quoted: msg })
+                    return await sock.sendMessage(from, { text: "```Success deactivated/Berhasil di nonaktifkan```" }, { quoted: msg })
                 }
                 break;
             case "message":
                 modifyData(filename, "join", args.slice(1).join(" "))
-                await sock.sendMesage(from, { text: "```Custom message edited successfully/Pesan custom berhasil di edit```" }, { quoted: msg });
+                await sock.sendMessage(from, { text: "```Custom message edited successfully/Pesan custom berhasil di edit```" }, { quoted: msg });
                 break;
         }
     }
