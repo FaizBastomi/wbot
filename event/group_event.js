@@ -32,13 +32,13 @@ module.exports = joinhandler = async (data, sock) => {
                 return "@" + v.split('@')[0]
             })).join(' ') : "@" + data.participants[0].split('@')[0],
             group: gM?.subject,
-            desc: gM?.desc.toString()
+            desc: gM?.desc?.toString()
         }
         if (info !== "no_file") {
             const dataConf = getData(id)
             let text = dataConf["join"]["msg"].replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, "g"), (_, name) => '' + replace[name])
             if (dataConf["join"]["active"]) {
-                await sock.sendMessage(from, { text, mentions: data.participants })
+                await sock.sendMessage(data.id, { text, mentions: data.participants })
             }
         }
     } else if (data.action === "remove" && !data.participants.includes(myID)) {
@@ -53,13 +53,13 @@ module.exports = joinhandler = async (data, sock) => {
                 return "@" + v.split('@')[0]
             })).join(' ') : "@" + data.participants[0].split('@')[0],
             group: gM?.subject,
-            desc: gM?.desc.toString()
+            desc: gM?.desc?.toString()
         }
         if (info !== "no_file") {
             const dataConf = getData(id)
             let text = dataConf["left"]["msg"].replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, "g"), (_, name) => '' + replace[name])
             if (dataConf["left"]["active"]) {
-                await sock.sendMessage(from, { text, mentions: data.participants })
+                await sock.sendMessage(data.id, { text, mentions: data.participants })
             }
         }
     }
