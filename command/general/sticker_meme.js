@@ -15,14 +15,14 @@ module.exports = {
         const isMedia = type === 'imageMessage';
         const isQImg = type === 'extendedTextMessage' && content.includes('imageMessage');
         const isQDoc = type === 'extendedTextMessage' && content.includes('documentMessage');
-        let top = arg.split('|')[0] || '';
-        let bottom = arg.split('|')[1] || '';
+        let top = arg.split('|')[0] || '_';
+        let bottom = arg.split('|')[1] || '_';
 
         try {
             if ((isMedia && !msg.message.videoMessage) || isQImg) {
                 const media = isQImg ? quoted.message : msg.message;
                 const buffer = await downloadMedia(media);
-                let memeImg = await memeText(buffer, top, bottom);
+                let memeImg = await memeText(buffer, top.toString(), bottom.toString());
                 const stickerBuffer = await sticker(memeImg, { isImage: true, cmdType: "1" });
                 await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
             } else if (
