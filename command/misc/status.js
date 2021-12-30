@@ -1,4 +1,5 @@
 const os = require('os');
+const { formatSize } = require("../../utils");
 
 module.exports = {
     name: 'stats',
@@ -8,8 +9,8 @@ module.exports = {
     async exec(msg, sock) {
         let text = ''
         text += `HOST:\n- Arch: ${os.arch()}\n- CPU: ${os.cpus()[0].model}${os.cpus().length > 1 ? (' (' + os.cpus().length + 'x)') : ''}\n- Release: ${os.release()}\n- Version: ${os.version()}\n`
-        text += `- Memory: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem / 1024 / 1024).toFixed(2)}MB\n`
-        text += `- Platform: ${os.platform()}\n\n`;
+        text += `- Memory: ${formatSize(os.totalmem() - os.freemem())} / ${formatSize(os.totalmem())}\n`
+        text += `- Platform: ${os.platform()}`;
         await sock.sendMessage(msg.from, { text }, { quoted: msg });
     }
 }

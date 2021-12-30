@@ -3,7 +3,7 @@
         "stick": "Silahkan kirim/reply gambar/video/dokumen yang ingin di convert ke sticker.\nPastikan ukuran tidak melebihi 2MB dan durasi tidak lebih 10detik.",
         "util": {
             "toimg": {
-                "msg": "Silahkan reply sticker yang ingin di convert ke media.\nHanya dapat decrypt non-animated sticker.",
+                "msg": "Silahkan reply sticker yang ingin di convert ke media.",
                 "fail": "Gagal convert sticker ke media."
             },
             "download": {
