@@ -17,7 +17,8 @@
 - [x] Banyak Fitur
 
 ## Instalasi
-Isi semua yang dibutuhkan di file `config.json`.
+Ganti nama atau buat baru file bernama `config.json`.<br />
+Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example`.
 
 ### Dibutuhkan
 1. [nodejs](https://nodejs.org/en/download) 16x/17x

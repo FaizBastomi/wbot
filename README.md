@@ -18,6 +18,7 @@ Untuk instalasi bahasa Indonesia [disini](./ID.md)<br />
 - [x] Features rich
 
 ## Instalation
+Rename or create new file called `config.json`.<br />
 Fill in everything needed in the `config.json` file.
 
 ### Require
