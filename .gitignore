@@ -6,3 +6,4 @@ database/group/*.json
 temp/*net.exif
 temp/*net.webp
 tes*.js
+config.json
