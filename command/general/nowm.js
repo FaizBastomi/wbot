@@ -23,7 +23,7 @@ module.exports = {
                 run(`webpmux -set exif ./temp/d.exif ./temp/${ran} -o ./temp/${ran1}`, async function (err) {
                     fs.unlinkSync(`./temp/${ran}`);
                     if (err) return await sock.sendMessage(from, { text: "Error while creating sticker" }, { quoted: msg });
-                    await sock.sendMessage(from, { sticker: `./temp/${ran1}` }, { quoted: msg });
+                    await sock.sendMessage(from, { sticker: { url: `./temp/${ran1}` } }, { quoted: msg });
                     fs.unlinkSync(`./temp/${ran1}`);
                 })
             } else {

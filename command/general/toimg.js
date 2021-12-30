@@ -9,7 +9,7 @@ module.exports = {
     alias: ['toimg', 'tomedia'],
     category: 'general',
     desc: 'Convert your sticker to media (image)',
-    async execute(msg, sock) {
+    async exec(msg, sock) {
         const { quoted, from, type } = msg;
 
         const content = JSON.stringify(quoted);
@@ -27,7 +27,7 @@ module.exports = {
             run(`ffmpeg -i ./temp/${ran} ./temp/${ran1}`, async function (err) {
                 fs.unlinkSync(`./temp/${ran}`);
                 if (err) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.util.toimg.fail}\n\nEN:\n${lang.eng.util.toimg.fail}` }, { quoted: msg });
-                await sock.sendMessage(from, { image: `./temp/${ran1}`, caption: "Done." }, { quoted: msg });
+                await sock.sendMessage(from, { image: { url: `./temp/${ran1}` }, caption: "Done." }, { quoted: msg });
                 fs.unlinkSync(`./temp/${ran1}`);
             });
         } else {
