@@ -55,12 +55,12 @@ const upTgph = (fileData) => {
         const { ext } = await fromBuffer(fileData);
         const filePath = 'utils/tmp.' + ext;
         writeFile(filePath, fileData, async (err) => {
-            if (err) unlinkSync(filePath) && reject(err);
+            if (err) reject(err) && unlinkSync(filePath);
             console.log('Uploading to telegra.ph...')
             const form = new BodyForm();
             form.append('file', createReadStream(filePath));
             const { data } = await axios({ url: "https://telegra.ph/upload", data: form, method: "post", responseType: "json", headers: { ...form.getHeaders() } }).catch(reject);
-            if (data.error) unlinkSync(filePath) && reject(data.error);
+            if (data.error) reject(data.error) && unlinkSync(filePath);
             console.log('Success');
             resolve('https://telegra.ph' + data[0].src);
             unlinkSync(filePath);
@@ -76,15 +76,20 @@ const upTgph = (fileData) => {
  * @returns {Promise<Buffer>}
  */
 const memeText = (imageData, top, bottom) => new Promise(async (resolve, reject) => {
-    if (!imageData) reject('No imageData');
-    const imageUrl = await upTgph(imageData).catch(reject);
-    let topText = top.trim().replace(/\s/g, '_').replace(/\?/g, '~q').replace(/\%/g, '~p').replace(/\#/g, '~h').replace(/\//g, '~s');
-    let bottomText = bottom.trim().replace(/\s/g, '_').replace(/\?/g, '~q').replace(/\%/g, '~p').replace(/\#/g, '~h').replace(/\//g, '~s');
+    try {
+        if (!imageData) reject('No imageData');
+        const imageUrl = await upTgph(imageData);
+        let topText = top.trim().replace(/\s/g, '_').replace(/\?/g, '~q').replace(/\%/g, '~p').replace(/\#/g, '~h').replace(/\//g, '~s');
+        let bottomText = bottom.trim().replace(/\s/g, '_').replace(/\?/g, '~q').replace(/\%/g, '~p').replace(/\#/g, '~h').replace(/\//g, '~s');
 
-    let result = `https://api.memegen.link/images/custom/${topText}/${bottomText}.png?background=${imageUrl}`;
-    const binResult = await fetchBuffer(result);
-    resolve(binResult);
+        let result = `https://api.memegen.link/images/custom/${topText}/${bottomText}.png?background=${imageUrl}`;
+        const binResult = await fetchBuffer(result);
+        resolve(binResult);
+    } catch (e) {
+        reject(e)
+    }
 })
+
 module.exports = {
     webp2mp4,
     upTgph,

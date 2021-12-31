@@ -2,7 +2,7 @@ const { getData } = require("../../database/group_setting");
 
 module.exports = {
     name: "groupinfo",
-    alias: ["gcinfo", "grupinfo", "grupstats", "groupstats","gcstats"],
+    alias: ["gcinfo", "grupinfo", "grupstats", "groupstats", "gcstats"],
     category: "group",
     desc: "Show this group information",
     async exec(msg, sock) {
@@ -11,9 +11,12 @@ module.exports = {
 
         try {
             const gcMeta = isGroup ? await sock.groupMetadata(from) : '';
-            const ppGroup = isGroup ? await sock.profilePictureUrl(from) : 'https://tinyurl.com/yeon6okd';
             let dataConf = await getData(from.split('@')[0]);
+            let ppGroup;
             if (typeof dataConf !== "object") dataConf = {};
+            try {
+                ppGroup = await sock.profilePictureUrl(from, "image");
+            } catch { ppGroup = 'https://tinyurl.com/yeon6okd' }
 
             let text = `\`\`\`\nSubject: ${gcMeta?.subject}\nOwner: ${gcMeta?.owner}\nID: ${gcMeta?.id}\nSize: ${gcMeta?.participants?.length}\n`
             text += `Created: ${new Date(gcMeta?.creation * 1000).toLocaleString()} \nWelcome: ${dataConf?.["join"]?.["active"] ? "ON" : "OFF"}\nLeft: ${dataConf?.["left"]?.["active"] ? "ON" : "OFF"}\n`

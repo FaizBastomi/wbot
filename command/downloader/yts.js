@@ -1,4 +1,4 @@
-const { search } = require('../../utils/youtube')
+const { search } = require('../../utils/downloader');
 
 module.exports = {
     name: 'yts',

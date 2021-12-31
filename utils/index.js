@@ -9,6 +9,10 @@ const webp = require('webp-converter');
 const { join } = require('path');
 const { openWeather } = require("../config.json");
 
+// Exports from other
+const wiki = require("./wiki");
+const emojipedia = require("./emojiped");
+
 const color = (text, color) => {
   return !color ? clc.green(text) : clc.keyword(color)(text);
 };
@@ -188,16 +192,7 @@ const openWeatherAPI = async function (q, type) {
 }
 
 module.exports = {
-  color,
-  getRandom,
-  downloadMedia,
-  fetchText,
-  fetchJson,
-  fetchBuffer,
-  calculatePing,
-  textParse,
-  fixNumber,
-  formatSize,
-  UserAgent,
-  openWeatherAPI
+  color, getRandom, downloadMedia, fetchText, fetchJson,
+  fetchBuffer, calculatePing, textParse, fixNumber,
+  formatSize, UserAgent, openWeatherAPI, emojipedia, wiki
 };

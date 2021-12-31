@@ -1,6 +1,11 @@
 const { default: axios } = require("axios")
 const cheerio = require("cheerio")
 
+/**
+ * Emojipedia.org
+ * @param emoji Emoji you want to search
+ * @returns {Promise<string[]>}
+ */
 module.exports = async (emoji) => {
     const html = await axios.get(`https://emojipedia.org/${encodeURIComponent(emoji)}`)
     const $ = cheerio.load(html.data)

@@ -1,6 +1,6 @@
-const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys-md")
-const { search, yta } = require('../../utils/youtube')
-const { fetchBuffer, fetchText } = require('../../utils')
+const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys-md");
+const { search, yta } = require('../../utils/downloader');
+const { fetchBuffer, fetchText } = require('../../utils');
 
 module.exports = {
     name: 'play',

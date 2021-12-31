@@ -2,6 +2,7 @@
     "indo": {
         "stick": "Silahkan kirim/reply gambar/video/dokumen yang ingin di convert ke sticker.\nPastikan ukuran tidak melebihi 2MB dan durasi tidak lebih 10detik.",
         "stickmeme": "Silahkan kirim/reply gambar/dokumen yang ingin di convert ke sticker.\nTidak mendukung video untuk sementara waktu.",
+        "memeImg": "Silahkan kirim/reply gambar/dokumen yang ingin ditambahkan teks didalam nya.\nTidak mendukung video untuk sementara waktu.",
         "util": {
             "toimg": {
                 "msg": "Silahkan reply sticker yang ingin di convert ke media.",
@@ -43,6 +44,7 @@
     "eng": {
         "stick": "Please send/reply the image/video/document you want to convert to a sticker.\nMake sure the size does not exceed 2MB and max duration is 10second(s).",
         "stickmeme": "Please send/reply the image/document you want to convert to a sticker.\nTemporarily does not support video.",
+        "memeImg": "Please send/reply the image/document you want to add text inside.\nTemporarily does not support video.",
         "util": {
             "toimg": {
                 "msg":"Please reply to the sticker you want to convert to media.\nOnly can decrypt non-animated stickers.",

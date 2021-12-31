@@ -1,7 +1,7 @@
-const { ytv } = require('../../utils/youtube')
-const { fetchText, textParse, fetchBuffer } = require('../../utils')
-const lang = require('../other/text.json')
-const { validateURL } = require('../../utils/youtube-url-utils')
+const { ytv } = require('../../utils/downloader');
+const { fetchText, textParse } = require('../../utils');
+const lang = require('../other/text.json');
+const { validateURL } = require('../../utils/youtube-url-utils');
 
 module.exports = {
     name: 'ytv',

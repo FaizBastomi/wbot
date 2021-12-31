@@ -1,4 +1,4 @@
-const wiki = require("../../utils/wiki");
+const { wiki } = require("../../utils");
 
 module.exports = {
     name: "wiki",

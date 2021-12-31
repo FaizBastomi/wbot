@@ -1,14 +1,12 @@
-const { downloadMedia } = require("../../utils");
 const { memeText } = require("../../utils/uploader");
-const { sticker } = require("../../lib/convert");
+const { downloadMedia } = require("../../utils");
 const lang = require("../other/text.json");
 
 module.exports = {
-    name: "stikmeme",
-    alias: ['stickermeme', 'stikermeme', 'stiktext', 'stickertext', 'stikertext', 'sticktext',
-        'smeme', 'stext'],
+    name: "meme",
     category: "general",
-    desc: "Create a sticker from image",
+    desc: "Add text to image",
+    use: "<teks>|<teks>\n\nEx:\n!meme atas|bawah",
     async exec(msg, sock, args, arg) {
         const { quoted, from, type } = msg;
 
@@ -24,20 +22,18 @@ module.exports = {
                 const media = isQImg ? quoted.message : msg.message;
                 const buffer = await downloadMedia(media);
                 let memeImg = await memeText(buffer, top.toString(), bottom.toString());
-                const stickerBuffer = await sticker(memeImg, { isImage: true, cmdType: "1" });
-                await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
+                await sock.sendMessage(from, { image: memeImg }, { quoted: msg });
             } else if (
                 isQDoc && (/image/.test(quoted.message.documentMessage.mimetype))
             ) {
                 const buffer = await downloadMedia(quoted.message);
                 let memeImg = await memeText(buffer, top, bottom);
-                const stickerBuffer = await sticker(memeImg, { isImage: true, cmdType: "1" });
-                await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
+                await sock.sendMessage(from, { image: memeImg }, { quoted: msg });
             } else {
-                await sock.sendMessage(from, { text: `IND:\n${lang.indo.stickmeme}\n\nEN:\n${lang.eng.stickmeme}` }, { quoted: msg });
+                await sock.sendMessage(from, { text: `IND:\n${lang.indo.memeImg}\n\nEN:\n${lang.eng.memeImg}` }, { quoted: msg });
             }
         } catch (e) {
-            await sock.sendMessage(from, { text: "Error while creating sticker" }, { quoted: msg });
+            await sock.sendMessage(from, { text: "Error while creating image" }, { quoted: msg });
         }
     }
 }

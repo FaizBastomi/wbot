@@ -1,4 +1,4 @@
-const { ttdl } = require('../../utils/ttdl');
+const { ttdl } = require('../../utils/downloader');
 const lang = require('../other/text.json');
 
 const errMess = `ID:\n${lang.indo.util.download.ttFail}\n\nEN:\n${lang.eng.util.download.ttFail}`
