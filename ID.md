@@ -59,7 +59,7 @@ apt install libwebp-dev -y
 pacman -S libwebp
 ```
 
-### Menkloning Repo ini
+### Mengkloning Repo ini
 ```bash
 # kloning dimulai
 git clone https://github.com/FaizBastomi/wbot.git --branch "multi-device"

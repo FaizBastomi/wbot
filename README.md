@@ -7,7 +7,7 @@
 ## [![JavaScript](https://img.shields.io/badge/JavaScript-d6cc0f?style=for-the-badge&logo=javascript&logoColor=white)](https://javascript.com) [![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/) [![discord.js](https://img.shields.io/badge/discord.js-0026a3?style=for-the-badge&logo=discord&logoColor=white)](https://discord.js.org)
 
 > Build with Baileys and discord.js ( as a command handler ) <br />
-Untuk instalasi bahasa Indonesia [disini](./ID.md)<br />
+Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
 
 </div><br />
 <br />
@@ -18,8 +18,8 @@ Untuk instalasi bahasa Indonesia [disini](./ID.md)<br />
 - [x] Features rich
 
 ## Instalation
-Rename or create new file called `config.json`.<br />
-Fill in everything needed in the `config.json` file.
+Rename `config.json.example` to `config.json` or create new file called `config.json`.<br />
+Fill in everything needed in the `config.json` file (follow `config.json.example`).
 
 ### Require
 1. [nodejs](https://nodejs.org/en/download) 16x/17x
@@ -27,9 +27,7 @@ Fill in everything needed in the `config.json` file.
 3. [libWebP](https://developers.google.com/speed/webp/download)
 
 ### FFMPEG Instalation
-- For Windows User, you can see this website, [WikiHow](https://www.wikihow.com/Install-FFmpeg-on-Windows).
-
-
+- For Windows User, you can see this website, [WikiHow](https://www.wikihow.com/Install-FFmpeg-on-Windows).<br />
 - For Linux User, you can use your own package manager, below are for example
 
 ```bash
@@ -38,37 +36,33 @@ apt install ffmpeg -y
 
 # pacman
 pacman -S ffmpeg
-
-# ...
 ```
 
 ### libWebP Instalation
 - For Windows User, 
 1. Download libWebP for Windows. [download](https://developers.google.com/speed/webp/download).
 2. Extract to C:\
-3. Rename extracted folder to "libwebp" (without quote)
+3. Rename extracted folder to `libwebp`
 4. on PowerShell
 ```cmd
 setx /m PATH "C:\libwebp\bin;%PATH%"
-*if successful installed, SUCCESS: specified value was saved
-
-*check webpmux version
+```
+> if libWebP properly isntalled. Check it with this command in Command Prompt
+```cmd
 webpmux -version
 ```
 
 - For Linux User, you can use your own package manager, below for example
-```sh
+```bash
 # apt
 apt install libwebp-dev -y
 
 # pacman
 pacman -S libwebp
-
-# ...
 ```
 
 ### Cloning this repo
-```sh
+```bash
 # clone begin
 git clone https://github.com/FaizBastomi/wbot.git --branch "multi-device"
 
