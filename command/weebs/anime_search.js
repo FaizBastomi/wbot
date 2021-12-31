@@ -20,7 +20,7 @@ module.exports = {
                 await sock.sendMessage(from, { image: { url: resp.results[0].image_url }, caption: text }, { quoted: msg });
             } else {
                 let text = `Top 10 search result of: *${args.join(' ')}*`
-                const resp = await api.search("anime", args.joion(' '), { page: 1});
+                const resp = await api.search("anime", args.join(' '), { page: 1});
                 for (let i = 0; i < 10; i++) {
                     text += `*📕Title:* ${resp.results[i].title}\n*✴️Score:* ${resp.results[i].score}\n*🔗URL:* ${resp.results[i].url}\n`
                         + `*🔖Episodes:* ${resp.results[i].episodes}\n*🔍MAL ID:* ${resp.results[i].mal_id}\n*🎬Type:* ${resp.results[i].type}\n\n`
