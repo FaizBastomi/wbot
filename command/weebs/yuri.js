@@ -7,8 +7,8 @@ module.exports = {
     async exec(msg, sock) {
         try {
             let list = ['yuri', 'eroyuri']
-            const urlResp = fetchJson(`https://nekos.life/api/v2/img/${list[~~(Math.random() * list.length)]}`);
-            await sock.sendMessage(msg.from, { image: { url: urlResp } }, { quoted: msg });
+            const { url } = fetchJson(`https://nekos.life/api/v2/img/${list[~~(Math.random() * list.length)]}`);
+            await sock.sendMessage(msg.from, { image: { url } }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(msg.from, { text: `Something bad happend\n${e.message}` }, { quoted: msg });
         }
