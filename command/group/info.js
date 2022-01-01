@@ -7,7 +7,7 @@ module.exports = {
     desc: "Show this group information",
     async exec(msg, sock) {
         const { from, isGroup } = msg;
-        if (!isGroup) return await sock.sendMessage(from, { text: "Only can be executed in group" });
+        if (!isGroup) return await msg.reply("Only can be executed in group");
 
         try {
             const gcMeta = isGroup ? await sock.groupMetadata(from) : '';
@@ -24,7 +24,7 @@ module.exports = {
 
             await sock.sendMessage(from, { image: { url: ppGroup }, caption: text }, { quoted: msg });
         } catch {
-            await sock.sendMessage(from, { text: "Something bad happend" })
+            await msg.reply("Something bad happend");
         }
     }
 }

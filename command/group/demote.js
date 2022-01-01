@@ -25,31 +25,31 @@ module.exports = {
                 return members.includes(m)
             }
 
-            if (!isGroup) return await sock.sendMessage(from, { text: "Only can be executed in group." });
-            if (!cekAdmin(sender)) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.demote.noPerms}\n\nEN:\n${lang.eng.group.demote.noPerms}` }, { quoted: msg });
-            if (!cekAdmin(myID)) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.demote.botNoPerms}\n\nEN:\n${lang.eng.group.demote.botNoPerms}` }, { quoted: msg });
+            if (!isGroup) return await msg.reply("Only can be executed in group.");
+            if (!cekAdmin(sender)) return await msg.reply(`IND:\n${lang.indo.group.demote.noPerms}\n\nEN:\n${lang.eng.group.demote.noPerms}`);
+            if (!cekAdmin(myID)) return await msg.reply(`IND:\n${lang.indo.group.demote.botNoPerms}\n\nEN:\n${lang.eng.group.demote.botNoPerms}`);
 
             if (quoted) {
                 const mention = quoted.participant
-                if (!checkInGroup(mention)) return await sock.sendMessage(from, { text: "Member no longer in group" }, { quoted: msg });
-                if (!cekAdmin(mention)) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.demote.fail}\n\nEN:\n${lang.eng.group.demote.fail}` }, { quoted: msg });
-                if (mention === owner) return await sock.sendMessage(from, { text: "Cannot demote group creator" }, { quoted: msg });
+                if (!checkInGroup(mention)) return await msg.reply("Member no longer in group");
+                if (!cekAdmin(mention)) return await msg.reply(`IND:\n${lang.indo.group.demote.fail}\n\nEN:\n${lang.eng.group.demote.fail}`);
+                if (mention === owner) return await msg.reply("Cannot demote group creator");
                 // demote start
                 await sock.groupParticipantsUpdate(from, [mention], "demote");
-                await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.demote.success}\n\nEN:\n${lang.eng.group.demote.success}` }, { quoted: msg });
+                await msg.reply(`IND:\n${lang.indo.group.demote.success}\n\nEN:\n${lang.eng.group.demote.success}`);
             } else if (mentionedJid) {
                 const mention = mentionedJid[0]
-                if (!checkInGroup(mention)) return await sock.sendMessage(from, { text: "Member no longer in group" }, { quoted: msg });
-                if (!cekAdmin(mention)) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.demote.fail}\n\nEN:\n${lang.eng.group.demote.fail}` }, { quoted: msg });
-                if (mention === owner) return await sock.sendMessage(from, { text: "Cannot demote group creator" }, { quoted: msg });
+                if (!checkInGroup(mention)) return await msg.reply("Member no longer in group");
+                if (!cekAdmin(mention)) return await msg.reply(`IND:\n${lang.indo.group.demote.fail}\n\nEN:\n${lang.eng.group.demote.fail}`);
+                if (mention === owner) return await msg.reply("Cannot demote group creator");
                 // demote start
                 await sock.groupParticipantsUpdate(from, [mention], "demote");
-                await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.demote.success}\n\nEN:\n${lang.eng.group.demote.success}` }, { quoted: msg });
+                await msg.reply(`IND:\n${lang.indo.group.demote.success}\n\nEN:\n${lang.eng.group.demote.success}`);
             } else {
-                await sock.sendMessage(from, { text: `How to: *${prefix + command} @mentionMember*\nor you can reply someone message with *${prefix + command}*` }, { quoted: msg });
+                await msg.reply(`How to: *${prefix + command} @mentionMember*\nor you can reply someone message with *${prefix + command}*`);
             }
         } catch (e) {
-            await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.demote.fail}\n\nEN:\n${lang.eng.group.demote.fail}` }, { quoted: msg });
+            await msg.reply(`IND:\n${lang.indo.group.demote.fail}\n\nEN:\n${lang.eng.group.demote.fail}`);
         }
     }
 }

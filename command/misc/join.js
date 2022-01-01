@@ -6,18 +6,18 @@ module.exports = {
         // search for invite url
         const rex1 = /chat.whatsapp.com\/([\w\d]*)/g;
         let code = args.join(" ").match(rex1);
-        if (code === null) return await sock.sendMessage(msg.from, { text: "No invite url detected." }, { quoted: msg });
+        if (code === null) return await msg.reply("No invite url detected.");
         code = code[0].replace("chat.whatsapp.com/", "");
         // check invite code
         const check = await sock.groupQueryInvite(code).catch(async () => {
-            await sock.sendMessage(msg.from, { text: "Invalid invite url." }, { quoted: msg });
+            await msg.reply("Invalid invite url.");
         })
         // 
-        if (check.size < 80) return await sock.sendMessage(msg.from, { text: "The minimum requirement for group members must be more than 80 people." }, { quoted: msg });
+        if (check.size < 80) return await msg.reply("The minimum requirement for group members must be more than 80 people.");
         // Trying to join group with given invite code
         await sock.groupAcceptInvite(code).catch(async () => {
-            await sock.sendMessage(msg.from, { text: "Looks like the group already full or became invalid when I'm trying to join :/" }, { quoted: msg });
+            await msg.reply("Looks like the group already full or became invalid when I'm trying to join :/");
         });
-        await sock.sendMessage(msg.from, { text: "Success join into your group." }, { quoted: msg });
+        await msg.reply("Success join into your group.");
     }
 }

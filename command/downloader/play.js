@@ -8,9 +8,9 @@ module.exports = {
     desc: 'Play media from YouTube.',
     async exec(msg, sock, args) {
         const { from } = msg
-        if (args.length < 1) return await sock.sendMessage(from, { text: 'No query given to search.' }, { quoted: msg })
+        if (args.length < 1) return await msg.reply('No query given to search.');
         const s = await search(args.join(' '), 'short')
-        if (s.length === 0) return await sock.sendMessage(from, { text: "No video found for that keyword, try another keyword" }, { quoted: msg })
+        if (s.length === 0) return await msg.reply("No video found for that keyword, try another keyword");
         const b = await fetchBuffer(`https://i.ytimg.com/vi/${s[0].id}/0.jpg`)
         const res = await yta(s[0].url)
         // message struct
@@ -36,7 +36,7 @@ module.exports = {
                 }
             } catch (e) {
                 console.log(e)
-                await sock.sendMessage(from, { text: "Something wrong when sending the file" }, { quoted: prep });
+                await msg.reply("Something wrong when sending the file");
             }
         })
     }

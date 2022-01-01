@@ -14,7 +14,7 @@ module.exports = {
         try {
             let opt = args[0]
             const { url } = parse(args.join(' '))
-            if (url === '') { return await sock.sendMessage(msg.from, { text: 'No valid URL detected' }, { quoted: msg }) }
+            if (url === '') { return await msg.reply('No valid URL detected') };
             let data;
             switch (opt) {
                 case "audio": case "music":
@@ -30,7 +30,7 @@ module.exports = {
                     await sock.sendMessage(msg.from, { video: { url: data.mp4[data.mp4.length - 1] } }, { quoted: msg })
             }
         } catch (e) {
-            await sock.sendMessage(msg.from, { text: errMess }, { quoted: msg })
+            await msg.reply(errMess);
         }
     }
 }

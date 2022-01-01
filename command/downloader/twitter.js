@@ -6,7 +6,7 @@ module.exports = {
     alias: ['twt'],
     category: 'downloader',
     async exec(msg, sock, args) {
-        if (!args.length > 0 || !args[0].includes('twitter.com') || args[0].includes('t.co')) return await sock.sendMessage(msg.from, { text: 'URL needed' }, { quoted: msg })
+        if (!args.length > 0 || !args[0].includes('twitter.com') || args[0].includes('t.co')) return await msg.reply('URL needed');
         getInfo(args[0]).then(async (data) => {
             if (data.type === 'video') {
                 const content = data.variants.filter(x => x.content_type !== 'application/x-mpegURL').sort((a, b) => b.bitrate - a.bitrate)
@@ -19,6 +19,6 @@ module.exports = {
                 const content = data.variants[0]['url']
                 await sock.sendMessage(msg.from, { video: { url: content } }, { quoted: msg })
             }
-        }).catch(async() => { await sock.sendMessage(msg.from, { text: `IND:\n${lang.indo.util.download.twittFail}\n\nEN:\n${lang.eng.util.download.twittFail}` }, { quoted: msg }) })
+        }).catch(async() => { await msg.reply(`IND:\n${lang.indo.util.download.twittFail}\n\nEN:\n${lang.eng.util.download.twittFail}`) })
     }
 }

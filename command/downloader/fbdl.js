@@ -10,13 +10,13 @@ module.exports = {
     desc: "Download Facebook video",
     async exec(msg, sock, args) {
         try {
-            if (!args.length > 0) return await sock.sendMessage(msg.from, { text: "No url provided" }, { quoted: msg })
+            if (!args.length > 0) return await msg.reply("No url provided");
             let data = await fbdl(args[0])
 
-            if (data.length === 0) return await sock.sendMessage(msg.from, { text: `ID:\n${lang.indo.util.download.fbPriv}\n\nEN:\n${lang.eng.util.download.fbPriv}` }, { quoted: msg })
+            if (data.length === 0) return await msg.reply(`ID:\n${lang.indo.util.download.fbPriv}\n\nEN:\n${lang.eng.util.download.fbPriv}`);
             await sock.sendMessage(msg.from, { video: { url: data[data.length - 1] } }, { quoted: msg })
         } catch (e) {
-            await sock.sendMessage(msg.from, { text: errMess }, { quoted: msg })
+            await msg.reply(errMess);
         }
     }
 }

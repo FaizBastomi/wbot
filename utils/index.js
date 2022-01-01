@@ -1,6 +1,6 @@
 const clc = require('chalk');
 const { default: axios } = require("axios");
-const { downloadContentFromMessage } = require("@adiwajshing/baileys-md");
+const { downloadContentFromMessage, proto } = require("@adiwajshing/baileys-md");
 const fs = require('fs');
 const moment = require('moment-timezone');
 const { sizeFormatter } = require("human-readable");
@@ -17,21 +17,45 @@ const color = (text, color) => {
   return !color ? clc.green(text) : clc.keyword(color)(text);
 };
 
-const downloadMedia = async (message) => {
-  const type = Object.keys(message)[0];
-  let mimeMap = {
-    "imageMessage": "image",
-    "videoMessage": "video",
-    "stickerMessage": "sticker",
-    "documentMessage": "document",
-    "audioMessage": "audio"
+/**
+ * downloadMediaMessage
+ * @param {proto.IMessage} message 
+ * @param {string} pathFile 
+ * @returns 
+ */
+const downloadMedia = async (message, pathFile) => {
+  if (pathFile) {
+    const type = Object.keys(message)[0];
+    let mimeMap = {
+      "imageMessage": "image",
+      "videoMessage": "video",
+      "stickerMessage": "sticker",
+      "documentMessage": "document",
+      "audioMessage": "audio"
+    }
+    const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
+    let buffer = Buffer.from([]);
+    for await (const chunk of stream) {
+      buffer = Buffer.concat([buffer, chunk]);
+    }
+    await fs.promises.writeFile(pathFile, buffer);
+    return pathFile;
+  } else {
+    const type = Object.keys(message)[0];
+    let mimeMap = {
+      "imageMessage": "image",
+      "videoMessage": "video",
+      "stickerMessage": "sticker",
+      "documentMessage": "document",
+      "audioMessage": "audio"
+    }
+    const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
+    let buffer = Buffer.from([]);
+    for await (const chunk of stream) {
+      buffer = Buffer.concat([buffer, chunk]);
+    }
+    return buffer;
   }
-  const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
-  let buffer = Buffer.from([]);
-  for await (const chunk of stream) {
-    buffer = Buffer.concat([buffer, chunk]);
-  }
-  return buffer;
 }
 
 const formatSize = sizeFormatter({

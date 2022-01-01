@@ -10,7 +10,7 @@ module.exports = {
     async exec(msg, sock, args) {
         const { from } = msg;
         try {
-            if (!args.length > 0) return await sock.sendMessage(from, { text: "Need to specify emoji" }, { quoted: msg });
+            if (!args.length > 0) return await msg.reply("Need to specify emoji");
             if (args.length > 1 && args.length === 2) {
                 const links = await emojipedia(args.slice(1)[0]);
                 let provider = Object.keys(links);
@@ -31,7 +31,7 @@ module.exports = {
                 await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
             }
         } catch(e) {
-            await sock.sendMessage(from, { text: "Error while processing your emoji" }, { quoted: msg });
+            await msg.reply("Error while processing your emoji");
         }
     }
 }

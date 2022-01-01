@@ -10,13 +10,13 @@ module.exports = {
             const name = args[0].toLowerCase();
             const { commands, prefix } = djs;
             const cmd = commands.get(name) || commands.find((cmd) => cmd.alias && cmd.alias.includes(name));
-            if (!cmd || cmd.category === "private") return await sock.sendMessage(msg.from, { text: "No command found" }, { quoted: msg });
+            if (!cmd || cmd.category === "private") return await msg.reply("No command found");
             else data.push(cmd.name);
             if (cmd.alias) data.push(`*Alias:* ${cmd.alias.join(', ')}`);
             if (cmd.desc) data.push(`*Description:* ${cmd.desc}`);
             if (cmd.use) data.push(`*Usage:* ${prefix}${cmd.name} ${cmd.use}\n\nNote: [] = optional, | = or, <> = must filled`);
 
-            return await sock.sendMessage(msg.from, { text: data.join('\n') }, { quoted: msg })
+            return await msg.reply(data.join('\n'));
         } else {
             const { pushName, sender } = msg;
             const { prefix, commands } = djs;

@@ -5,6 +5,6 @@ module.exports = {
     category: 'misc',
     desc: 'Bot response in second.',
     async exec(msg, sock) {
-        await sock.sendMessage(msg.from, { text: `*_${calculatePing(msg.messageTimestamp, Date.now())} second(s)_*` }, { quoted: msg })
+        await msg.reply(`*_${calculatePing(msg.messageTimestamp, Date.now())} second(s)_*`)
     }
 }

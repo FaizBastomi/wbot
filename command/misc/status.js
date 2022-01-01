@@ -11,6 +11,6 @@ module.exports = {
         text += `HOST:\n- Arch: ${os.arch()}\n- CPU: ${os.cpus()[0].model}${os.cpus().length > 1 ? (' (' + os.cpus().length + 'x)') : ''}\n- Release: ${os.release()}\n- Version: ${os.version()}\n`
         text += `- Memory: ${formatSize(os.totalmem() - os.freemem())} / ${formatSize(os.totalmem())}\n`
         text += `- Platform: ${os.platform()}`;
-        await sock.sendMessage(msg.from, { text }, { quoted: msg });
+        await msg.reply(text);
     }
 }

@@ -9,7 +9,7 @@ module.exports = {
     category: 'downloader',
     desc: 'Download instagram media',
     async exec(msg, sock, args) {
-        if (!args.length > 0) return await sock.sendMessage(msg.from, { text: 'Ex: !igdl *instagram_url*' }, { quoted: msg })
+        if (!args.length > 0) return await msg.reply('Ex: !igdl *instagram_url*');
         try {
             const ar = await insta(args[0])
             if (ar.uriType === "igHigh") {
@@ -28,7 +28,7 @@ module.exports = {
                 })
             }
         } catch (e) {
-            await sock.sendMessage(msg.from, { text: errMes }, { quoted: msg })
+            await msg.reply(errMes);
         }
     }
 }

@@ -23,29 +23,29 @@ module.exports = {
                 return members.includes(m)
             }
 
-            if (!isGroup) return await sock.sendMessage(from, { text: "Only can be executed in group." });
-            if (!cekAdmin(sender)) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.promote.noPerms}\n\nEN:\n${lang.eng.group.promote.noPerms}` }, { quoted: msg });
-            if (!cekAdmin(myID)) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.promote.botNoPerms}\n\nEN:\n${lang.eng.group.promote.botNoPerms}` }, { quoted: msg });
+            if (!isGroup) return await msg.reply("Only can be executed in group.");
+            if (!cekAdmin(sender)) return await msg.reply(`IND:\n${lang.indo.group.promote.noPerms}\n\nEN:\n${lang.eng.group.promote.noPerms}`);
+            if (!cekAdmin(myID)) return await msg.reply(`IND:\n${lang.indo.group.promote.botNoPerms}\n\nEN:\n${lang.eng.group.promote.botNoPerms}`);
 
             if (quoted) {
                 const mention = quoted.participant
-                if (!checkInGroup(mention)) return await sock.sendMessage(from, { text: "Member no longer in group" }, { quoted: msg });
-                if (cekAdmin(mention)) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.promote.fail}\n\nEN:\n${lang.eng.group.promote.fail}` }, { quoted: msg });
+                if (!checkInGroup(mention)) return await msg.reply("Member no longer in group");
+                if (cekAdmin(mention)) return await msg.reply(`IND:\n${lang.indo.group.promote.fail}\n\nEN:\n${lang.eng.group.promote.fail}`);
                 // promote start
                 await sock.groupParticipantsUpdate(from, [mention], "promote");
-                await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.promote.success}\n\nEN:\n${lang.eng.group.promote.success}` }, { quoted: msg });
+                await msg.reply(`IND:\n${lang.indo.group.promote.success}\n\nEN:\n${lang.eng.group.promote.success}`);
             } else if (mentionedJid) {
                 const mention = mentionedJid[0]
-                if (!checkInGroup(mention)) return await sock.sendMessage(from, { text: "Member no longer in group" }, { quoted: msg });
-                if (cekAdmin(mention)) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.promote.fail}\n\nEN:\n${lang.eng.group.promote.fail}` }, { quoted: msg });
+                if (!checkInGroup(mention)) return await msg.reply("Member no longer in group");
+                if (cekAdmin(mention)) return await msg.reply(`IND:\n${lang.indo.group.promote.fail}\n\nEN:\n${lang.eng.group.promote.fail}`);
                 // promote start
                 await sock.groupParticipantsUpdate(from, [mention], "promote");
-                await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.promote.success}\n\nEN:\n${lang.eng.group.promote.success}` }, { quoted: msg });
+                await msg.reply(`IND:\n${lang.indo.group.promote.success}\n\nEN:\n${lang.eng.group.promote.success}`);
             } else {
-                await sock.sendMessage(from, { text: `How to: *${prefix + command} @mentionMember*\nor you can reply someone message with *${prefix + command}*` }, { quoted: msg });
+                await msg.reply(`How to: *${prefix + command} @mentionMember*\nor you can reply someone message with *${prefix + command}*`);
             }
         } catch (e) {
-            await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.promote.fail}\n\nEN:\n${lang.eng.group.promote.fail}` }, { quoted: msg });
+            await msg.reply(`IND:\n${lang.indo.group.promote.fail}\n\nEN:\n${lang.eng.group.promote.fail}`);
         }
     }
 }

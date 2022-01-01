@@ -18,9 +18,9 @@ module.exports = {
         const admin = isGroup ? getAdmin(gM.participants) : ''
         const cekAdmin = (m) => admin.includes(m)
 
-        if (!isGroup) return await sock.sendMessage(from, { text: "Only can be executed in group." });
-        if (!cekAdmin(sender)) return await sock.sendMessage(from, { text: `IND:\n${lang.indo.group.promote.noPerms}\n\nEN:\n${lang.eng.group.promote.noPerms}` }, { quoted: msg });
-        if (!args.length > 0) return await sock.sendMessage(from, { text: "Please check #help left" }, { quoted: msg });
+        if (!isGroup) return await msg.reply("Only can be executed in group.");
+        if (!cekAdmin(sender)) return await msg.reply(`IND:\n${lang.indo.group.promote.noPerms}\n\nEN:\n${lang.eng.group.promote.noPerms}`);
+        if (!args.length > 0) return await msg.reply("Please check #help left");
 
         // Command
         let opt = args[0]
@@ -30,26 +30,26 @@ module.exports = {
             case "on":
                 dataOn = checkData(filename, "on/left")
                 if (dataOn === "active") {
-                    return await sock.sendMessage(from, { text: "```Already active/Sudah aktif```" }, { quoted: msg })
+                    return await msg.reply("```Already active/Sudah aktif```");
                 } else if (dataOn === "no_file" || dataOn === "inactive") {
                     modifyData(filename, "on/left");
-                    return await sock.sendMessage(from, { text: "```Activated/Telah diaktifkan```" }, { quoted: msg })
+                    return await msg.reply("```Activated/Telah diaktifkan```");
                 }
                 break;
             case "off":
                 dataOn = checkData(filename, "on/left")
                 if (dataOn === "inactive") {
-                    return await sock.sendMessage(from, { text: "```Never active/Tidak pernah aktif```" }, { quoted: msg })
+                    return await msg.reply("```Never active/Tidak pernah aktif```");
                 } else if (dataOn === "no_file") {
-                    return await sock.sendMessage(from, { text: "```Please actived this feature first/Harap aktifkan fitur ini dahulu```" }, { quoted: msg })
+                    return await msg.reply("```Please actived this feature first/Harap aktifkan fitur ini dahulu```");
                 } else if (dataOn === "active") {
                     modifyData(filename, "on/left")
-                    return await sock.sendMessage(from, { text: "```Success deactivated/Berhasil di nonaktifkan```" }, { quoted: msg })
+                    return await msg.reply("```Success deactivated/Berhasil di nonaktifkan```");
                 }
                 break;
             case "message":
                 modifyData(filename, "left", args.slice(1).join(" "))
-                await sock.sendMessage(from, { text: "```Custom message edited successfully/Pesan custom berhasil di edit```" }, { quoted: msg });
+                await msg.reply("```Custom message edited successfully/Pesan custom berhasil di edit```");
                 break;
         }
     }

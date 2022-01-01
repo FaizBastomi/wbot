@@ -10,10 +10,10 @@ module.exports = {
     desc: 'Download YouTube Video',
     async exec(msg, sock, args) {
         try {
-            if (args.length < 1) return await sock.sendMessage(msg.from, { text: `URL not provided` }, { quoted: msg })
+            if (args.length < 1) return await msg.reply(`URL not provided`);
             let { url, opt } = textParse(args.join(" "))
-            if (!validateURL(url)) return await sock.sendMessage(msg.from, { text: lang.eng.util.download.notYTURL }, { quoted: msg })
-            await sock.sendMessage(msg.from, { text: `IND:\n${lang.indo.util.download.progress}\n\nEN:\n${lang.eng.util.download.progress}` }, { quoted: msg })
+            if (!validateURL(url)) return await msg.reply(lang.eng.util.download.notYTURL);
+            await msg.reply(`IND:\n${lang.indo.util.download.progress}\n\nEN:\n${lang.eng.util.download.progress}`);
 
             const res = await ytv(url)
             switch (opt) {
@@ -40,7 +40,7 @@ module.exports = {
             }
         } catch (e) {
             console.log(e)
-            await sock.sendMessage(msg.from, { text: 'Something went wrong, check back later.' }, { quoted: msg })
+            await msg.reply('Something went wrong, check back later.');
         }
     }
 }

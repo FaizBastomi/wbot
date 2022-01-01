@@ -1,5 +1,4 @@
 const { memeText } = require("../../utils/uploader");
-const { downloadMedia } = require("../../utils");
 const lang = require("../other/text.json");
 
 module.exports = {
@@ -19,21 +18,20 @@ module.exports = {
 
         try {
             if ((isMedia && !msg.message.videoMessage) || isQImg) {
-                const media = isQImg ? quoted.message : msg.message;
-                const buffer = await downloadMedia(media);
+                const buffer = isQImg ? await quoted.download() : await msg.download();
                 let memeImg = await memeText(buffer, top.toString(), bottom.toString());
                 await sock.sendMessage(from, { image: memeImg }, { quoted: msg });
             } else if (
                 isQDoc && (/image/.test(quoted.message.documentMessage.mimetype))
             ) {
-                const buffer = await downloadMedia(quoted.message);
+                const buffer = await quoted.download();
                 let memeImg = await memeText(buffer, top, bottom);
                 await sock.sendMessage(from, { image: memeImg }, { quoted: msg });
             } else {
-                await sock.sendMessage(from, { text: `IND:\n${lang.indo.memeImg}\n\nEN:\n${lang.eng.memeImg}` }, { quoted: msg });
+                await msg.reply(`IND:\n${lang.indo.memeImg}\n\nEN:\n${lang.eng.memeImg}`);
             }
         } catch (e) {
-            await sock.sendMessage(from, { text: "Error while creating image" }, { quoted: msg });
+            await msg.reply("Error while creating image");
         }
     }
 }

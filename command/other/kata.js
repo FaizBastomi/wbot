@@ -30,24 +30,18 @@ module.exports = {
                 const type = args[0].toLowerCase();
                 switch (type) {
                     case "bijak":
-                        await sock.sendMessage(msg.from, {
-                            text: kata_bijak[~~(Math.random() * kata_bijak.length)]
-                        }, { quoted: msg });
+                        await msg.reply(kata_bijak[~~(Math.random() * kata_bijak.length)]);
                         break;
                     case "pantun":
-                        await sock.sendMessage(msg.from, {
-                            text: pantun[~~(Math.random() * pantun.length)].split("|").join("\n")
-                        }, { quoted: msg });
+                        await msg.reply(pantun[~~(Math.random() * pantun.length)].split("|").join("\n"));
                         break;
                     case "fakta":
-                        await sock.sendMessage(msg.from, {
-                            text: fakta[~~(Math.random() * fakta.length)]
-                        }, { quoted: msg });
+                        await msg.reply(fakta[~~(Math.random() * fakta.length)]);
                         break;
                 }
             }
         } catch (e) {
-            await sock.sendMessage(msg.from, { text: `Something bad happend\n${e.message}` }, { quoted: msg });
+            await msg.reply(`Something bad happend\n${e.message}`);
         }
     }
 }

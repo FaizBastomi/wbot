@@ -7,12 +7,12 @@ module.exports = {
     async exec(msg, sock, args) {
         const { sender, from } = msg;
 
-        if (!owner.includes(sender)) return await sock.sendMessage(from, { text: "You are not my owner" }, { quoted: msg });
+        if (!owner.includes(sender)) return await msg.reply("You are not my owner");
         let code = args.join(" ");
         let text = "";
         try {
             const input = clean(code);
-            if (!code) return await sock.sendMessage(from, { text: "What your JavaScript code?" }, { quoted: msg })
+            if (!code) return await msg.reply("What your JavaScript code?");
             text = `*INPUT*\n\`\`\`${input}\`\`\`\n`;
 
             let evaled;
@@ -35,11 +35,11 @@ module.exports = {
 
             let output = clean(evaled);
             text += `\n*OUTPUT*\n\`\`\`${output}\n\`\`\``
-            await sock.sendMessage(from, { text }, { quoted: msg })
+            await msg.reply(text);
         } catch (e) {
             const err = clean(e);
             text += `\n*ERROR*\n\`\`\`${err}\n\`\`\``
-            await sock.sendMessage(from, { text }, { quoted: msg })
+            await msg.reply(text)
         }
     }
 };

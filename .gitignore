@@ -4,6 +4,6 @@ session*.json
 yarn.lock
 database/group/*.json
 temp/*net.exif
-temp/*net.webp
+temp/*webp
 tes*.js
 config.json

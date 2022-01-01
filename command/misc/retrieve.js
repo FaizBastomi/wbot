@@ -17,10 +17,10 @@ module.exports = {
                 const prep = generateWAMessageFromContent(from, msgs, { quoted: msg })
                 await sock.relayMessage(from, prep.message, { messageId: generateMessageID() });
             } else {
-                await sock.sendMessage(from, { text: 'please, reply to viewOnceMessage' }, { quoted: msg });
+                await msg.reply('please, reply to viewOnceMessage');
             }
         } else {
-            await sock.sendMessage(from, { text: 'please, reply to viewOnceMessage' }, { quoted: msg });
+            await msg.reply('please, reply to viewOnceMessage');
         }
     },
 };

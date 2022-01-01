@@ -26,7 +26,8 @@ function printLog(isCmd, sender, gcName, isGc) {
 
 module.exports = chatHandler = async (m, sock) => {
     if (m.type !== "notify") return;
-    let msg = serialize(m, sock)
+    let msg = serialize(JSON.parse(JSON.stringify(m.messages[0])), sock);
+    console.log(msg);
     if (!msg.message) return;
     if (msg.key && msg.key.remoteJid === "status@broadcast") return;
     if (msg.type === "protocolMessage" || msg.type === "senderKeyDistributionMessage" || !msg.type) return;
@@ -34,7 +35,7 @@ module.exports = chatHandler = async (m, sock) => {
     let { body } = msg;
     let temp_pref = multi_pref.test(body) ? body.split('').shift() : '!';
     if (body === 'prefix' || body === 'cekprefix') {
-        wa.reply(msg.from, `My prefix ${prefix}`, msg);
+        msg.reply(`My prefix ${prefix}`);
     }
     const { type, isGroup, sender, from } = msg;
     body =

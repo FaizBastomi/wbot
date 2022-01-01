@@ -6,7 +6,7 @@ module.exports = {
     category: 'downloader',
     desc: 'Search on YouTube.',
     async exec(msg, sock, args) {
-        if (args.length < 1) return await sock.sendMessage(msg.from, { text: 'No query given to search.' }, { quoted: msg })
+        if (args.length < 1) return await msg.reply('No query given to search.');
         const r = await search(args.join(' '), 'long')
         let txt = `YouTube Search\n   ~> Query: ${args.join(' ')}\n`
         for (let i = 0; i < r.length; i++) {
