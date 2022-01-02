@@ -63,7 +63,7 @@ module.exports = {
                 let ext = /image/.test(quoted.message.documentMessage.mimetype) ? { isImage: true } : /video/.test(quoted.message.documentMessage.mimetype) ? { isVideo: true } : null;
                 if (!ext) return await msg.reply("Document mimetype unknown");
                 const buffer = await quoted.download();
-                const stickerBuffer = sticker(buffer, {
+                const stickerBuffer = await sticker(buffer, {
                     ...ext, withPackInfo: true, cmdType: "1", packInfo: {
                         packname: packname.toString(),
                         author: author.toString()
