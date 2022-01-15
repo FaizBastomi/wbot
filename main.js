@@ -4,10 +4,11 @@ const { Boom } = require("@hapi/boom")
 const djs = require("@discordjs/collection")
 const fs = require("fs")
 const { color } = require("./utils")
+const { session } = require("./config.json")
 const chatHandler = require("./event/chat_event")
 const joinhandler = require("./event/group_event")
 
-const { state, saveState } = useSingleFileAuthState('session-md.json', Pino({ level: "silent" }))
+const { state, saveState } = useSingleFileAuthState(session, Pino({ level: "silent" }))
 djs.commands = new djs.Collection()
 djs.prefix = '!'
 
@@ -46,13 +47,22 @@ function start() {
     // creds.update
     sock.ev.on("creds.update", saveState)
     // connection.update
-    sock.ev.on("connection.update", (up) => {
+    sock.ev.on("connection.update", async (up) => {
+        // console.log(up);
         const { lastDisconnect, connection } = up
         if (connection === "close") {
-            if (new Boom(lastDisconnect.error)?.output?.statusCode !== DisconnectReason.loggedOut) {
-                start()
+            if (new Boom(lastDisconnect.error)?.output?.statusCode === DisconnectReason.loggedOut) {
+                console.log("Connection Closed/Logged Out");
+                if (fs.existsSync(session)) {
+                    await Promise.all([
+                        fs.unlink(session)
+                    ])
+                    start()
+                } else {
+                    start()
+                }
             } else {
-                console.log("Closed")
+                start()
             }
         }
     })
