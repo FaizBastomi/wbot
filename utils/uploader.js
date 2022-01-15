@@ -22,11 +22,8 @@ const webp2mp4 = (path) => {
             const bodyFormThen = new BodyForm();
             const $ = cheerio.load(data);
             const file = $('input[name="file"]').attr('value')
-            const token = $('input[name="token"]').attr('value')
-            const convert = $('input[name="file"]').attr('value')
             bodyFormThen.append("file", file);
-            bodyFormThen.append("token", token);
-            bodyFormThen.append("convert", convert);
+            bodyFormThen.append("convert", "Convert WebP to MP4!")
             console.log('Start converting...');
             axios({
                 method: "post",

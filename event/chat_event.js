@@ -37,14 +37,12 @@ module.exports = chatHandler = async (m, sock) => {
     if (body === 'prefix' || body === 'cekprefix') {
         msg.reply(`My prefix ${prefix}`);
     }
-    const { type, isGroup, sender, from } = msg;
-    body =
-        type === "conversation" && body?.startsWith(temp_pref)
-            ? body : (type === "imageMessage" || type === "videoMessage") && body && body?.startsWith(temp_pref)
-            ? body : type === "extendedTextMessage" && body?.startsWith(temp_pref)
-            ? body : type === "buttonsResponseMessage" && body?.startsWith(temp_pref)
-            ? body : type === "listResponseMessage" && body?.startsWith(temp_pref)
-            ? body : type === "templateButtonReplyMessage" && body?.startsWith(temp_pref) ? body : '';
+    if (body) {
+        body = body.startsWith(temp_pref) ? body : body
+    }
+    else { body = '' }
+
+    const { isGroup, sender, from } = msg;
     const arg = body.substring(body.indexOf(' ') + 1);
     const args = body.trim().split(/ +/).slice(1);
     const isCmd = body.startsWith(temp_pref);
