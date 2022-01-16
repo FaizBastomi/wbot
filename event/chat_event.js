@@ -38,7 +38,7 @@ module.exports = chatHandler = async (m, sock) => {
         msg.reply(`My prefix ${prefix}`);
     }
     if (body) {
-        body = body.startsWith(temp_pref) ? body : body
+        body = body.startsWith(temp_pref) ? body : ""
     }
     else { body = '' }
 
