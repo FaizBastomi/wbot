@@ -29,7 +29,7 @@ const search = (query) => {
             const { data } = (await axios.get(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}`)).data
             let data3 = `*📕Title:* ${data[0].title}/${data[0].title_english}/${data[0].title_japanese}\n*🔖Trailer:* ${data[0].trailer.url}\n`
             + `*🔍MAL_ID:* ${data[0].mal_id}\n*✴️Type:* ${data[0].type}\n*🎬Episode(s):* ${data[0].episodes}\n*📢Airing:* ${data[0].status}\n*🔔Date:* ${data[0].aired.string}\n`
-            + `*🔱Rating:* ${data[0].rating}\n*⚜️Duration:* ${data[0].duration}\n*♨️Score:* ${data[0].score}\n*Studio(s):* ${data[0].studios.map((val) => `${val.name}`).join(", ")}\n`
+            + `*🔱Rating:* ${data[0].rating}\n*⚜️Duration:* ${data[0].duration}\n*♨️Score:* ${data[0].score}\n*📦Studio(s):* ${data[0].studios.map((val) => `${val.name}`).join(", ")}\n`
             + `*🎞️Genre(s):* ${data[0].genres.map((val) => `${val.name}`).join(", ")}\n*📚Synopsis:* ${data[0].synopsis}`
             data2 = {
                 image: data[0].images.jpg.image_url,
