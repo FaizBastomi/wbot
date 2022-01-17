@@ -24,15 +24,15 @@ const color = (text, color) => {
  * @returns 
  */
 const downloadMedia = async (message, pathFile) => {
+  const type = Object.keys(message)[0];
+  let mimeMap = {
+    "imageMessage": "image",
+    "videoMessage": "video",
+    "stickerMessage": "sticker",
+    "documentMessage": "document",
+    "audioMessage": "audio"
+  }
   if (pathFile) {
-    const type = Object.keys(message)[0];
-    let mimeMap = {
-      "imageMessage": "image",
-      "videoMessage": "video",
-      "stickerMessage": "sticker",
-      "documentMessage": "document",
-      "audioMessage": "audio"
-    }
     const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
     let buffer = Buffer.from([]);
     for await (const chunk of stream) {
@@ -41,14 +41,6 @@ const downloadMedia = async (message, pathFile) => {
     await fs.promises.writeFile(pathFile, buffer);
     return pathFile;
   } else {
-    const type = Object.keys(message)[0];
-    let mimeMap = {
-      "imageMessage": "image",
-      "videoMessage": "video",
-      "stickerMessage": "sticker",
-      "documentMessage": "document",
-      "audioMessage": "audio"
-    }
     const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
     let buffer = Buffer.from([]);
     for await (const chunk of stream) {

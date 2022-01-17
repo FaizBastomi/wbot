@@ -1,5 +1,4 @@
-const Jikan = require("jikan-node");
-const api = new Jikan();
+const axios = require("axios").default;
 
 module.exports = {
     name: "search",
@@ -9,27 +8,37 @@ module.exports = {
     async exec(msg, sock, args) {
         const { from } = msg;
         try {
-            if (!args.length > 0) {
-                let text = "No title for search\nso, I recommended you some airing anime.\n\n";
-                const resp = await api.search("anime", "", { status: "airing", page: 1 });
-                for (let i = 0; i < 10; i++) {
-                    text += `*📕Title:* ${resp.results[i].title}\n*✴️Score:* ${resp.results[i].score}\n*🔗URL:* ${resp.results[i].url}\n`
-                        + `*🔖Episodes:* ${resp.results[i].episodes}\n*🔍MAL ID:* ${resp.results[i].mal_id}\n*🎬Type:* ${resp.results[i].type}\n\n`
-                        + `*📋Synopsis:* ${resp.results[i].synopsis === '' ? "No synopsis" : resp.results[i].synopsis}\n*📢Status:* ${resp.results[i].airing ? "airing/to be airing" : "complete"}\n\n`
-                }
-                await sock.sendMessage(from, { image: { url: resp.results[0].image_url }, caption: text }, { quoted: msg });
-            } else {
-                let text = `Top 10 search result of: *${args.join(' ')}*\n\n`
-                const resp = await api.search("anime", args.join(' '), { page: 1});
-                for (let i = 0; i < 10; i++) {
-                    text += `*📕Title:* ${resp.results[i].title}\n*✴️Score:* ${resp.results[i].score}\n*🔗URL:* ${resp.results[i].url}\n`
-                        + `*🔖Episodes:* ${resp.results[i].episodes}\n*🔍MAL ID:* ${resp.results[i].mal_id}\n*🎬Type:* ${resp.results[i].type}\n\n`
-                        + `*📋Synopsis:* ${resp.results[i].synopsis === '' ? "No synopsis" : resp.results[i].synopsis}\n*📢Status:* ${resp.results[i].airing ? "airing/to be airing" : "complete"}\n\n`
-                }
-                await sock.sendMessage(from, { image: { url: resp.results[0].image_url }, caption: text }, { quoted: msg });
-            }
+            if (!args.length > 0) return msg.reply("No Anime title for search");
+            const searchRes = await search(args.join(" "));
+            await sock.sendMessage(from, { image: { url: searchRes.image }, caption: searchRes.data });
         } catch (e) {
             await sock.sendMessage(from, { text: `Something bad happen\n${e.message}` }, { quoted: msg });
         }
     }
+}
+
+/**
+ * Search anime via api.jikan.moe
+ * @param {String} query Anime to search
+ * @returns 
+ */
+const search = (query) => {
+    return new Promise(async (resolve, reject) => {
+        let data2;
+        try {
+            const { data } = (await axios.get(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}`)).data
+            let data3 = `*📕Title:* ${data[0].title}/${data[0].title_english}/${data[0].title_japanese}\n*🔖Trailer:* ${data[0].trailer.url}\n`
+            + `*🔍MAL_ID:* ${data[0].mal_id}\n*✴️Type:* ${data[0].type}\n*🎬Episode(s):* ${data[0].episodes}\n*📢Airing:* ${data[0].status}\n*🔔Date:* ${data[0].aired.string}\n`
+            + `*🔱Rating:* ${data[0].rating}\n*⚜️Duration:* ${data[0].duration}\n*♨️Score:* ${data[0].score}\n*Studio(s):* ${data[0].studios.map((val) => `${val.name}`).join(", ")}\n`
+            + `*🎞️Genre(s):* ${data[0].genres.map((val) => `${val.name}`).join(", ")}\n*📚Synopsis:* ${data[0].synopsis}`
+            data2 = {
+                image: data[0].images.jpg.image_url,
+                data: data3
+            }
+        } catch(e) {
+            reject(e);
+        } finally {
+            resolve(data2);
+        }
+    })
 }

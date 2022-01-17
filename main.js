@@ -29,7 +29,8 @@ function start() {
     const sock = WAConnection({
         printQRInTerminal: true,
         auth: state,
-        logger: Pino({ level: "silent" })
+        logger: Pino({ level: "silent" }),
+        browser: ["Windows", "Firefox", "96.0"]
     })
     // custom function
     sock.groupQueryInvite = async (code) => {
@@ -54,9 +55,7 @@ function start() {
             if (new Boom(lastDisconnect.error)?.output?.statusCode === DisconnectReason.loggedOut) {
                 console.log("Connection Closed/Logged Out");
                 if (fs.existsSync(session)) {
-                    await Promise.all([
-                        fs.unlink(session)
-                    ])
+                    fs.unlinkSync(session)
                     start()
                 } else {
                     start()
