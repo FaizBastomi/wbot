@@ -9,7 +9,7 @@ module.exports = {
         const { from } = msg;
         try {
             if (!args.length > 0) return msg.reply("No characters name to search");
-            let num = (parseInt(arg.join("#")[1]) - 1) || 0;
+            let num = (parseInt(arg.split("#")[1]) - 1) || 0;
             let title = args.join(" ").includes("#") ? arg.split("#")[0] : args.join(" ");
             if (isNaN(num)) num = 0;
             const searchRes = await search(title, num);
