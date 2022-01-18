@@ -5,11 +5,13 @@ module.exports = {
     alias: ["anime"],
     category: "weebs",
     desc: "Search for anime\ndata from myanimelist.net",
-    async exec(msg, sock, args) {
+    async exec(msg, sock, args, arg) {
         const { from } = msg;
         try {
             if (!args.length > 0) return msg.reply("No Anime title for search");
-            const searchRes = await search(args.join(" "));
+            let num = (parseInt(arg.split("#")[1]) - 1) || 0;
+            if (isNaN(num)) num = 0;
+            const searchRes = await search(args.join(" "), num);
             await sock.sendMessage(from, { image: { url: searchRes.image }, caption: searchRes.data });
         } catch (e) {
             await sock.sendMessage(from, { text: `Something bad happen\n${e.message}` }, { quoted: msg });
@@ -20,19 +22,20 @@ module.exports = {
 /**
  * Search anime via api.jikan.moe
  * @param {String} query Anime to search
+ * @param {number} number Get result for 1,2,3 based on given number
  * @returns 
  */
-const search = (query) => {
+const search = (query, number = 0) => {
     return new Promise(async (resolve, reject) => {
         let data2;
         try {
             const { data } = (await axios.get(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}`)).data
-            let data3 = `*📕Title:* ${data[0].title}/${data[0].title_english}/${data[0].title_japanese}\n*🔖Trailer:* ${data[0].trailer.url}\n`
-            + `*🔍MAL_ID:* ${data[0].mal_id}\n*✴️Type:* ${data[0].type}\n*🎬Episode(s):* ${data[0].episodes}\n*📢Airing:* ${data[0].status}\n*🔔Date:* ${data[0].aired.string}\n`
-            + `*🔱Rating:* ${data[0].rating}\n*⚜️Duration:* ${data[0].duration}\n*♨️Score:* ${data[0].score}\n*📦Studio(s):* ${data[0].studios.map((val) => `${val.name}`).join(", ")}\n`
-            + `*🎞️Genre(s):* ${data[0].genres.map((val) => `${val.name}`).join(", ")}\n*📚Synopsis:* ${data[0].synopsis}`
+            let data3 = `*📕Title:* ${data[number].title}/${data[number].title_english}/${data[number].title_japanese}\n*🔖Trailer:* ${data[number].trailer.url}\n`
+            + `*🔍MAL_ID:* ${data[number].mal_id}\n*✴️Type:* ${data[number].type}\n*🎬Episode(s):* ${data[number].episodes}\n*📢Airing:* ${data[number].status}\n*🔔Date:* ${data[number].aired.string}\n`
+            + `*🔱Rating:* ${data[number].rating}\n*⚜️Duration:* ${data[number].duration}\n*♨️Score:* ${data[number].score}\n*📦Studio(s):* ${data[number].studios.map((val) => `${val.name}`).join(", ")}\n`
+            + `*🎞️Genre(s):* ${data[number].genres.map((val) => `${val.name}`).join(", ")}\n*📚Synopsis:* ${data[number].synopsis}`
             data2 = {
-                image: data[0].images.jpg.image_url,
+                image: data[number].images.jpg.image_url,
                 data: data3
             }
         } catch(e) {

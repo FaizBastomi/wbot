@@ -50,19 +50,19 @@ function start() {
     // connection.update
     sock.ev.on("connection.update", async (up) => {
         // console.log(up);
-        const { lastDisconnect, connection } = up
+        const { lastDisconnect, connection } = up;
+        if (connection) { console.log("Connection Status: ", connection); }
+        let reason = new Boom(lastDisconnect?.error)?.output?.statusCode;
+        
         if (connection === "close") {
-            if (new Boom(lastDisconnect.error)?.output?.statusCode === DisconnectReason.loggedOut) {
-                console.log("Connection Closed/Logged Out");
-                if (fs.existsSync(session)) {
-                    fs.unlinkSync(session)
-                    start()
-                } else {
-                    start()
-                }
-            } else {
-                start()
-            }
+            if (reason === DisconnectReason.badSession) { console.log(`Bad Session File, Please Delete ${session} and Scan Again`); process.exit(); }
+            else if (reason === DisconnectReason.connectionClosed) { console.log("Connection closed, reconnecting...."); start(); }
+            else if (reason === DisconnectReason.connectionLost) { console.log("Connection Lost from Server, reconnecting..."); start(); }
+            else if (reason === DisconnectReason.connectionReplaced) { console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First"); process.exit(); }
+            else if (reason === DisconnectReason.loggedOut) { console.log(`Device Logged Out, Please Delete ${session} and Scan Again.`); process.exit(); }
+            else if (reason === DisconnectReason.restartRequired) { console.log("Restart Required, Restarting..."); start(); }
+            else if (reason === DisconnectReason.timedOut) { console.log("Connection TimedOut, Reconnecting..."); start(); }
+            else { console.log(`Unknown DisconnectReason: ${reason}|${connection}`) }
         }
     })
     // messages.upsert
