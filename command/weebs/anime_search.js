@@ -13,7 +13,7 @@ module.exports = {
             let title = args.join(" ").includes("#") ? arg.split("#")[0] : args.join(" ");
             if (isNaN(num)) num = 0;
             const searchRes = await search(title, num);
-            await sock.sendMessage(from, { image: { url: searchRes.image }, caption: searchRes.data });
+            await sock.sendMessage(from, { image: { url: searchRes.image }, caption: searchRes.data }, { quoted: msg });
         } catch (e) {
             await sock.sendMessage(from, { text: `Something bad happen\n${e.message}` }, { quoted: msg });
         }
