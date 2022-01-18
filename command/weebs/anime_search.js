@@ -31,7 +31,7 @@ const search = (query, number = 0) => {
         let data2;
         try {
             const { data } = (await axios.get(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}`)).data
-            let data3 = `*📕Title:* ${data[number].title}/${data[number].title_english}/${data[number].title_japanese}\n*🔖Trailer:* ${data[number].trailer.url}\n`
+            let data3 = `*Result:* ${number + 1} of ${data.length}\n\n*📕Title:* ${data[number].title}/${data[number].title_english}/${data[number].title_japanese}\n*🔖Trailer:* ${data[number].trailer.url}\n`
             + `*🔍MAL_ID:* ${data[number].mal_id}\n*✴️Type:* ${data[number].type}\n*🎬Episode(s):* ${data[number].episodes}\n*📢Airing:* ${data[number].status}\n*🔔Date:* ${data[number].aired.string}\n`
             + `*🔱Rating:* ${data[number].rating}\n*⚜️Duration:* ${data[number].duration}\n*♨️Score:* ${data[number].score}\n*📦Studio(s):* ${data[number].studios.map((val) => `${val.name}`).join(", ")}\n`
             + `*🎞️Genre(s):* ${data[number].genres.map((val) => `${val.name}`).join(", ")}\n*📚Synopsis:* ${data[number].synopsis}`
