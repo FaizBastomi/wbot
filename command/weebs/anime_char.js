@@ -31,7 +31,7 @@ const search = (query, number) => {
         let metadata;
         try {
             const { data: char } = (await axios.get(`https://api.jikan.moe/v4/characters?q=${encodeURIComponent(query)}`)).data;
-            const { data: anime } = (await axios.get(`https://api.jikan.moe/v4/characters/${char[number].mal_id}`)).data;
+            const { data: anime } = (await axios.get(`https://api.jikan.moe/v4/characters/${char[number].mal_id}/anime`)).data;
             const { data: voice } = (await axios.get(`https://api.jikan.moe/v4/characters/${char[number].mal_id}/voices`)).data;
             let data3 = `*Result:* ${number + 1} of ${char.length}\n\n*📕Name:* ${char[number].name}\n*⚜️About:* ${char[number].about}\n*🔍MAL_ID:* ${char[number].mal_id}\n`
             + `\n*🔖Appears:*${anime.map((val) => `\n*🔮Role:* ${val.role}\n*🎬Title:* ${val.anime.title}`).join("\n")}\n`
