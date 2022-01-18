@@ -10,8 +10,9 @@ module.exports = {
         try {
             if (!args.length > 0) return msg.reply("No Anime title for search");
             let num = (parseInt(arg.split("#")[1]) - 1) || 0;
+            let title = args.join(" ").includes("#") ? arg.split("#")[0] : args.join(" ");
             if (isNaN(num)) num = 0;
-            const searchRes = await search(args.join(" "), num);
+            const searchRes = await search(title, num);
             await sock.sendMessage(from, { image: { url: searchRes.image }, caption: searchRes.data });
         } catch (e) {
             await sock.sendMessage(from, { text: `Something bad happen\n${e.message}` }, { quoted: msg });
