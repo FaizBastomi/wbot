@@ -138,8 +138,35 @@ async function igPost(url) {
                 })
             }
             return metadata
+        } else if (data.hasOwnProperty("items")) {
+            const metadata = { uriType: "igPost", url: [] };
+            const mediaTypeMap = {
+                1: "image",
+                2: "video",
+                8: "carousel"
+            }[data.items[0].media_type];
+            // Filtering Process
+            if (mediaTypeMap === "image") {
+                const dl_link = data.items[0].image_versions2?.candidates?.sort((a, b) => b.width - a.width)?.sort((c, d) => d.height - c.height)?.[0]?.url;
+                metadata['url'].push(dl_link);
+            } else if (mediaTypeMap === "video") {
+                const dl_link = data.items[0].video_versions?.sort((a, b) => b.width - a.width)?.sort((c, d) => d.height - c.height)?.[0]?.url;
+                metadata['url'].push(dl_link);
+            } else if (mediaTypeMap === "carousel") {
+                const dl_link = data.items[0].carousel_media.map((fd) => {
+                    // Filtering Process for Multi-photo/Multi-video
+                    const data_1 = {
+                        1: fd.image_versions2?.candidates?.sort((a, b) => b.width - a.width)?.sort((c, d) => d.height - c.height)?.[0]?.url,
+                        2: fd.video_versions?.sort((a, b) => b.width - a.width)?.sort((c, d) => d.height - c.height)?.[0]?.url
+                    }[fd.media_type];
+                    return data_1;
+                })
+                metadata['url'] = dl_link;
+            }
+            // Result
+            return metadata;
         } else {
-            throw Error('Post not found or private')
+            throw Error("Post not found or private");
         }
     } catch (e) {
         throw e
