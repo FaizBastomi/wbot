@@ -7,19 +7,24 @@ module.exports = {
         + "*Hosting*\n- telegraph\n- uguu\n- anonfiles",
     category: "misc",
     async exec(msg, sock, args) {
-        const { from, quoted } = msg;
+        const { from, quoted, type } = msg;
         try {
             let host = args[0];
+            const content = JSON.stringify(quoted);
+            const isMed = type === "imageMessage" || type === "videoMessage"
+            const isQMed = type === "extendedTextMessage" && (content.includes("imageMessage") || content.includes("videoMessage"));
             if (host === "" || !host) host = "telegraph";
 
-            if (quoted) {
+            if (quoted && isQMed) {
                 const resUrl = await uploaderAPI((await quoted.download()), host);
                 await sock.sendMessage(from, { text: `*Host:* ${resUrl.host}\n*URL:* ${resUrl.data.url}\n*Name:* ${resUrl.data.name}\n*Size:* ${resUrl.data.size}` }, { quoted: msg });
-            } else {
+            } else if (isMed) {
                 const resUrl = await uploaderAPI((await msg.download()), host);
                 await sock.sendMessage(from, { text: `*Host:* ${resUrl.host}\n*URL:* ${resUrl.data.url}\n*Name:* ${resUrl.data.name}\n*Size:* ${resUrl.data.size}` }, { quoted: msg });
+            } else {
+                await msg.reply("No media message found.\nDocument message currently not supported.");
             }
-        } catch(e) {
+        } catch (e) {
             await msg.reply(`Error: ${e.message}`);
         }
     }

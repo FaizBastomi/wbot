@@ -61,7 +61,7 @@ const uploaderAPI = (fileData, type) => new Promise(async (resolve, reject) => {
                 responseType: "json", headers: { ...form.getHeaders() }
             });
             if (data.error) reject(data.error);
-            return { host: "telegraph", data: { name: filePath.replace("utils/", ""), url: 'https://telegra.ph' + data[0].src } };
+            return { host: "telegraph", data: { name: filePath.replace("utils/", ""), url: 'https://telegra.ph' + data[0].src, size: formatSize(fileData.length) } };
         } else if (type === "uguu") {
             form.append("files[]", createReadStream(filePath));
             const { data } = await axios.post("https://uguu.se/upload.php", form, {
