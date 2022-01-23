@@ -32,7 +32,7 @@ module.exports = {
                         + `*ID:* ${res.id}\n*Quality:* ${res.q}\n*Size:* ${res.filesizeF}\n*Download:* ${short}\n\n_Filesize to big_`
                     await sock.sendMessage(from, { image: { url: res.thumb }, caption: capt }, { quoted: prep });
                 } else {
-                    await sock.sendMessage(from, { audio: { url: res.dl_link }, mimetype: "audio/mp4" }, { quoted: prep });
+                    await sock.sendMessage(from, { audio: (await fetchBuffer(res.dl_link, { skipSSL: true })), mimetype: "audio/mp4" }, { quoted: prep });
                 }
             } catch (e) {
                 console.log(e)

@@ -3,6 +3,7 @@ const { default: axios } = require("axios");
 const { downloadContentFromMessage, proto } = require("@adiwajshing/baileys");
 const fs = require('fs');
 const moment = require('moment-timezone');
+const https = require("https");
 const { sizeFormatter } = require("human-readable");
 const { fromBuffer } = require('file-type');
 const webp = require('webp-converter');
@@ -73,10 +74,11 @@ const fetchText = async function (url) {
   }
 };
 
-const fetchBuffer = function (url) {
+const fetchBuffer = function (url, config = { skipSSL: false }) {
   return new Promise(async (resolve, reject) => {
     try {
-      const r = await axios.get(url, { responseType: "arraybuffer" });
+      if (config.skipSSL) config = { httpsAgent: (new https.Agent({ rejectUnauthorized: false })), ...config }; delete config.skipSSL;
+      const r = await axios.get(url, { responseType: "arraybuffer", ...config });
       const { ext } = await fromBuffer(r.data);
       if (/webp/.test(ext)) {
         const tmp = join(__dirname, '../temp', Date.now() + '.webp');

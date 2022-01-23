@@ -1,5 +1,5 @@
 const { ytv } = require('../../utils/downloader');
-const { fetchText, textParse } = require('../../utils');
+const { fetchText, textParse, fetchBuffer } = require('../../utils');
 const lang = require('../other/text.json');
 const { validateURL } = require('../../utils/youtube-url-utils');
 
@@ -24,7 +24,7 @@ module.exports = {
                             + `*ID:* ${res.id}\n*Quality:* ${res.q}\n*Size:* ${res.filesizeF}\n*Download:* ${short}\n\n_Filesize to big_`
                         await sock.sendMessage(msg.from, { image: { url: res.thumb }, caption: capt }, { quoted: msg })
                     } else {
-                        await sock.sendMessage(msg.from, { document: { url: res.dl_link }, mimetype: 'video/mp4', filename: res.title + ".mp4" }, { quoted: msg })
+                        await sock.sendMessage(msg.from, { document: (await fetchBuffer(res.dl_link, { skipSSL: true })), mimetype: 'video/mp4', filename: res.title + ".mp4" }, { quoted: msg })
                     }
                     break
                 default:
@@ -35,7 +35,7 @@ module.exports = {
                         await sock.sendMessage(msg.from, { image: { url: res.thumb }, caption: capt }, { quoted: msg })
                     } else {
                         let capt = `Title: ${res.title}\nSize: ${res.filesizeF}`
-                        await sock.sendMessage(msg.from, { video: { url: res.dl_link }, mimetype: 'video/mp4', caption: capt }, { quoted: msg })
+                        await sock.sendMessage(msg.from, { video: (await fetchBuffer(res.dl_link, { skipSSL: true })), mimetype: 'video/mp4', caption: capt }, { quoted: msg })
                     }
             }
         } catch (e) {
