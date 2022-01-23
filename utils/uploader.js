@@ -2,8 +2,8 @@ const axios = require("axios").default;
 const cheerio = require("cheerio");
 const BodyForm = require("form-data");
 const { fromBuffer } = require("file-type");
-const { fetchBuffer } = require("./index");
-const { createReadStream, writeFile, unlinkSync } = require("fs");
+const { fetchBuffer, formatSize } = require("./index");
+const { createReadStream, unlinkSync, promises } = require("fs");
 
 const webp2mp4 = (path) => {
     return new Promise((resolve, reject) => {
@@ -43,27 +43,47 @@ const webp2mp4 = (path) => {
 }
 
 /**
- * Upload to Telegra.ph
- * @param {Buffer} fileData 
- * @returns {Promise<URL|string>}
+ * Uploader API
+ * @param {Buffer} fileData Your file
+ * @param {"telegraph"|"uguu"|"anonfiles"} type File Hosting API
  */
-const upTgph = (fileData) => {
-    return new Promise(async (resolve, reject) => {
-        const { ext } = await fromBuffer(fileData);
-        const filePath = 'utils/tmp.' + ext;
-        writeFile(filePath, fileData, async (err) => {
-            if (err) reject(err) && unlinkSync(filePath);
-            console.log('Uploading to telegra.ph...')
-            const form = new BodyForm();
-            form.append('file', createReadStream(filePath));
-            const { data } = await axios({ url: "https://telegra.ph/upload", data: form, method: "post", responseType: "json", headers: { ...form.getHeaders() } }).catch(reject);
-            if (data.error) reject(data.error) && unlinkSync(filePath);
-            console.log('Success');
-            resolve('https://telegra.ph' + data[0].src);
-            unlinkSync(filePath);
-        })
-    })
-}
+const uploaderAPI = (fileData, type) => new Promise(async (resolve, reject) => {
+    const postFile = async (fileData, type) => {
+        const { ext, mime } = await fromBuffer(fileData);
+        const filePath = `utils/${mime.split("/")[0] + Math.floor(Date.now() / 1000)}.${ext}`;
+        const form = new BodyForm();
+        await promises.writeFile(filePath, fileData);
+        // Start Uploading
+        console.log(`Uploading to ${type}...`)
+        if (type === "telegraph") {
+            form.append("file", createReadStream(filePath));
+            const { data } = await axios.post("https://telegra.ph/upload", form, {
+                responseType: "json", headers: { ...form.getHeaders() }
+            });
+            if (data.error) reject(data.error);
+            return { host: "telegraph", data: { name: filePath.replace("utils/", ""), url: 'https://telegra.ph' + data[0].src } };
+        } else if (type === "uguu") {
+            form.append("files[]", createReadStream(filePath));
+            const { data } = await axios.post("https://uguu.se/upload.php", form, {
+                responseType: "json", headers: { ...form.getHeaders() }
+            })
+            return { host: "uguu", data: { url: data.files[0].url, name: data.files[0].name, size: formatSize(parseInt(data.files[0].size)) } };
+        } else if (type === "anonfiles") {
+            form.append("file", createReadStream(filePath));
+            const { data } = await axios.post("https://api.anonfiles.com/upload", form, {
+                responseType: "json", headers: { ...form.getHeaders() }
+            });
+            if (!data.status) reject(data.error.message);
+            return { host: "anonfiles", data: { url: data.data.file.url.short, name: data.data.file.metadata.name, size: data.data.file.metadata.size.readable } };
+        }
+    }
+    try {
+        const result = await postFile(fileData, type);
+        unlinkSync("utils/" + result.data.name);
+        console.log("Success");
+        resolve(result);
+    } catch (e) { reject(e) }
+})
 
 /**
  * memeText -- add text to image
@@ -75,7 +95,7 @@ const upTgph = (fileData) => {
 const memeText = (imageData, top, bottom) => new Promise(async (resolve, reject) => {
     try {
         if (!imageData) reject('No imageData');
-        const imageUrl = await upTgph(imageData);
+        const imageUrl = (await uploaderAPI(imageData, "uguu")).data.url;
         let topText = top.trim().replace(/\s/g, '_').replace(/\?/g, '~q').replace(/\%/g, '~p').replace(/\#/g, '~h').replace(/\//g, '~s');
         let bottomText = bottom.trim().replace(/\s/g, '_').replace(/\?/g, '~q').replace(/\%/g, '~p').replace(/\#/g, '~h').replace(/\//g, '~s');
 
@@ -89,6 +109,6 @@ const memeText = (imageData, top, bottom) => new Promise(async (resolve, reject)
 
 module.exports = {
     webp2mp4,
-    upTgph,
+    uploaderAPI,
     memeText
 }
