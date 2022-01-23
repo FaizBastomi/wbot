@@ -1,4 +1,4 @@
-const { proto, generateWAMessageFromContent, generateMessageID } = require('@adiwajshing/baileys-md');
+const { proto, generateWAMessageFromContent } = require('@adiwajshing/baileys');
 
 module.exports = {
     name: 'retrieve',
@@ -15,7 +15,7 @@ module.exports = {
                     ...quoted.message
                 })
                 const prep = generateWAMessageFromContent(from, msgs, { quoted: msg })
-                await sock.relayMessage(from, prep.message, { messageId: generateMessageID() });
+                await sock.relayMessage(from, prep.message, { messageId: prep.key.id });
             } else {
                 await msg.reply('please, reply to viewOnceMessage');
             }

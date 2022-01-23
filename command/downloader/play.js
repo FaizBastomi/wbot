@@ -1,4 +1,4 @@
-const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys-md");
+const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys");
 const { search, yta } = require('../../utils/downloader');
 const { fetchBuffer, fetchText } = require('../../utils');
 

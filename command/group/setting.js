@@ -1,4 +1,4 @@
-const { WA_DEFAULT_EPHEMERAL } = require('@adiwajshing/baileys-md')
+const { WA_DEFAULT_EPHEMERAL } = require('@adiwajshing/baileys')
 const lang = require('../other/text.json')
 
 module.exports = {

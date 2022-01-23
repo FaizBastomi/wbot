@@ -5,7 +5,8 @@
   "license": "MIT",
   "author": "FaizBastomi",
   "dependencies": {
-    "@adiwajshing/baileys-md": "github:adiwajshing/baileys#multi-device",
+    "@adiwajshing/baileys": "github:adiwajshing/baileys",
+    "@adiwajshing/keyed-db": "^0.2.4",
     "@discordjs/collection": "0.3.2",
     "@hapi/boom": "^9.1.4",
     "axios": "0.24.0",

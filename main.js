@@ -1,4 +1,4 @@
-const { default: WAConnection, DisconnectReason, useSingleFileAuthState, getBinaryNodeChild } = require("@adiwajshing/baileys-md")
+const { default: WAConnection, DisconnectReason, useSingleFileAuthState, getBinaryNodeChild } = require("@adiwajshing/baileys")
 const Pino = require("pino")
 const { Boom } = require("@hapi/boom")
 const djs = require("@discordjs/collection")

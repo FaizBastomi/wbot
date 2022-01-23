@@ -1,6 +1,6 @@
 const clc = require('chalk');
 const { default: axios } = require("axios");
-const { downloadContentFromMessage, proto } = require("@adiwajshing/baileys-md");
+const { downloadContentFromMessage, proto } = require("@adiwajshing/baileys");
 const fs = require('fs');
 const moment = require('moment-timezone');
 const { sizeFormatter } = require("human-readable");
