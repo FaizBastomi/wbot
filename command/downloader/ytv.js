@@ -24,7 +24,7 @@ module.exports = {
                             + `*ID:* ${res.id}\n*Quality:* ${res.q}\n*Size:* ${res.filesizeF}\n*Download:* ${short}\n\n_Filesize to big_`
                         await sock.sendMessage(msg.from, { image: { url: res.thumb }, caption: capt }, { quoted: msg })
                     } else {
-                        await sock.sendMessage(msg.from, { document: (await fetchBuffer(res.dl_link, { skipSSL: true })), mimetype: 'video/mp4', filename: res.title + ".mp4" }, { quoted: msg })
+                        await sock.sendMessage(msg.from, { document: (await fetchBuffer(res.dl_link, { skipSSL: true })), mimetype: 'video/mp4', fileName: res.title + ".mp4" }, { quoted: msg })
                     }
                     break
                 default:
