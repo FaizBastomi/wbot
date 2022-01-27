@@ -10,7 +10,6 @@ module.exports = {
         const { from, sender, isGroup } = msg;
         const userData = getData();
         if (isGroup) return await msg.reply("Can't use this command inside the group.");
-        if (!userData[sender]) return await msg.reply("Please, register first\n!nuke reg <year of birth>");
         try {
             let opt = args[0];
             let data;
@@ -33,6 +32,7 @@ module.exports = {
                     await msg.reply(data.msg);
                     break;
                 default:
+                    if (!userData[sender]) return await msg.reply("Please, register first\n!nuke reg <year of birth>");
                     if (!userData[sender]["eligible"]) return msg.reply("You are not eligible to use this command.");
                     data = await getCode(args[0])
                     data.data += `\n\nView Online: https://hiken.xyz/v/${args[0]}\nDownload: https://hiken.xyz/g/${args[0]}`
