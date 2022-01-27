@@ -48,8 +48,8 @@ async function getCode(code) {
     if (nhentai.exists(code)) {
         let doujin = await nhentai.getDoujin(code);
         let text = `*📕Title:* ${doujin.title}\n*📚tags:* ${doujin.details.tags.map((v) => `${v.split(" (")[0]}`).join(", ")}\n`
-            + `*👤Artist(s):* ${doujin.details.artists.map((v) => `${v.split(" (")}`).join(", ")}\n*🌐Language(s):* ${doujin.details.languages.map((v) => `${v.split(" (")}`).join(", ")}\n`
-            + `*🔖Categories:* ${doujin.details.categories.map((v) => `${v.split(" (")}`).join(", ")}\n*🔱Pages:* ${doujin.details.pages[0]}\n*📢Upload:* ${doujin.details.uploaded[0]}`
+            + `*👤Artist(s):* ${doujin.details.artists.map((v) => `${v.split(" (")[0]}`).join(", ")}\n*🌐Language(s):* ${doujin.details.languages.map((v) => `${v.split(" (")[0]}`).join(", ")}\n`
+            + `*🔖Categories:* ${doujin.details.categories.map((v) => `${v.split(" (")[0]}`).join(", ")}\n*🔱Pages:* ${doujin.details.pages[0]}\n*📢Upload:* ${doujin.details.uploaded[0]}`
         return { data: text, image: doujin.pages[0] }
     } else {
         throw "Code doesn't exist"
