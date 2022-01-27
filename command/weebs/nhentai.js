@@ -9,23 +9,29 @@ module.exports = {
     use: "<nuke code>",
     async exec(msg, sock, args) {
         const { from, sender, isGroup } = msg;
+        const userData = getData();
         if (isGroup) return await msg.reply("Can't use this command inside the group.");
+        if (!userData[sender]) return await msg.reply("Please, register first\n!nuke reg <year of birth>");
         try {
             let opt = args[0];
             let data;
+            let year;
             switch (opt) {
                 case "reg":
-                    data = await inputData(sender, args.slice(1)[0]);
+                    year = args.slice(1)[0];
+                    if (year === "") return await msg.reply("Need to input your birth year");
+                    data = await inputData(sender, year);
                     if (data.status === 406) return await msg.reply(data.msg);
                     await msg.reply(data.msg);
                     break;
                 case "upreg":
-                    data = await inputData(sender, args.slice(1)[0]);
+                    year = args.slice(1)[0];
+                    if (year === "") return await msg.reply("Need to input your birth year");
+                    data = await inputData(sender, year);
                     if (data.status === 406) return await msg.reply(data.msg);
                     await msg.reply(data.msg);
                     break;
                 default:
-                    const userData = getData();
                     if (!userData[sender]["eligible"]) return msg.reply("You are not eligible to use this command.");
                     data = await getCode(args[0])
                     const img = await generateWAMessageContent({ image: { url: data.image } })
