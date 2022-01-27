@@ -3,6 +3,7 @@ session*.json
 *-lock.json
 yarn.lock
 database/group/*.json
+database/H/data.json
 temp/*net.exif
 temp/*webp
 tes*.js
