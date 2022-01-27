@@ -1,4 +1,5 @@
 const { inputData, getData } = require("../../database/user_setting");
+const Pino = require("pino");
 const { generateWAMessageFromContent, generateWAMessageContent, proto } = require("@adiwajshing/baileys");
 const nhentai = require("nhentai-js");
 
@@ -34,7 +35,7 @@ module.exports = {
                 default:
                     if (!userData[sender]["eligible"]) return msg.reply("You are not eligible to use this command.");
                     data = await getCode(args[0])
-                    const img = await generateWAMessageContent({ image: { url: data.image } })
+                    const img = await generateWAMessageContent({ image: { url: data.image } }, { logger: Pino({ level: "trace" }) })
                     const prep = generateWAMessageFromContent(from, proto.Message.fromObject({
                         templateMessage: {
                             hydratedTemplate: {
