@@ -18,14 +18,14 @@ module.exports = {
             switch (opt) {
                 case "reg":
                     year = args.slice(1)[0];
-                    if (year.length < 4) return await msg.reply("Need to input your birth year");
+                    if (typeof year === "undefined" || year === "") return await msg.reply("Need to input your birth year");
                     data = await inputData(sender, year);
                     if (data.status === 406) return await msg.reply(data.msg);
                     await msg.reply(data.msg);
                     break;
                 case "upreg":
                     year = args.slice(1)[0];
-                    if (year.length < 4) return await msg.reply("Need to input your birth year");
+                    if (typeof year === "undefined" || year === "") return await msg.reply("Need to input your birth year");
                     data = await inputData(sender, year);
                     if (data.status === 406) return await msg.reply(data.msg);
                     await msg.reply(data.msg);
