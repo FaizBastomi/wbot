@@ -35,19 +35,8 @@ module.exports = {
                 default:
                     if (!userData[sender]["eligible"]) return msg.reply("You are not eligible to use this command.");
                     data = await getCode(args[0])
-                    const img = await generateWAMessageContent({ image: { url: data.image } }, { logger: Pino({ level: "trace" }) })
-                    const prep = generateWAMessageFromContent(from, proto.Message.fromObject({
-                        templateMessage: {
-                            hydratedTemplate: {
-                                imageMessage: img.imageMessage,
-                                hydratedButtons: [
-                                    { urlButton: { displayText: "View Online", url: `https://hiken.xyz/v/${args[0]}` } },
-                                    { urlButton: { displayText: "Download", url: `https://hiken.xyz/g/${args[0]}` } }
-                                ]
-                            }
-                        }
-                    }))
-                    await sock.relayMessage(from, prep.message, { messageId: prep.key.id });
+                    data.data += `\n\nView Online: https://hiken.xyz/v/${args[0]}\nDownload: https://hiken.xyz/g/${args[0]}`
+                    await sock.sendMessage(from, { image: { url: data.image }, caption: data.data }, { quoted: msg })
             }
         } catch (e) {
             await msg.reply(`Error:${e.message}`)
