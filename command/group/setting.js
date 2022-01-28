@@ -21,8 +21,8 @@ module.exports = {
          */
         const toggleEphemeral = async(jid, ephemeralExpiration) => {
             const content = ephemeralExpiration ?
-            { tag: "ephemeral", attrs: { expiration: ephemeralExpiration.toString() } } :
-            { tag: "not_ephemeral", attrs: { } }
+            [{ tag: "ephemeral", attrs: { expiration: ephemeralExpiration.toString() } }] :
+            [{ tag: "not_ephemeral", attrs: { } }]
             const BinaryNode = {
                 tag: 'iq',
                 attrs: {
