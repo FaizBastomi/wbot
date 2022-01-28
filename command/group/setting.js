@@ -26,7 +26,7 @@ module.exports = {
             const BinaryNode = {
                 tag: 'iq',
                 attrs: {
-                    type: "get",
+                    type: "set",
                     xmlns: "w:g2",
                     to: jid,
                 },
