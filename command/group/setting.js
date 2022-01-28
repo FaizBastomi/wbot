@@ -14,6 +14,26 @@ module.exports = {
         const admins = isGroup ? getAdmins(members) : ''
         const myID = sock.user.id.split(":")[0] + "@s.whatsapp.net"
         const cekAdmin = (i) => admins.includes(i)
+        /**
+         * Toggle Ephemeral
+         * @param {string} jid chat id
+         * @param {number} ephemeralExpiration expiration
+         */
+        const toggleEphemeral = async(jid, ephemeralExpiration) => {
+            const content = ephemeralExpiration ?
+            { tag: "ephemeral", attrs: { expiration: ephemeralExpiration.toString() } } :
+            { tag: "not_ephemeral", attrs: { } }
+            const BinaryNode = {
+                tag: 'iq',
+                attrs: {
+                    type: "get",
+                    xmlns: "w:g2",
+                    to: jid,
+                },
+                content
+            }
+            await sock.query(BinaryNode);
+        }
 
         if (!isGroup) return await msg.reply(`Only can be executed in group.`);
         if (args.length < 1) return await msg.reply('Here all available group setting, ephemeral | edit_group | send_message');
@@ -27,10 +47,10 @@ module.exports = {
                 let condition = args[1].toLowerCase()
                 switch (condition) {
                     case 'on': case 'aktif':
-                        await sock.groupToggleEphemeral(from, WA_DEFAULT_EPHEMERAL);
+                        await toggleEphemeral(from, WA_DEFAULT_EPHEMERAL);
                         break;
                     case 'off': case 'mati':
-                        await sock.groupToggleEphemeral(from, 0)
+                        await toggleEphemeral(from, 0);
                         break;
                     default:
                         await msg.reply('Select setting condition, on/off');
