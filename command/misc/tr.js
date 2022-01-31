@@ -15,6 +15,7 @@ module.exports = {
                 await msg.reply(text);
             } else {
                 text = await translate(args.slice(1).join(" "), args[0]);
+                await msg.reply(text);
             }
         } catch (e) { await msg.reply(e) }
     }
