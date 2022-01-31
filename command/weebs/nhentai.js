@@ -31,12 +31,22 @@ module.exports = {
                     if (data.status === 406) return await msg.reply(data.msg);
                     await msg.reply(data.msg);
                     break;
+                case "code":
+                    await msg.reply(`View Online: http://hiken.xyz/v/${args.slice(1)[0]}\nDownload: http://hiken.xyz/g/${args.slice(1)[0]}`)
+                    break;
                 default:
                     if (!userData[sender] || userData === "no_file") return await msg.reply("Please, register first\n!nuke reg <year of birth>");
                     if (!userData[sender]["eligible"]) return msg.reply("You are not eligible to use this command.");
                     data = await getCode(args[0])
-                    data.data += `\n\nView Online: https://hiken.xyz/v/${args[0]}\nDownload: https://hiken.xyz/g/${args[0]}`
-                    await sock.sendMessage(from, { image: { url: data.image }, caption: data.data }, { quoted: msg })
+                    await sock.sendMessage(from, {
+                        image: { url: data.image },
+                        caption: data.data,
+                        templateButtons: [
+                            { urlButton: { displayText: "View Online", url: `http://hiken.xyz/v/${args[0]}` } },
+                            { urlButton: { displayText: "Download", url: `http://hiken.xyz/g/${args[0]}` } },
+                            { quickReplyButton: { displayText: "Get Link", id: `!nuke code ${args[0]}` } }
+                        ]
+                    })
             }
         } catch (e) {
             await msg.reply(`Error:${e.message}`)
