@@ -27,7 +27,6 @@ function printLog(isCmd, sender, gcName, isGc) {
 module.exports = chatHandler = async (m, sock) => {
     if (m.type !== "notify") return;
     let msg = serialize(JSON.parse(JSON.stringify(m.messages[0])), sock);
-    console.log(msg);
     if (!msg.message) return;
     if (msg.key && msg.key.remoteJid === "status@broadcast") return;
     if (msg.type === "protocolMessage" || msg.type === "senderKeyDistributionMessage" || !msg.type) return;
