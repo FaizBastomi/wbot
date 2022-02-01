@@ -19,14 +19,17 @@ module.exports = {
             switch (opt) {
                 case "audio": case "music":
                     data = await ttdl(url)
+                    if (!data.mp3.length > 0) return msg.reply("NO AUDIO FOR THIS VIDEO");
                     await sock.sendMessage(msg.from, { audio: { url: data.mp3[data.mp3.length - 1] }, mimetype: "audio/mp4" }, { quoted: msg })
                     break;
                 case "video":
                     data = await ttdl(url)
+                    if (!data.mp4.length > 0) return msg.reply("NO VIDEO FOUND");
                     await sock.sendMessage(msg.from, { video: { url: data.mp4[data.mp4.length - 1] } }, { quoted: msg })
                     break;
                 default:
                     data = await ttdl(url)
+                    if (!data.mp4.length > 0) return msg.reply("NO VIDEO FOUND");
                     await sock.sendMessage(msg.from, { video: { url: data.mp4[data.mp4.length - 1] } }, { quoted: msg })
             }
         } catch (e) {
