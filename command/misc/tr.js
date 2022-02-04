@@ -13,7 +13,7 @@ module.exports = {
             if (quoted) {
                 text = await translate(quoted.text, args[0]);
                 await msg.reply(text);
-            } else if (args.length <= 1) {
+            } else if (args.length > 2) {
                 text = await translate(args.slice(1).join(" "), args[0]);
                 await msg.reply(text);
             } else {
