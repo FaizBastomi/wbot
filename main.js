@@ -32,19 +32,7 @@ function start() {
         logger: Pino({ level: "silent" }),
         browser: ["Windows", "Firefox", "96.0"]
     })
-    // custom function
-    sock.groupQueryInvite = async (code) => {
-        const results = await sock.query({
-            tag: 'iq',
-            attrs: {
-                type: "get",
-                xmlns: "w:g2",
-                to: "@g.us"
-            }, content: [{ tag: "invite", attrs: { code } }]
-        });
-        const group = getBinaryNodeChild(results, "group");
-        return group.attrs;
-    }
+
     // creds.update
     sock.ev.on("creds.update", saveState)
     // connection.update
