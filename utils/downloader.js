@@ -1,5 +1,6 @@
 const axios = require('axios').default
 const cheerio = require("cheerio")
+const FormData = require("form-data")
 const { UserAgent } = require("./index")
 const Util = require('util')
 const API_GUEST = 'https://api.twitter.com/1.1/guest/activate.json'
