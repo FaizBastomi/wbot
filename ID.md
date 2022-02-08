@@ -72,8 +72,8 @@ npm install
 # or
 yarn install
 
-# bila depedensi @adiwajshing/baileys-md tidak terkompilasi secara otomatis
-cd node_modules/@adiwajshing/baileys-md
+# bila depedensi @adiwajshing/baileys tidak terkompilasi secara otomatis
+cd ./node_modules/@adiwajshing/baileys
 npm install -g typescript # jalankan sebagai root atau admin (Windows)
 npm run build:tsc
 

@@ -73,6 +73,7 @@ cd wbot
 npm install
 # in case @adiwajshing/baileys not compiled automatic
 cd ./node_modules/@adiwajshing/baileys
+npm install --global typescript # run as root/administrator
 npm run build:tsc
 
 # run this project
