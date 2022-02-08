@@ -71,8 +71,8 @@ cd wbot
 
 # install npm dependencies
 npm install
-# in case @adiwajshing/baileys-md not compiled automatic
-cd node_modules/@adiwajshing/baileys-md
+# in case @adiwajshing/baileys not compiled automatic
+cd ./node_modules/@adiwajshing/baileys
 npm run build:tsc
 
 # run this project
