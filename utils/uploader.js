@@ -51,7 +51,7 @@ const webp2mp4 = (path) => {
 const uploaderAPI = (fileData, type) => new Promise(async (resolve, reject) => {
     const postFile = async (fileData, type) => {
         const { ext, mime } = await fromBuffer(fileData);
-        const filePath = path(__dirname, mime.split("/")[0] + getRandom(`.${ext}`));
+        const filePath = path("utils", mime.split("/")[0] + getRandom(`.${ext}`));
         const form = new BodyForm();
         await promises.writeFile(filePath, fileData);
         // Start Uploading
@@ -80,7 +80,7 @@ const uploaderAPI = (fileData, type) => new Promise(async (resolve, reject) => {
     }
     try {
         const result = await postFile(fileData, type);
-        unlinkSync(path(__dirname, result.data.name));
+        unlinkSync(path("utils", result.data.name));
         console.log("Success");
         resolve(result);
     } catch (e) { reject(e) }
