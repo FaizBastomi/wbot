@@ -2,6 +2,7 @@ const clc = require('chalk');
 const { default: axios } = require("axios");
 const { downloadContentFromMessage, proto } = require("@adiwajshing/baileys");
 const fs = require('fs');
+const random = require("crypto").randomBytes;
 const moment = require('moment-timezone');
 const https = require("https");
 const { sizeFormatter } = require("human-readable");
@@ -59,7 +60,7 @@ const formatSize = sizeFormatter({
 })
 
 const getRandom = (ext) => {
-  return `${Date.now()}${ext}`;
+  return random(7).toString("hex").toUpperCase() + ext;
 };
 
 const fetchText = async function (url) {

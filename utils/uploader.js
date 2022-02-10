@@ -2,7 +2,7 @@ const axios = require("axios").default;
 const cheerio = require("cheerio");
 const BodyForm = require("form-data");
 const { fromBuffer } = require("file-type");
-const { fetchBuffer, formatSize } = require("./index");
+const { fetchBuffer, formatSize, getRandom } = require("./index");
 const { createReadStream, unlinkSync, promises } = require("fs");
 
 const webp2mp4 = (path) => {
@@ -50,7 +50,7 @@ const webp2mp4 = (path) => {
 const uploaderAPI = (fileData, type) => new Promise(async (resolve, reject) => {
     const postFile = async (fileData, type) => {
         const { ext, mime } = await fromBuffer(fileData);
-        const filePath = `utils/${mime.split("/")[0] + Math.floor(Date.now() / 1000)}.${ext}`;
+        const filePath = __dirname + mime.split("/")[0] + getRandom(`.${ext}`);
         const form = new BodyForm();
         await promises.writeFile(filePath, fileData);
         // Start Uploading
