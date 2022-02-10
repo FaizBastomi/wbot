@@ -1,6 +1,7 @@
 const axios = require("axios").default;
 const cheerio = require("cheerio");
 const BodyForm = require("form-data");
+const path = require("path").join;
 const { fromBuffer } = require("file-type");
 const { fetchBuffer, formatSize, getRandom } = require("./index");
 const { createReadStream, unlinkSync, promises } = require("fs");
@@ -50,7 +51,7 @@ const webp2mp4 = (path) => {
 const uploaderAPI = (fileData, type) => new Promise(async (resolve, reject) => {
     const postFile = async (fileData, type) => {
         const { ext, mime } = await fromBuffer(fileData);
-        const filePath = __dirname + mime.split("/")[0] + getRandom(`.${ext}`);
+        const filePath = path(__dirname, mime.split("/")[0] + getRandom(`.${ext}`));
         const form = new BodyForm();
         await promises.writeFile(filePath, fileData);
         // Start Uploading
@@ -79,7 +80,7 @@ const uploaderAPI = (fileData, type) => new Promise(async (resolve, reject) => {
     }
     try {
         const result = await postFile(fileData, type);
-        unlinkSync("utils/" + result.data.name);
+        unlinkSync(path(__dirname, result.data.name));
         console.log("Success");
         resolve(result);
     } catch (e) { reject(e) }
