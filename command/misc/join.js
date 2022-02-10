@@ -14,7 +14,7 @@ module.exports = {
                     type: "get",
                     xmlns: "w:g2",
                     to: "@g.us"
-                }, content: [{ tag: "invite", attrr: { code } }]
+                }, content: [{ tag: "invite", attrs: { code } }]
             })
             const group = getBinaryNodeChild(results, "group");
             return group.attrs;
