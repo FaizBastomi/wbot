@@ -3,6 +3,7 @@ const { default: axios } = require('axios')
 const Util = require('util')
 const { fixNumber } = require('.')
 const { igCookie } = require("../config.json")
+const ttdl = require("./ttdl");
 
 /* Instagram API */
 const highlight = "https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=%s"
@@ -173,61 +174,63 @@ async function igPost(url) {
     }
 }
 
-/**
- * Get Instagram User Profile Info
- * @param {String} username Instagram Username
- */
-function igProfile(username) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const res = await req(Util.format(profile, username), {
-                method: "GET",
-                headers: {
-                    cookie
+class igdl extends ttdl {
+    /**
+     * Get Instagram User Profile Info
+     * @param {String} username Instagram Username
+     */
+    async igProfile(username) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const res = await req(Util.format(profile, username), {
+                    method: "GET",
+                    headers: {
+                        cookie
+                    }
+                });
+                if (res.hasOwnProperty('graphql')) {
+                    let metadata = {
+                        name: res.graphql.user.full_name,
+                        username: res.graphql.user.username,
+                        bio: res.graphql.user.biography,
+                        ex_url: res.graphql.user.external_url,
+                        follower: fixNumber(res.graphql.user.edge_followed_by.count),
+                        following: fixNumber(res.graphql.user.edge_follow.count),
+                        private: res.graphql.user.is_private ? 'yes' : 'no',
+                        verified: res.graphql.user.is_verified ? '✅' : '❌'
+                    };
+                    let picUrl = {
+                        hd: res.graphql.user.profile_pic_url_hd,
+                        sd: res.graphql.user.profile_pic_url
+                    };
+                    resolve({ metadata, picUrl });
+                } else {
+                    reject(new Error('User not found'));
                 }
-            });
-            if (res.hasOwnProperty('graphql')) {
-                let metadata = {
-                    name: res.graphql.user.full_name,
-                    username: res.graphql.user.username,
-                    bio: res.graphql.user.biography,
-                    ex_url: res.graphql.user.external_url,
-                    follower: fixNumber(res.graphql.user.edge_followed_by.count),
-                    following: fixNumber(res.graphql.user.edge_follow.count),
-                    private: res.graphql.user.is_private ? 'yes' : 'no',
-                    verified: res.graphql.user.is_verified ? '✅' : '❌'
-                };
-                let picUrl = {
-                    hd: res.graphql.user.profile_pic_url_hd,
-                    sd: res.graphql.user.profile_pic_url
-                };
-                resolve({ metadata, picUrl });
-            } else {
-                reject(new Error('User not found'));
+            } catch (e) {
+                reject(e);
             }
-        } catch (e) {
-            reject(e);
+        })
+    }
+    /**
+     * Download Instagram Media
+     * @param {String} url Instagram post url
+     */
+    async insta(url) {
+        let rex1 = /(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/
+        let rex2 = /\/s\/([^\s&]+)/
+        let rex3 = /\/stories\/([^\s&]+)/
+
+        if (rex1.test(url)) {
+            return igPost(url)
+        } else if (rex2.test(url)) {
+            return igHighlight(url)
+        } else if (rex3.test(url)) {
+            return igStory(url)
+        } else {
+            throw "Invalid URL or not supported"
         }
-    })
-}
-
-function insta(url) {
-    let rex1 = /(?:\/p\/|\/reel\/|\/tv\/)([^\s&]+)/
-    let rex2 = /\/s\/([^\s&]+)/
-    let rex3 = /\/stories\/([^\s&]+)/
-
-    if (rex1.test(url)) {
-        return igPost(url)
-    } else if (rex2.test(url)) {
-        return igHighlight(url)
-    } else if (rex3.test(url)) {
-        return igStory(url)
-    } else {
-        throw "Invalid URL or not supported"
     }
 }
 
-module.exports = {
-    insta,
-    igProfile
-}
+module.exports = igdl;

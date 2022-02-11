@@ -1,103 +1,71 @@
-const ytsr = require('ytsr')
-const { default: axios } = require("axios")
-const { UserAgent } = require("./index")
-/*
-const { ytCookie } = require('../config.json')
+const ytsr = require('ytsr');
+const ax = require("axios").default;
+const cheer = require("cheerio");
+const { UserAgent } = require("./index");
 
-function formatBytes(bytes, decimals = 2) {
-    if (bytes === 0) return '0 Bytes';
-
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-} */
-
-const search = async function (query, type) {
-    if (!type) {
-        throw Error(`Filter need to be specified.`)
-    }
-    const fi = await ytsr.getFilters(query)
-    const fi_1 = fi.get('Type').get('Video')
-    let final
-    switch (type) {
-        case 'short': {
-            const fi_2 = await ytsr.getFilters(fi_1.url)
-            const fi_3 = fi_2.get('Duration').get('Under 4 minutes')
-            final = await ytsr(fi_3.url, { limit: 20 })
-            break;
-        }
-        case 'long': {
-            final = await ytsr(fi_1.url, { limit: 20 })
-            break;
-        }
-    }
-    return final.items
-}
-
-const yta = async function (url) {
-    const UA = UserAgent()
-    const post = (formdata, url, ua) => {
-        return axios({
-            method: "post",
-            url,
-            data: new URLSearchParams(Object.entries(formdata)),
-            headers: {
-                "USer-Agent": ua,
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+class YouTube {
+    /**
+     * Search on YouTube
+     * @param {String} query Query to search
+     * @param {"long"|"short"} type short or long duration
+     */
+    async yts(query, type) {
+        if (!type) type = "short";
+        const fi = await ytsr.getFilters(query);
+        const fi_1 = fi.get('Type').get('Video');
+        let final;
+        switch (type) {
+            case 'short': {
+                const fi_2 = await ytsr.getFilters(fi_1.url);
+                const fi_3 = fi_2.get('Duration').get('Under 4 minutes');
+                final = await ytsr(fi_3.url, { limit: 20 });
+                break;
             }
-        })
-    }
-    const res = await post({ q: url, vt: "mp3" }, "https://yt1s.com/api/ajaxSearch/index", UA)
-    if (res.data.status !== "ok") throw Error("Error Occurs when posting data to yt1s server.\n", res.data)
-    const res2 = await post({ vid: res.data.vid, k: res.data.links.mp3.mp3128.k }, "https://yt1s.com/api/ajaxConvert/convert", UA)
-    if (res2.data.status !== "ok") throw Error("Error occurs when posting 'convert' data to yt1s server.\n", res.data)
-
-    let title = res.data.title,
-        filesizeF = res.data.links.mp3.mp3128.size,
-        filesize = parseFloat(filesizeF) * (1000 * /MB$/.test(filesizeF)),
-        id = res.data.vid,
-        thumb = `https://i.ytimg.com/vi/${id}/0.jpg`,
-        dl_link = res2.data.dlink,
-        q = res.data.links.mp3.mp3128.q
-
-    return { title, filesize, filesizeF, id, thumb, dl_link, q }
-}
-
-const ytv = async function (url) {
-    const UA = UserAgent()
-    const post = (formdata, url, ua) => {
-        return axios({
-            method: "post",
-            url,
-            data: new URLSearchParams(Object.entries(formdata)),
-            headers: {
-                "USer-Agent": ua,
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+            case 'long': {
+                final = await ytsr(fi_1.url, { limit: 20 });
+                break;
             }
-        })
+        }
+        return final.items;
     }
-    const res = await post({ q: url, vt: "mp4" }, "https://yt1s.com/api/ajaxSearch/index", UA)
-    if (res.data.status !== "ok") throw Error("Error Occurs when posting data to yt1s server.\n", res.data)
-    const res2 = await post({ vid: res.data.vid, k: res.data.links.mp4["18"].k }, "https://yt1s.com/api/ajaxConvert/convert", UA)
-    if (res2.data.status !== "ok") throw Error("Error occurs when posting 'convert' data to yt1s server.\n", res.data)
-
-    let title = res.data.title,
-        filesizeF = res.data.links.mp4["18"].size,
-        filesize = parseFloat(filesizeF) * (1000 * /MB$/.test(filesizeF)),
-        id = res.data.vid,
-        thumb = `https://i.ytimg.com/vi/${id}/0.jpg`,
-        dl_link = res2.data.dlink,
-        q = res.data.links.mp4["18"].q
-
-    return { title, filesize, filesizeF, id, thumb, dl_link, q }
+    /**
+     * Download from YouTube
+     * @param {String} url YouTube video url
+     * @param {String} type video or audio
+     */
+    async yt(url, type) {
+        let agent = UserAgent()
+        let webData = await ax.get("https://aiovideodl.ml", { "headers": { "User-Agent": agent } });
+        const $ = cheer.load(webData.data);
+        let token = $("#token").attr("value");
+        let data;
+        let { data: postData } = await ax.post("https://aiovideodl.ml/wp-json/aio-dl/video-data/", new URLSearchParams(Object.entries({ url, token })), {
+            "headers": {
+                "User-Agent": agent,
+                "cookie": webData.headers["set-cookie"][1],
+                "content-type": "application/x-www-form-urlencoded",
+                "accept-language": "id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6",
+                "origin": "https://aiovideodl.ml",
+                "referer": "https://aiovideodl.ml/"
+            },
+            responseType: "json"
+        });
+        if (type === "video") {
+            const vidDetails = postData.medias.filter((r) => r.videoAvailable && r.audioAvailable && r.quality === "720p")[0]
+            data = {
+                title: postData.title, duration: postData.duration,
+                thumb: postData.thumbnail, dl_link: vidDetails.url, q: vidDetails.quality,
+                size: Math.floor(vidDetails.size / 1000), sizeF: vidDetails.formattedSize
+            }
+        } else if (type === "audio") {
+            const audioDetails = postData.medias.filter((r) => !r.videoAvailable && r.audioAvailable && r.quality === "128kbps")[0]
+            data = {
+                title: postData.title, duration: postData.duration,
+                thumb: postData.thumbnail, dl_link: audioDetails.url, q: audioDetails.quality,
+                size: Math.floor(parseInt(audioDetails.size) / 1000), sizeF: audioDetails.formattedSize
+            }
+        }
+        return data;
+    }
 }
-
-module.exports = {
-    search,
-    yta,
-    ytv
-}
+module.exports = YouTube;

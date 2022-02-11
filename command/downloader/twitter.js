@@ -1,4 +1,5 @@
-const { getInfo } = require('../../utils/downloader')
+const Downloader = require('../../utils/downloader')
+const { getInfo } = new Downloader();
 const lang = require('../other/text.json')
 
 module.exports = {

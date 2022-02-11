@@ -1,4 +1,5 @@
-const { insta } = require('../../utils/downloader')
+const Downloader = require('../../utils/downloader')
+const { insta } = new Downloader();
 const lang = require('../other/text.json')
 const axios = require("axios").default;
 const errMes = `ID:\n${lang.indo.util.download.igFail}\n\nEN:\n${lang.eng.util.download.igFail}`

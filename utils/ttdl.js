@@ -1,6 +1,7 @@
 const { default: axios } = require('axios');
 const cheerio = require('cheerio');
-const { UserAgent } = require('.')
+const { UserAgent } = require('.');
+const YouTube = require("./youtube");
 
 async function getTokenAndSess() {
     let url = "https://musicaldown.com/en/"
@@ -66,24 +67,28 @@ async function post(formdata, sess, ua) {
     return metadata
 }
 
-async function ttdl(url) {
-    try {
-        let meta = await getTokenAndSess()
-        let keys = Object.keys(meta.metadata)
-        let a = {};
-        for (let mt of keys) {
-            a[mt] = meta.metadata[mt]
-            if (meta.metadata[mt] === '') {
-                a[mt] = url
+class ttdl extends YouTube {
+    /**
+     * Download TikTok Video
+     * @param {String} url TikTok video url
+     */
+    async ttdl(url) {
+        try {
+            let meta = await getTokenAndSess()
+            let keys = Object.keys(meta.metadata)
+            let a = {};
+            for (let mt of keys) {
+                a[mt] = meta.metadata[mt]
+                if (meta.metadata[mt] === '') {
+                    a[mt] = url
+                }
             }
+            let res = await post(a, meta.cookie, meta.ua)
+            return res
+        } catch (e) {
+            throw new Error("Can't get metadata from given URL")
         }
-        let res = await post(a, meta.cookie, meta.ua)
-        return res
-    } catch (e) {
-        throw new Error("Can't get metadata from given URL")
     }
 }
 
-module.exports = {
-    ttdl
-}
+module.exports = ttdl;

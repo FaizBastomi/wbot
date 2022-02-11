@@ -1,4 +1,5 @@
-const { fbdl } = require("../../utils/downloader")
+const Downloader = require("../../utils/downloader")
+const { fbdl } = new Downloader();
 const lang = require("../other/text.json")
 
 const errMess = `ID:\n${lang.indo.util.download.fbFail}\n\nEN:\n${lang.eng.util.download.fbFail}`

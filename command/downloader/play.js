@@ -1,5 +1,6 @@
 const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys");
-const { search, yta } = require('../../utils/downloader');
+const Downloader = require('../../utils/downloader');
+const { yt, yts } = new Downloader();
 const { fetchBuffer, fetchText } = require('../../utils');
 
 module.exports = {
@@ -9,10 +10,10 @@ module.exports = {
     async exec(msg, sock, args) {
         const { from } = msg
         if (args.length < 1) return await msg.reply('No query given to search.');
-        const s = await search(args.join(' '), 'short')
+        const s = await yts(args.join(' '), 'short')
         if (s.length === 0) return await msg.reply("No video found for that keyword, try another keyword");
         const b = await fetchBuffer(`https://i.ytimg.com/vi/${s[0].id}/0.jpg`)
-        const res = await yta(s[0].url)
+        const res = await yt(s[0].url, "audio");
         // message struct
         let prep = generateWAMessageFromContent(from, proto.Message.fromObject({
             buttonsMessage: {
@@ -26,13 +27,13 @@ module.exports = {
         // Sending message
         await sock.relayMessage(from, prep.message, { messageId: prep.key.id }).then(async () => {
             try {
-                if (res.filesize >= 10 << 10) {
+                if (res.size >= 10 << 10) {
                     let short = await fetchText(`https://tinyurl.com/api-create.php?url=${res.dl_link}`);
                     let capt = `*Title:* ${res.title}\n`
-                        + `*ID:* ${res.id}\n*Quality:* ${res.q}\n*Size:* ${res.filesizeF}\n*Download:* ${short}\n\n_Filesize to big_`
+                        + `*Duration:* ${res.duration}\n*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_Filesize to big_`
                     await sock.sendMessage(from, { image: { url: res.thumb }, caption: capt }, { quoted: prep });
                 } else {
-                    await sock.sendMessage(from, { audio: (await fetchBuffer(res.dl_link, { skipSSL: true })), mimetype: "audio/mp4" }, { quoted: prep });
+                    await sock.sendMessage(from, { audio: (await fetchBuffer(res.dl_link)), mimetype: "audio/mp4" }, { quoted: prep });
                 }
             } catch (e) {
                 console.log(e)
