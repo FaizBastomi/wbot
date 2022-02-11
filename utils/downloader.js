@@ -36,7 +36,6 @@ async function getToken() {
 }
 
 class Downloader extends igdl {
-    constructor() { }
     /**
      * Download from Twitter
      * @param {String} url Twitter URL
