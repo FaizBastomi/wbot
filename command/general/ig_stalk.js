@@ -1,4 +1,5 @@
-const { igProfile } = require("../../utils/downloader");
+const Downloader = require("../../utils/downloader");
+const { igProfile } = new Downloader();
 
 module.exports = {
     name: "igstalk",
