@@ -51,14 +51,15 @@ class YouTube {
             responseType: "json"
         });
         if (type === "video") {
-            const vidDetails = postData.medias.filter((r) => r.videoAvailable && r.audioAvailable && r.quality === "720p")[0]
+            let vidDetails = postData.medias.filter((r) => r.videoAvailable && r.audioAvailable && r.quality === "720p")[0]
+            if (!vidDetails) vidDetails = postData.medias.filter((r) => r.videoAvailable && r.audioAvailable && r.quality === "360p")[0]
             data = {
                 title: postData.title, duration: postData.duration,
                 thumb: postData.thumbnail, dl_link: vidDetails.url, q: vidDetails.quality,
                 size: Math.floor(vidDetails.size / 1000), sizeF: vidDetails.formattedSize
             }
         } else if (type === "audio") {
-            const audioDetails = postData.medias.filter((r) => !r.videoAvailable && r.audioAvailable && r.quality === "128kbps")[0]
+            let audioDetails = postData.medias.filter((r) => !r.videoAvailable && r.audioAvailable && r.quality === "128kbps")[0]
             data = {
                 title: postData.title, duration: postData.duration,
                 thumb: postData.thumbnail, dl_link: audioDetails.url, q: audioDetails.quality,

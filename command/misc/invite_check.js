@@ -6,6 +6,8 @@ module.exports = {
     category: "misc",
     use: "<link>",
     async exec(msg, sock, args) {
+
+        if (!args.length > 0) return await msg.teply("No invite url.");
         // search for invite url
         const rex1 = /chat.whatsapp.com\/([\w\d]*)/g;
         const queryInvite = async (code) => {
@@ -16,7 +18,7 @@ module.exports = {
                     xmlns: "w:g2",
                     to: "@g.us"
                 }, content: [{ tag: "invite", attrs: { code } }]
-            })
+            });
             return extractGroupInviteMetadata(results);
         };
         let code = args.join(" ").match(rex1);
@@ -26,7 +28,7 @@ module.exports = {
         const check = await queryInvite(code).catch(async () => {
             await msg.reply("Invalid invite url.");
         })
-        const text = `GroupId: ${check.id}${check.creator ? `\nCreator: ${check.creator.split("@")[0]}` : ''}\nCreate At: ${new Date(check.creation * 1000).toLocaleString()}`
+        const text = `Subject: ${check.subject}\nGroupId: ${check.id}${check.creator ? `\nCreator: ${check.creator.split("@")[0]}` : ''}\nCreate At: ${new Date(check.creation * 1000).toLocaleString()}`
             + `${check.desc ? `\nDesc: ${check.desc}\nDescId: ${check.descId}` : ''}\n\nJSON\n\`\`\`${JSON.stringify(check, null, 4)}\`\`\``
         await msg.reply(text)
     }
@@ -37,10 +39,10 @@ const extractGroupInviteMetadata = (content) => {
     const descChild = getBinaryNodeChild(group, "description");
     let desc, descId;
     if (descChild) {
-        desc = getBinaryNodeChild(descChild, "body")?.content?.toString()
-        descId = descChild.attrs.id
+        desc = getBinaryNodeChild(descChild, "body")?.content?.toString();
+        descId = descChild.attrs.id;
     }
-    const groupId = group.attrs.id.includes("@") ? group.attrs.id : group.attrs.id + "@g.us"
+    const groupId = group.attrs.id.includes("@") ? group.attrs.id : group.attrs.id + "@g.us";
     const metadata = {
         id: groupId,
         subject: group.attrs?.subject,
