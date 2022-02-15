@@ -74,6 +74,8 @@ module.exports = {
             } else {
                 await msg.reply(`IND:\n${lang.indo.stick}\n\nEN:\n${lang.eng.stick}`);
             }
+            buffer = null,
+            stickerBuff = null;
         } catch (e) {
             await msg.reply("Error while creating sticker");
         }
