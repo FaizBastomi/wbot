@@ -15,10 +15,14 @@
 
 - [x] Mendukung WhatsApp Multi Perangkat
 - [x] Banyak Fitur
+- [x] Mudah untuk dirawat/diperbaiki
 
 ## Instalasi
 Ganti nama atau buat baru file bernama `config.json`.<br />
 Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example`.
+
+## TODO
+Untuk to do list bisa dilihat disini [#1](https://github.com/FaizBastomi/wbot/issues/1)
 
 ### Dibutuhkan
 1. [nodejs](https://nodejs.org/en/download) 16x/17x

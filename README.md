@@ -16,10 +16,15 @@ Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
 
 - [x] Support WhatsApp Multi-Device
 - [x] Features rich
+- [x] Easy to maintenance
+
+## TODO
+For a to do list, see here [#1](https://github.com/FaizBastomi/wbot/issues/1)
 
 ## Instalation
 Rename `config.json.example` to `config.json` or create new file called `config.json`.<br />
-Fill in everything needed in the `config.json` file (follow `config.json.example`).
+Fill in everything needed in the `config.json` file (follow `config.json.example`).<br />
+OpenWeather API get from [openweathermap.org](https://openweathermap.org).
 
 ### Require
 1. [nodejs](https://nodejs.org/en/download) 16x/17x
