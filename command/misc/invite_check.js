@@ -7,7 +7,7 @@ module.exports = {
     use: "<link>",
     async exec(msg, sock, args) {
 
-        if (!args.length > 0) return await msg.teply("No invite url.");
+        if (!args.length > 0) return await msg.reply("No invite url.");
         // search for invite url
         const rex1 = /chat.whatsapp.com\/([\w\d]*)/g;
         const queryInvite = async (code) => {
