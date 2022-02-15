@@ -15,11 +15,12 @@ module.exports = {
             const isQMed = type === "extendedTextMessage" && (content.includes("imageMessage") || content.includes("videoMessage"));
             if (host === "" || !host) host = "telegraph";
 
+            let resUrl;
             if (quoted && isQMed) {
-                const resUrl = await uploaderAPI((await quoted.download()), host);
+                resUrl = await uploaderAPI((await quoted.download()), host);
                 await sock.sendMessage(from, { text: `*Host:* ${resUrl.host}\n*URL:* ${resUrl.data.url}\n*Name:* ${resUrl.data.name}\n*Size:* ${resUrl.data.size}` }, { quoted: msg });
             } else if (isMed) {
-                const resUrl = await uploaderAPI((await msg.download()), host);
+                resUrl = await uploaderAPI((await msg.download()), host);
                 await sock.sendMessage(from, { text: `*Host:* ${resUrl.host}\n*URL:* ${resUrl.data.url}\n*Name:* ${resUrl.data.name}\n*Size:* ${resUrl.data.size}` }, { quoted: msg });
             } else {
                 await msg.reply("No media message found.\nDocument message currently not supported.");

@@ -12,18 +12,19 @@ module.exports = {
         if (args.length < 1) return await msg.reply('No query given to search.');
         const s = await yts(args.join(' '), 'short')
         if (s.length === 0) return await msg.reply("No video found for that keyword, try another keyword");
-        const b = await fetchBuffer(`https://i.ytimg.com/vi/${s[0].id}/0.jpg`)
+        let thumb = await fetchBuffer(`https://i.ytimg.com/vi/${s[0].id}/0.jpg`)
         const res = await yt(s[0].url, "audio");
         // message struct
         let prep = generateWAMessageFromContent(from, proto.Message.fromObject({
             buttonsMessage: {
-                locationMessage: { jpegThumbnail: b.toString("base64") },
+                locationMessage: { jpegThumbnail: thumb.toString("base64") },
                 contentText: `📙 Title: ${s[0].title}\n📎 Url: ${s[0].url}\n🚀 Upload: ${s[0].uploadedAt}\n\nWant a video version? click button below, or you don\'t see it? type *!ytv youtube_url*\n\nAudio on progress....`,
                 footerText: " Kaguya PublicBot • FaizBastomi",
                 headerType: 6,
                 buttons: [{ buttonText: { displayText: "Video" }, buttonId: `#ytv ${s[0].url} SMH`, type: 1 }]
             }
         }), { timestamp: new Date() })
+
         // Sending message
         await sock.relayMessage(from, prep.message, { messageId: prep.key.id }).then(async () => {
             try {
@@ -40,5 +41,6 @@ module.exports = {
                 await msg.reply("Something wrong when sending the file");
             }
         })
+        thumb = null;
     }
 }

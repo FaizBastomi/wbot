@@ -1,3 +1,4 @@
+const Bluebird = require("bluebird");
 const clc = require('chalk');
 const { default: axios } = require("axios");
 const { downloadContentFromMessage, proto } = require("@adiwajshing/baileys");
@@ -75,31 +76,30 @@ const fetchText = async function (url) {
   }
 };
 
-const fetchBuffer = function (url, config = { skipSSL: false }) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      if (config.skipSSL) config = { httpsAgent: (new https.Agent({ rejectUnauthorized: false })), ...config }; delete config.skipSSL;
-      const r = await axios.get(url, { responseType: "arraybuffer", ...config });
-      const { ext } = await fromBuffer(r.data);
-      if (/webp/.test(ext)) {
-        const tmp = join(__dirname, '../temp', Date.now() + '.webp');
-        const out = tmp + '.png';
-        fs.writeFile(tmp, r.data, async (err) => {
-          if (err) reject(err) && fs.unlinkSync(tmp);
-          await webp.dwebp(tmp, out, '-o');
-          const b = fs.readFileSync(out);
-          resolve(b);
-          fs.unlinkSync(tmp), fs.unlinkSync(out);
-        });
-      } else {
-        const s = new Buffer.from(r.data);
-        resolve(s);
-      }
-    } catch (e) {
-      reject(e);
+const fetchBuffer = async (url, config = { skipSSL: false }) => new Bluebird(async (resolve, reject) => {
+  let data1, data2, data3;
+  try {
+    if (config.skipSSL) config = { httpsAgent: (new https.Agent({ rejectUnauthorized: false })), ...config }; delete config.skipSSL;
+    data1 = await axios.get(url, { responseType: "arraybuffer", ...config });
+    const { ext } = await fromBuffer(data1.data);
+    if (/webp/.test(ext)) {
+      const tmp = join(__dirname, '../temp', Date.now() + '.webp');
+      const out = tmp + '.png';
+      fs.writeFile(tmp, data1.data, async (err) => {
+        if (err) reject(err) && fs.unlinkSync(tmp);
+        await webp.dwebp(tmp, out, '-o');
+        data2 = fs.readFileSync(out);
+        resolve(data2);
+        fs.unlinkSync(tmp), fs.unlinkSync(out);
+      });
+    } else {
+      data3 = new Buffer.from(data1.data);
+      resolve(data3);
     }
-  });
-};
+  } catch (e) {
+    reject(e);
+  }
+});
 
 const fetchJson = async function (url) {
   let response;

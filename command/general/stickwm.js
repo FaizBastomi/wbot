@@ -24,28 +24,29 @@ module.exports = {
         const isQStick = type === 'extendedTextMessage' && content.includes('stickerMessage');
         const isQDoc = type === 'extendedTextMessage' && content.includes('documentMessage');
 
+        let buffer, stickerBuff;
         try {
             if ((isMedia && !msg.message.videoMessage) || isQImg) {
-                const buffer = isQImg ? await quoted.download() : await msg.download();
-                const stickerBuffer = await sticker(buffer, {
+                buffer = isQImg ? await quoted.download() : await msg.download();
+                stickerBuff = await sticker(buffer, {
                     isImage: true, withPackInfo: true, cmdType: "1", packInfo: {
                         packname: packname.toString(),
                         author: author.toString()
                     }
                 })
-                await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
+                await sock.sendMessage(from, { sticker: stickerBuff }, { quoted: msg });
             } else if (
                 (isMedia && msg.message.videoMessage.fileLength < 2 << 20) ||
                 (isQVid && quoted.message.videoMessage.fileLength < 2 << 20)
             ) {
-                const buffer = isQVid ? await quoted.download() : await msg.download();
-                const stickerBuffer = await sticker(buffer, {
+                buffer = isQVid ? await quoted.download() : await msg.download();
+                stickerBuff = await sticker(buffer, {
                     isVideo: true, withPackInfo: true, cmdType: "1", packInfo: {
                         packname: packname.toString(),
                         author: author.toString()
                     }
                 })
-                await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
+                await sock.sendMessage(from, { sticker: stickerBuff }, { quoted: msg });
             } else if (isQStick) {
                 const name_1 = getRandom('.webp');
                 ex.create(packname.toString(), author.toString(), sender);
@@ -63,13 +64,13 @@ module.exports = {
                 let ext = /image/.test(quoted.message.documentMessage.mimetype) ? { isImage: true } : /video/.test(quoted.message.documentMessage.mimetype) ? { isVideo: true } : null;
                 if (!ext) return await msg.reply("Document mimetype unknown");
                 const buffer = await quoted.download();
-                const stickerBuffer = await sticker(buffer, {
+                const stickerBuff = await sticker(buffer, {
                     ...ext, withPackInfo: true, cmdType: "1", packInfo: {
                         packname: packname.toString(),
                         author: author.toString()
                     }
                 });
-                await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
+                await sock.sendMessage(from, { sticker: stickerBuff }, { quoted: msg });
             } else {
                 await msg.reply(`IND:\n${lang.indo.stick}\n\nEN:\n${lang.eng.stick}`);
             }

@@ -15,18 +15,19 @@ module.exports = {
         const isQVid = type === 'extendedTextMessage' && content.includes('videoMessage');
         const isQDoc = type === 'extendedTextMessage' && content.includes('documentMessage');
 
+        let buffer, stickerBuff;
         try {
             if ((isMedia && !msg.message.videoMessage) || isQImg) {
-                const buffer = isQImg ? await quoted.download() : await msg.download();
-                const stickerBuffer = await sticker(buffer, { isImage: true, cmdType: "1" });
-                await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
+                buffer = isQImg ? await quoted.download() : await msg.download();
+                stickerBuff = await sticker(buffer, { isImage: true, cmdType: "1" });
+                await sock.sendMessage(from, { sticker: stickerBuff }, { quoted: msg });
             } else if (
                 (isMedia && msg.message.videoMessage.fileLength < 2 << 20) ||
                 (isQVid && quoted.message.videoMessage.fileLength < 2 << 20)
             ) {
-                const buffer = isQVid ? await quoted.download() : await msg.download();
-                const stickerBuffer = await sticker(buffer, { isVideo: true, cmdType: "1" });
-                await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
+                buffer = isQVid ? await quoted.download() : await msg.download();
+                stickerBuff = await sticker(buffer, { isVideo: true, cmdType: "1" });
+                await sock.sendMessage(from, { sticker: stickerBuff }, { quoted: msg });
             } else if (
                 isQDoc && (/image/.test(quoted.message.documentMessage.mimetype) ||
                     (/video/.test(quoted.message.documentMessage.mimetype) && quoted.message.documentMessage.fileLength < 2 << 20))
@@ -34,12 +35,14 @@ module.exports = {
                 let ext = /image/.test(quoted.message.documentMessage.mimetype) ? { isImage: true }
                     : /video/.test(quoted.message.documentMessage.mimetype) ? { isVideo: true } : null;
                 if (!ext) return await msg.reply("Document mimetype unknown");
-                const buffer = await quoted.download();
-                const stickerBuffer = await sticker(buffer, { ...ext, cmdType: "1" });
-                await sock.sendMessage(from, { sticker: stickerBuffer }, { quoted: msg });
+                buffer = await quoted.download();
+                stickerBuff = await sticker(buffer, { ...ext, cmdType: "1" });
+                await sock.sendMessage(from, { sticker: stickerBuff }, { quoted: msg });
             } else {
                 await msg.reply(`IND:\n${lang.indo.stick}\n\nEN:\n${lang.eng.stick}`);
             }
+            buffer = null,
+            stickerBuff = null;
         } catch (e) {
             await msg.reply("Error while creating sticker");
         }

@@ -1,6 +1,7 @@
 const axios = require("axios").default;
 const cheerio = require("cheerio");
 const BodyForm = require("form-data");
+const Bluebird = require("bluebird");
 const path = require("path").join;
 const { fromBuffer } = require("file-type");
 const { fetchBuffer, formatSize, getRandom } = require("./index");
@@ -48,7 +49,7 @@ const webp2mp4 = (path) => {
  * @param {Buffer} fileData Your file
  * @param {"telegraph"|"uguu"|"anonfiles"} type File Hosting API
  */
-const uploaderAPI = (fileData, type) => new Promise(async (resolve, reject) => {
+const uploaderAPI = (fileData, type) => new Bluebird(async (resolve, reject) => {
     const postFile = async (fileData, type) => {
         const { ext, mime } = await fromBuffer(fileData);
         const filePath = path("utils", mime.split("/")[0] + getRandom(`.${ext}`));
@@ -93,7 +94,7 @@ const uploaderAPI = (fileData, type) => new Promise(async (resolve, reject) => {
  * @param {string} bottom 
  * @returns {Promise<Buffer>}
  */
-const memeText = (imageData, top, bottom) => new Promise(async (resolve, reject) => {
+const memeText = (imageData, top, bottom) => new Bluebird(async (resolve, reject) => {
     try {
         if (!imageData) reject('No imageData');
         const imageUrl = (await uploaderAPI(imageData, "uguu")).data.url;
@@ -101,8 +102,9 @@ const memeText = (imageData, top, bottom) => new Promise(async (resolve, reject)
         let bottomText = bottom.trim().replace(/\s/g, '_').replace(/\?/g, '~q').replace(/\%/g, '~p').replace(/\#/g, '~h').replace(/\//g, '~s');
 
         let result = `https://api.memegen.link/images/custom/${topText}/${bottomText}.png?background=${imageUrl}`;
-        const binResult = await fetchBuffer(result);
+        let binResult = await fetchBuffer(result);
         resolve(binResult);
+        binResult = null;
     } catch (e) {
         reject(e)
     }
