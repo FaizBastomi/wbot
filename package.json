@@ -1,11 +1,12 @@
 {
   "name": "wbot-md",
-  "version": "1.0.1",
+  "version": "1.0.1-1",
   "main": "./lib/connect.js",
   "license": "MIT",
   "author": "FaizBastomi",
   "scripts": {
     "start": "node .",
+    "legacy": "node ./lib/conect_legacy.js",
     "build": "cd ./node_modules/@adiwajshing/baileys && tsc",
     "postinstall": "npm run build"
   },

@@ -1,9 +1,12 @@
 const { checkData, getData, deleteData } = require("../database/group_setting")
 
+/**
+ * @param {import("@adiwajshing/baileys/src").AnyWASocket} sock
+ */
 module.exports = joinhandler = async (data, sock) => {
     // For Bot
-    const gM = await sock.groupMetadata(data.id);
-    const myID = sock.user.id.split(":")[0] + "@s.whatsapp.net"
+    const gM = data.action === "add" ? await sock.groupMetadata(data.id) : ''
+    const myID = (sock.type === "legacy" ? sock.state.legacy.user.id : (sock.user.id.split(":")[0] + "@s.whatsapp.net" || sock.user.id))
     if (data.action === "add" && data.participants.includes(myID)) {
         if (gM.participants.length < 80) {
             await sock.sendMessage(data.id, { text: "Sorry, but this group member is not more than 80 members, I leave soon." })
