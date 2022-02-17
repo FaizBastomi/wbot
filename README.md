@@ -12,9 +12,19 @@ Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
 </div><br />
 <br />
 
+## Content
+- [Highlights](#highlights)
+- [TODO](#todo)
+- [Instalation](#instalation)
+    - [Require](#require)
+    - [Ffmpeg](#ffmpeg-instalation)
+    - [LibWebP](#libwebp-instalation)
+    - [Cloning Repo](#cloning-this-repo)
+    - [Start Bot](#start-bot)
+
 ## Highlights
 
-- [x] Support WhatsApp Multi-Device
+- [x] Support Both Legacy and Multi-Device Conneciton
 - [x] Features rich
 - [x] Easy to maintenance
 
@@ -80,7 +90,15 @@ npm install
 cd ./node_modules/@adiwajshing/baileys
 npm install --global typescript # run as root/administrator
 npm run build:tsc
+```
 
-# run this project
+### Start Bot
+Start and Scan QR<br />
+1. MD Connection
+```
 npm run start
+```
+2. Legacy Connection
+```
+npm run legacy
 ```

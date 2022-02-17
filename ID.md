@@ -11,9 +11,19 @@
 </div><br />
 <br />
 
+## Content
+- [Highlights](#highlights)
+- [TODO](#todo)
+- [Instalation](#instalation)
+    - [Require](#require)
+    - [Ffmpeg](#ffmpeg-instalation)
+    - [LibWebP](#libwebp-instalation)
+    - [Cloning Repo](#cloning-this-repo)
+    - [Start Bot](#start-bot)
+
 ## Highlights
 
-- [x] Mendukung WhatsApp Multi Perangkat
+- [x] Mendukung Koneksi Legacy dan Multi Perangkat
 - [x] Banyak Fitur
 - [x] Mudah untuk dirawat/diperbaiki
 
@@ -81,7 +91,15 @@ yarn install
 cd ./node_modules/@adiwajshing/baileys
 npm install -g typescript # jalankan sebagai root atau admin (Windows)
 npm run build:tsc
+```
 
-# jalankan program dan scan QR
+### Start Bot
+Start and Scan QR<br />
+1. MD Connection
+```
 npm run start
+```
+2. Legacy Connection
+```
+npm run legacy
 ```
