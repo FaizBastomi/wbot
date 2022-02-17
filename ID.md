@@ -19,7 +19,8 @@
 
 ## Instalasi
 Ganti nama atau buat baru file bernama `config.json`.<br />
-Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example`.
+Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example`.<br />
+[OpenWeather API](https://openweathermap.org)
 
 ## TODO
 Untuk to do list bisa dilihat disini [#1](https://github.com/FaizBastomi/wbot/issues/1)
@@ -82,5 +83,5 @@ npm install -g typescript # jalankan sebagai root atau admin (Windows)
 npm run build:tsc
 
 # jalankan program dan scan QR
-node main.js
+npm run start
 ```

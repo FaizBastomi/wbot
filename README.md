@@ -82,5 +82,5 @@ npm install --global typescript # run as root/administrator
 npm run build:tsc
 
 # run this project
-node main.js
+npm run start
 ```
