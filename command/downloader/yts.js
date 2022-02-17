@@ -8,11 +8,11 @@ module.exports = {
     desc: 'Search on YouTube.',
     async exec(msg, sock, args) {
         if (args.length < 1) return await msg.reply('No query given to search.');
-        const r = await yts(args.join(' '), 'long')
+        const ytsData = await yts(args.join(' '), 'long')
         let txt = `YouTube Search\n   ~> Query: ${args.join(' ')}\n`
         for (let i = 0; i < r.length; i++) {
-            txt += `\n📙 Title: ${r[i].title}\n📎 Url: ${r[i].url}\n🚀 Upload: ${r[i].uploadedAt}\n`
+            txt += `\n📙 Title: ${ytsData[i].title}\n📎 Url: ${ytsData[i].url}\n🚀 Upload: ${ytsData[i].ago}\n`
         }
-        await sock.sendMessage(msg.from, { image: { url: `https://i.ytimg.com/vi/${r[0].id}/0.jpg` }, caption: txt }, { quoted: msg })
+        await sock.sendMessage(msg.from, { image: { url: ytsData[0].image }, caption: txt }, { quoted: msg })
     }
 }

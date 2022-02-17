@@ -24,7 +24,7 @@
     "nhentai-js": "^4.0.0",
     "webp-converter": "2.3.3",
     "wikijs": "^6.3.3",
-    "ytsr": "^3.6.0"
+    "yt-search": "^2.10.3"
   },
   "devDependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",

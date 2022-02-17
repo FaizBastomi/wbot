@@ -1,4 +1,4 @@
-const ytsr = require('ytsr');
+const ytsr = require('yt-search');
 const ax = require("axios").default;
 const cheer = require("cheerio");
 const { UserAgent } = require("./index");
@@ -11,22 +11,17 @@ class YouTube {
      */
     async yts(query, type) {
         if (!type) type = "short";
-        const fi = await ytsr.getFilters(query);
-        const fi_1 = fi.get('Type').get('Video');
-        let final;
-        switch (type) {
-            case 'short': {
-                const fi_2 = await ytsr.getFilters(fi_1.url);
-                const fi_3 = fi_2.get('Duration').get('Under 4 minutes');
-                final = await ytsr(fi_3.url, { limit: 20 });
-                break;
-            }
-            case 'long': {
-                final = await ytsr(fi_1.url, { limit: 20 });
-                break;
-            }
+        let final, data1, data2;
+        if (type === "long") {
+            data1 = await ytsr(query);
+            final = data1.videos;
+        } else if (type === "short") {
+            data2 = await ytsr(query);
+            final = data2.videos.filter((vid) => vid.seconds <= 240)
         }
-        return final.items;
+        data1 = null,
+        data2 = null;
+        return final;
     }
     /**
      * Download from YouTube
@@ -51,21 +46,22 @@ class YouTube {
             responseType: "json"
         });
         if (type === "video") {
-            let vidDetails = postData.medias.filter((r) => r.videoAvailable && r.audioAvailable && r.quality === "720p")[0]
-            if (!vidDetails) vidDetails = postData.medias.filter((r) => r.videoAvailable && r.audioAvailable && r.quality === "360p")[0]
+            let vidDetails = postData.medias.filter((r) => r.videoAvailable && r.audioAvailable && r.quality === "360p")[0]
             data = {
                 title: postData.title, duration: postData.duration,
                 thumb: postData.thumbnail, dl_link: vidDetails.url, q: vidDetails.quality,
                 size: Math.floor(vidDetails.size / 1000), sizeF: vidDetails.formattedSize
             }
         } else if (type === "audio") {
-            let audioDetails = postData.medias.filter((r) => !r.videoAvailable && r.audioAvailable && r.quality === "128kbps")[0]
+            let audioDetails = postData.medias
+                .filter((r) => !r.videoAvailable && r.audioAvailable && r.extension === "mp3" && r.quality === "128kbps")[0]
             data = {
                 title: postData.title, duration: postData.duration,
                 thumb: postData.thumbnail, dl_link: audioDetails.url, q: audioDetails.quality,
                 size: Math.floor(parseInt(audioDetails.size) / 1000), sizeF: audioDetails.formattedSize
             }
         }
+        postData = null;
         return data;
     }
 }
