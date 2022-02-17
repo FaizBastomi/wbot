@@ -1,5 +1,5 @@
 node_modules
-session*.json
+*session*.json
 *-lock.json
 yarn.lock
 database/group/*.json
