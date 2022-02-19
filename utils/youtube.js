@@ -19,7 +19,7 @@ class YouTube {
             final = data2.videos.filter((vid) => vid.seconds <= 240)
         }
         data1 = null,
-            data2 = null;
+        data2 = null;
         return final;
     }
     /**
@@ -30,7 +30,7 @@ class YouTube {
     async yt(url, type) {
         let UA = UserAgent()
         let data;
-        const { data: postData } = await ax.post("https://yt1s.com/api/ajaxSearch/index", new URLSearchParams(
+        let { data: postData } = await ax.post("https://yt1s.com/api/ajaxSearch/index", new URLSearchParams(
             Object.entries({
                 q: url, vt: "home"
             })
@@ -44,7 +44,7 @@ class YouTube {
             }
         });
         if (!postData?.links?.mp4["18"] || !postData?.links?.mp3["mp3128"]) throw "No Data.";
-        const { data: convertData } = await ax.post("https://yt1s.com/api/ajaxConvert/convert", new URLSearchParams(
+        let { data: convertData } = await ax.post("https://yt1s.com/api/ajaxConvert/convert", new URLSearchParams(
             Object.entries({
                 vid: postData?.vid, k: type === "audio" ? postData?.links?.mp3["mp3128"]["k"] : postData?.links?.mp4["18"]["k"]
             })
@@ -67,7 +67,10 @@ class YouTube {
             dl_link: convertData.dlink,
             q: postData.links.mp3.mp3128.q
         }
+        postData = null,
+        convertData = null;
         return data;
     }
 }
+
 module.exports = YouTube;
