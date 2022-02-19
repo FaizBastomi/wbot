@@ -1,6 +1,5 @@
 const ytsr = require('yt-search');
 const ax = require("axios").default;
-const cheer = require("cheerio");
 const { UserAgent } = require("./index");
 
 class YouTube {
@@ -20,7 +19,7 @@ class YouTube {
             final = data2.videos.filter((vid) => vid.seconds <= 240)
         }
         data1 = null,
-        data2 = null;
+            data2 = null;
         return final;
     }
     /**
@@ -29,39 +28,45 @@ class YouTube {
      * @param {String} type video or audio
      */
     async yt(url, type) {
-        let agent = UserAgent()
-        let webData = await ax.get("https://aiovideodl.ml", { "headers": { "User-Agent": agent } });
-        const $ = cheer.load(webData.data);
-        let token = $("#token").attr("value");
+        let UA = UserAgent()
         let data;
-        let { data: postData } = await ax.post("https://aiovideodl.ml/wp-json/aio-dl/video-data/", new URLSearchParams(Object.entries({ url, token })), {
-            "headers": {
-                "User-Agent": agent,
-                "cookie": webData.headers["set-cookie"][1],
-                "content-type": "application/x-www-form-urlencoded",
-                "accept-language": "id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6",
-                "origin": "https://aiovideodl.ml",
-                "referer": "https://aiovideodl.ml/"
-            },
-            responseType: "json"
+        const { data: postData } = await ax.post("https://yt1s.com/api/ajaxSearch/index", new URLSearchParams(
+            Object.entries({
+                q: url, vt: "home"
+            })
+        ), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "User-Agent": UA,
+                "origin": "https://yt1s.com",
+                "referer": "https://yt1s.com/en166",
+                "accept-language": "id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6"
+            }
         });
-        if (type === "video") {
-            let vidDetails = postData.medias.filter((r) => r.videoAvailable && r.audioAvailable && r.quality === "360p")[0]
-            data = {
-                title: postData.title, duration: postData.duration,
-                thumb: postData.thumbnail, dl_link: vidDetails.url, q: vidDetails.quality,
-                size: Math.floor(vidDetails.size / 1000), sizeF: vidDetails.formattedSize
+        if (!postData?.links?.mp4["18"] || !postData?.links?.mp3["mp3128"]) throw "No Data.";
+        const { data: convertData } = await ax.post("https://yt1s.com/api/ajaxConvert/convert", new URLSearchParams(
+            Object.entries({
+                vid: postData?.vid, k: type === "audio" ? postData?.links?.mp3["mp3128"]["k"] : postData?.links?.mp4["18"]["k"]
+            })
+        ), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "User-Agent": UA,
+                "origin": "https://yt1s.com",
+                "referer": "https://yt1s.com/en166",
+                "accept-language": "id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6"
             }
-        } else if (type === "audio") {
-            let audioDetails = postData.medias
-                .filter((r) => !r.videoAvailable && r.audioAvailable && r.extension === "mp3" && r.quality === "128kbps")[0]
-            data = {
-                title: postData.title, duration: postData.duration,
-                thumb: postData.thumbnail, dl_link: audioDetails.url, q: audioDetails.quality,
-                size: Math.floor(parseInt(audioDetails.size) / 1000), sizeF: audioDetails.formattedSize
-            }
+        });
+        const sizeF = postData.links.mp3.mp3128.size
+        data = {
+            title: postData.title,
+            sizeF,
+            size: parseFloat(sizeF) * (1000 * /MB$/.test(sizeF)),
+            id: postData.vid,
+            thumb: `https://i.ytimg.com/vi/${postData.id}/0.jpg`,
+            dl_link: convertData.dlink,
+            q: postData.links.mp3.mp3128.q
         }
-        postData = null;
         return data;
     }
 }

@@ -31,7 +31,7 @@ module.exports = {
                 if (res.size >= 10 << 10) {
                     let short = await fetchText(`https://tinyurl.com/api-create.php?url=${res.dl_link}`);
                     let capt = `*Title:* ${res.title}\n`
-                        + `*Duration:* ${res.duration}\n*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_Filesize to big_`
+                        + `*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_Filesize to big_`
                     await sock.sendMessage(from, { image: { url: res.thumb }, caption: capt }, { quoted: prep });
                 } else {
                     await sock.sendMessage(from, { audio: (await fetchBuffer(res.dl_link)), mimetype: "audio/mp4" }, { quoted: prep });

@@ -22,7 +22,7 @@ module.exports = {
                     if (res.size >= 30 << 10) {
                         let short = await fetchText(`https://tinyurl.com/api-create.php?url=${res.dl_link}`)
                         let capt = `*Title:* ${res.title}\n`
-                            + `*Duration:* ${res.duration}\n*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_Filesize to big_`
+                            + `*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_Filesize to big_`
                         await sock.sendMessage(msg.from, { image: { url: res.thumb }, caption: capt }, { quoted: msg })
                     } else {
                         await sock.sendMessage(msg.from, { document: (await fetchBuffer(res.dl_link)), mimetype: 'video/mp4', fileName: res.title + ".mp4" }, { quoted: msg })
@@ -32,7 +32,7 @@ module.exports = {
                     if (res.size >= 30 << 10) {
                         let short = await fetchText(`https://tinyurl.com/api-create.php?url=${res.dl_link}`)
                         let capt = `*Title:* ${res.title}\n`
-                            + `*Duration:* ${res.duration}\n*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_Filesize to big_`
+                            + `*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_Filesize to big_`
                         await sock.sendMessage(msg.from, { image: { url: res.thumb }, caption: capt }, { quoted: msg })
                     } else {
                         let capt = `Title: ${res.title}\nSize: ${res.sizeF}`
