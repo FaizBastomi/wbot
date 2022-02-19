@@ -6,7 +6,7 @@ module.exports = {
     desc: 'Tag all member',
     category: 'group',
     async exec(msg, sock, args) {
-        const { from, sender, isGroup } = msg
+        const { from, sender, isGroup, quoted } = msg
         const meta = isGroup ? await sock.groupMetadata(from) : ''
         const groupMem = isGroup ? meta.participants : ''
         const admin = isGroup ? getAdmin(groupMem) : ''
@@ -20,7 +20,10 @@ module.exports = {
             text += `@${i.id.split('@')[0]}\n`
             mems_id.push(i.id)
         }
-        await sock.sendMessage(from, { text, mentions: mems_id }, { quoted: msg })
+        
+        if (quoted) {
+            await sock.sendMessage(from, { text, mentions: mems_id }, { quoted });
+        } else { await sock.sendMessage(from, { text, mentions: mems_id }, { quoted: msg }); }
     }
 }
 
