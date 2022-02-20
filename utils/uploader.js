@@ -8,7 +8,7 @@ const { fetchBuffer, formatSize, getRandom } = require("./index");
 const { createReadStream, unlinkSync, promises } = require("fs");
 
 const webp2mp4 = (path) => {
-    return new Promise((resolve, reject) => {
+    return new Bluebird((resolve, reject) => {
         const form = new BodyForm();
         form.append("new-image-url", "");
         form.append("new-image", createReadStream(path));
@@ -111,7 +111,5 @@ const memeText = (imageData, top, bottom) => new Bluebird(async (resolve, reject
 })
 
 module.exports = {
-    webp2mp4,
-    uploaderAPI,
-    memeText
+    webp2mp4, uploaderAPI, memeText
 }

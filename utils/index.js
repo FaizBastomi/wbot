@@ -26,7 +26,7 @@ const color = (text, color) => {
  * @param {string} pathFile 
  * @returns 
  */
-const downloadMedia = async (message, pathFile) => {
+const downloadMedia = (message, pathFile) => new Bluebird(async (resolve, reject) => {
   const type = Object.keys(message)[0];
   let mimeMap = {
     "imageMessage": "image",
@@ -35,23 +35,25 @@ const downloadMedia = async (message, pathFile) => {
     "documentMessage": "document",
     "audioMessage": "audio"
   }
-  if (pathFile) {
-    const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
+  try {
+    if (pathFile) {
+      const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
+      let buffer = Buffer.from([]);
+      for await (const chunk of stream) {
+        buffer = Buffer.concat([buffer, chunk]);
+      }
+      await fs.promises.writeFile(pathFile, buffer);
+      resolve(pathFile);
+    } else {
+      const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
+      let buffer = Buffer.from([]);
+      for await (const chunk of stream) {
+        buffer = Buffer.concat([buffer, chunk]);
+      }
+      resolve(buffer);
     }
-    await fs.promises.writeFile(pathFile, buffer);
-    return pathFile;
-  } else {
-    const stream = await downloadContentFromMessage(message[type], mimeMap[type]);
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
-    }
-    return buffer;
-  }
-}
+  } catch (e) { reject(e) }
+})
 
 const formatSize = sizeFormatter({
   std: "JEDEC",
@@ -96,6 +98,9 @@ const fetchBuffer = async (url, config = { skipSSL: false }) => new Bluebird(asy
       data3 = new Buffer.from(data1.data);
       resolve(data3);
     }
+    data1 = null,
+    data2 = null,
+    data3 = null;
   } catch (e) {
     reject(e);
   }
