@@ -57,7 +57,7 @@ class YouTube {
                 "accept-language": "id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6"
             }
         });
-        const sizeF = postData.links.mp3.mp3128.size
+        const sizeF = type === "audio" ? postData?.links?.mp3?.mp3128?.size : postData?.links?.mp4?.["18"]?.size;
         data = {
             title: postData.title,
             sizeF,
@@ -65,7 +65,7 @@ class YouTube {
             id: postData.vid,
             thumb: `https://i.ytimg.com/vi/${postData.id}/0.jpg`,
             dl_link: convertData.dlink,
-            q: postData.links.mp3.mp3128.q
+            q: type === "audio" ? postData.links.mp3.mp3128.q : postData.links.mp4["18"].q
         }
         postData = null,
         convertData = null;
