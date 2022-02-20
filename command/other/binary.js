@@ -16,7 +16,7 @@ module.exports = {
                     default:
                         await msg.reply("Option not available");
                 }
-            } else if (args.length > 2) {
+            } else if (args.length >= 2) {
                 let opts = args[0];
                 switch (opts) {
                     case "encrypt":
