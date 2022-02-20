@@ -2,7 +2,7 @@ module.exports = {
     name: "bin",
     category: "random",
     use: "<encrypt|decrypt> <some string>",
-    exec(msg, _, args) {
+    async exec(msg, _, args) {
         try {
             if (msg.quoted) {
                 let opts = args[0];
