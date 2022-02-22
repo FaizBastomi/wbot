@@ -1,6 +1,5 @@
 const { serialize } = require("../lib/helper")
 const djs = require("@discordjs/collection")
-const chalk = require("chalk")
 const { color } = require("../utils")
 
 const cooldown = new djs.Collection();
