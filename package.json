@@ -6,7 +6,7 @@
   "author": "FaizBastomi",
   "scripts": {
     "start": "node .",
-    "legacy": "node ./lib/conect_legacy.js",
+    "legacy": "node ./lib/connect_legacy.js",
     "build": "cd ./node_modules/@adiwajshing/baileys && tsc",
     "postinstall": "npm run build"
   },
