@@ -1,5 +1,6 @@
 const { serialize } = require("../lib/helper")
 const djs = require("@discordjs/collection")
+const chalk = require("chalk")
 const { color } = require("../utils")
 
 const cooldown = new djs.Collection();
@@ -25,64 +26,68 @@ function printLog(isCmd, sender, gcName, isGc) {
 }
 
 module.exports = chatHandler = async (m, sock) => {
-    if (m.type !== "notify") return;
-    let msg = serialize(JSON.parse(JSON.stringify(m.messages[0])), sock);
-    if (!msg.message) return;
-    if (msg.key && msg.key.remoteJid === "status@broadcast") return;
-    if (msg.type === "protocolMessage" || msg.type === "senderKeyDistributionMessage" || !msg.type) return;
+    try {
+        if (m.type !== "notify") return;
+        let msg = serialize(JSON.parse(JSON.stringify(m.messages[0])), sock);
+        if (!msg.message) return;
+        if (msg.key && msg.key.remoteJid === "status@broadcast") return;
+        if (msg.type === "protocolMessage" || msg.type === "senderKeyDistributionMessage" || !msg.type || msg.type === "") return;
 
-    let { body } = msg;
-    let temp_pref = multi_pref.test(body) ? body.split('').shift() : '!';
-    if (body === 'prefix' || body === 'cekprefix') {
-        msg.reply(`My prefix ${prefix}`);
-    }
-    if (body) {
-        body = body.startsWith(temp_pref) ? body : ""
-    }
-    else { body = '' }
+        let { body } = msg;
+        let temp_pref = multi_pref.test(body) ? body.split('').shift() : '!';
+        if (body === 'prefix' || body === 'cekprefix') {
+            msg.reply(`My prefix ${prefix}`);
+        }
+        if (body) {
+            body = body.startsWith(temp_pref) ? body : ""
+        }
+        else { body = '' }
 
-    const { isGroup, sender, from } = msg;
-    const arg = body.substring(body.indexOf(' ') + 1);
-    const args = body.trim().split(/ +/).slice(1);
-    const isCmd = body.startsWith(temp_pref);
-    const gcMeta = isGroup ? await sock.groupMetadata(from) : '';
-    const gcName = isGroup ? gcMeta.subject : '';
+        const { isGroup, sender, from } = msg;
+        const arg = body.substring(body.indexOf(' ') + 1);
+        const args = body.trim().split(/ +/).slice(1);
+        const isCmd = body.startsWith(temp_pref);
+        const gcMeta = isGroup ? await sock.groupMetadata(from) : '';
+        const gcName = isGroup ? gcMeta.subject : '';
 
-    // Log
-    printLog(isCmd, sender, gcName, isGroup);
+        // Log
+        printLog(isCmd, sender, gcName, isGroup);
 
-    const cmdName = body.slice(temp_pref.length).trim().split(/ +/).shift().toLowerCase();
-    const cmd = djs.commands.get(cmdName) || djs.commands.find((cmd) => cmd.alias && cmd.alias.includes(cmdName));
-    if (!cmd) return;
+        const cmdName = body.slice(temp_pref.length).trim().split(/ +/).shift().toLowerCase();
+        const cmd = djs.commands.get(cmdName) || djs.commands.find((cmd) => cmd.alias && cmd.alias.includes(cmdName));
+        if (!cmd) return;
 
-    if (!cooldown.has(from)) {
-        cooldown.set(from, new djs.Collection());
-    }
-    const now = Date.now();
-    const timestamps = cooldown.get(from);
-    const cdAmount = (cmd.cooldown || 5) * 1000;
-    if (timestamps.has(from)) {
-        const expiration = timestamps.get(from) + cdAmount;
+        if (!cooldown.has(from)) {
+            cooldown.set(from, new djs.Collection());
+        }
+        const now = Date.now();
+        const timestamps = cooldown.get(from);
+        const cdAmount = (cmd.cooldown || 5) * 1000;
+        if (timestamps.has(from)) {
+            const expiration = timestamps.get(from) + cdAmount;
 
-        if (now < expiration) {
-            if (isGroup) {
-                let timeLeft = (expiration - now) / 1000;
-                printSpam(isGroup, sender, gcName);
-                return await sock.sendMessage(from, { text: `This group is on cooldown, please wait another _${timeLeft.toFixed(1)} second(s)_` }, { quoted: msg })
-            }
-            else if (!isGroup) {
-                let timeLeft = (expiration - now) / 1000;
-                printSpam(isGroup, sender);
-                return await sock.sendMessage(from, { text: `You are on cooldown, please wait another _${timeLeft.toFixed(1)} second(s)_` }, { quoted: msg })
+            if (now < expiration) {
+                if (isGroup) {
+                    let timeLeft = (expiration - now) / 1000;
+                    printSpam(isGroup, sender, gcName);
+                    return await sock.sendMessage(from, { text: `This group is on cooldown, please wait another _${timeLeft.toFixed(1)} second(s)_` }, { quoted: msg })
+                }
+                else if (!isGroup) {
+                    let timeLeft = (expiration - now) / 1000;
+                    printSpam(isGroup, sender);
+                    return await sock.sendMessage(from, { text: `You are on cooldown, please wait another _${timeLeft.toFixed(1)} second(s)_` }, { quoted: msg })
+                }
             }
         }
-    }
-    timestamps.set(from, now);
-    setTimeout(() => timestamps.delete(from), cdAmount);
+        timestamps.set(from, now);
+        setTimeout(() => timestamps.delete(from), cdAmount);
 
-    try {
-        cmd.exec(msg, sock, args, arg);
-    } catch(e) {
-        console.error(e);
+        try {
+            cmd.exec(msg, sock, args, arg);
+        } catch (e) {
+            console.error(e);
+        }
+    } catch (e) {
+        console.log(color("[Err]", "red"), e.stack + "\nerror while handling chat event, might some message not answered");
     }
 }
