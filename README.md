@@ -21,6 +21,7 @@ Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
     - [LibWebP](#libwebp-instalation)
     - [Cloning Repo](#cloning-this-repo)
     - [Start Bot](#start-bot)
+    - [Troubleshooting](#troubleshooting)
 
 ## Highlights
 
@@ -101,4 +102,19 @@ npm run start
 2. Legacy Connection
 ```
 npm run legacy
+```
+
+### Troubleshooting
+
+If you encounter the following error,<br />
+because this repository uses the latest commit from baileys github,
+```md
+Cannot find module '../Defaults/baileys-version.json'
+```
+
+do this,
+```bash
+npm run baileys:fix
+# or
+yarn run baileys:fix
 ```
