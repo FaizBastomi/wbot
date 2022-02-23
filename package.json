@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node .",
     "legacy": "node ./lib/connect_legacy.js",
+    "baileys:fix": "cp ./baileys-version.json ./node_modules/@adiwajshing/baileys/lib/Defaults",
     "build": "cd ./node_modules/@adiwajshing/baileys && tsc",
     "postinstall": "npm run build"
   },
