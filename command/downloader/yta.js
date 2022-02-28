@@ -25,7 +25,7 @@ module.exports = {
                             + `*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_size to big_`
                         await sock.sendMessage(msg.from, { image: { url: res.thumb }, caption: capt }, { quoted: msg })
                     } else {
-                        await sock.sendMessage(msg.from, { document: (await fetchBuffer(res.dl_link, { skipSSL: true })), mimetype: "audio/mp4", fileName: res.title + ".mp3" }, { quoted: msg })
+                        await sock.sendMessage(msg.from, { document: (await fetchBuffer(res.dl_link, { skipSSL: true })), mimetype: "audio/mp4", fileName: res.title + ".m4a" }, { quoted: msg })
                     }
                     break
                 case "--ptt":
