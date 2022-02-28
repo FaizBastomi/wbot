@@ -30,6 +30,9 @@ class YouTube {
     async yt(url, type) {
         let UA = UserAgent()
         let data;
+        const escapeTitle = (text) => {
+            return text.replace(/([><:"\/\\\?\|\*])/g, "");
+        }
         let { data: postData } = await ax.post("https://yt1s.com/api/ajaxSearch/index", new URLSearchParams(
             Object.entries({
                 q: url, vt: "home"
@@ -59,7 +62,7 @@ class YouTube {
         });
         const sizeF = type === "audio" ? postData?.links?.mp3?.mp3128?.size : postData?.links?.mp4?.["18"]?.size;
         data = {
-            title: postData.title,
+            title: escapeTitle(postData.title),
             sizeF,
             size: parseFloat(sizeF) * (1000 * /MB$/.test(sizeF)),
             id: postData.vid,
