@@ -42,7 +42,7 @@ class YouTube {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                 "User-Agent": UA,
                 "origin": "https://yt1s.com",
-                "referer": "https://yt1s.com/en166",
+                "referer": "https://yt1s.com",
                 "accept-language": "id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6"
             }
         });
@@ -56,7 +56,7 @@ class YouTube {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                 "User-Agent": UA,
                 "origin": "https://yt1s.com",
-                "referer": "https://yt1s.com/en166",
+                "referer": "https://yt1s.com",
                 "accept-language": "id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6"
             }
         });
