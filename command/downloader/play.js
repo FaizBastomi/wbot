@@ -13,7 +13,9 @@ module.exports = {
         const ytsData = await yts(args.join(' '), 'short')
         if (!ytsData.length > 0) return await msg.reply("No video found for that keyword, try another keyword");
         let thumb = await fetchBuffer(ytsData[0].thumbnail)
-        const res = await yt(ytsData[0].url, "audio");
+        const res = await yt(url, "audio");
+        if (res === "no_file") return await msg.reply("No download link found, maybe try another link?");
+
         // message struct
         let prep = generateWAMessageFromContent(from, proto.Message.fromObject({
             buttonsMessage: {

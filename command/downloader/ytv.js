@@ -16,7 +16,8 @@ module.exports = {
             if (!validateURL(url)) return await msg.reply(lang.eng.util.download.notYTURL);
             await msg.reply(`IND:\n${lang.indo.util.download.progress}\n\nEN:\n${lang.eng.util.download.progress}`);
 
-            const res = await yt(url, "video")
+            const res = await yt(url, "video");
+            if (res === "no_file") return await msg.reply("No download link found, maybe try another link?");
             switch (opt) {
                 case "--doc":
                     if (res.size >= 30 << 10) {
