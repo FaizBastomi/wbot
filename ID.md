@@ -103,17 +103,3 @@ npm run start
 ```
 npm run legacy
 ```
-
-### Troubleshooting
-Jika Anda mengalami kesalahan berikut,<br />
-karena repositori ini menggunakan komit terbaru dari baileys github,
-```md
-Cannot find module '../Defaults/baileys-version.json'
-```
-
-do this,
-```bash
-npm run baileys:fix
-# or
-yarn run baileys:fix
-```

@@ -6,13 +6,10 @@
   "author": "FaizBastomi",
   "scripts": {
     "start": "node .",
-    "legacy": "node ./lib/connect_legacy.js",
-    "baileys:fix": "cp ./baileys-version.json ./node_modules/@adiwajshing/baileys/lib/Defaults",
-    "build": "cd ./node_modules/@adiwajshing/baileys && tsc",
-    "postinstall": "npm run build"
+    "legacy": "node ./lib/connect_legacy.js"
   },
   "dependencies": {
-    "@adiwajshing/baileys": "github:adiwajshing/baileys",
+    "@adiwajshing/baileys": "^4.0.1",
     "@vitalets/google-translate-api": "^7.0.0",
     "axios": "^0.26.0",
     "chalk": "4.1.2",
@@ -29,13 +26,11 @@
     "yt-search": "^2.10.3"
   },
   "devDependencies": {
-    "@adiwajshing/keyed-db": "^0.2.4",
     "@discordjs/collection": "^0.5.0",
     "@hapi/boom": "^9.1.4",
     "bluebird": "^3.7.2",
     "jimp": "^0.16.1",
     "pino": "^7.6.5",
-    "qrcode-terminal": "^0.12.0",
-    "sharp": "^0.29.3"
+    "qrcode-terminal": "^0.12.0"
   }
 }
