@@ -15,7 +15,7 @@ module.exports = {
             let data = await fbdl(args[0])
 
             if (data.length === 0) return await msg.reply(`ID:\n${lang.indo.util.download.fbPriv}\n\nEN:\n${lang.eng.util.download.fbPriv}`);
-            await sock.sendMessage(msg.from, { video: { url: data[0] } }, { quoted: msg })
+            await sock.sendMessage(msg.from, { video: { url: data[data.length - 1] } }, { quoted: msg })
         } catch (e) {
             await msg.reply(errMess);
         }

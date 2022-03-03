@@ -14,7 +14,7 @@ const igdl = require("./instagram")
  * @param {String} url Twitter URL
  * @returns {String} Twitter ID
  */
- const getID = (url) => {
+const getID = (url) => {
     let regex = /twitter\.com\/[^/]+\/status\/(\d+)/
     let matches = regex.exec(url)
     return matches && matches[1]
@@ -82,45 +82,45 @@ class Downloader extends igdl {
      * @param {String} url Facebook post
      */
     async fbdl(url) {
-        // Get phpsessid from snapsave.app
-        async function getToken() {
-            let ua = UserAgent();
-            const response = await axios.get("https://snapsave.app", {
+        let token, result, agent = UserAgent();
+        try {
+            // get token
+            token = await axios.get("https://downvideo.net", {
                 headers: {
                     "accept": `text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
-                    "accept-encoding": `gzip, deflate, br`,
-                    "accept-language": "id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6",
-                    "sec-fetch-user": "?1",
-                    "User-Agent": ua
+                    "accept-language": `id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6`,
+                    "sec-fetch-user": `?1`,
+                    "User-Agent": agent
                 }
-            })
-            return { sessid: response.headers["set-cookie"][0], ua };
+            });
+            const $token = cheerio.load(token.data);
+            token = $token('input[name="token"]').attr('value') ?? null;
+            // post data
+            result = await axios.post("https://downvideo.net/download.php", new URLSearchParams(
+                Object.entries({ "URL": url, token })
+            ), {
+                headers: {
+                    "accept": `text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9`,
+                    "accept-language": `id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6`,
+                    "sec-fetch-user": `?1`,
+                    "content-type": `application/x-www-form-urlencoded`,
+                    "User-Agent": agent
+                }
+            });
+            const $rootDl = cheerio.load(result.data);
+            result = [];
+            $rootDl('div[class="col-md-10"]').find('a').each((a, b) => {
+                let dl = $rootDl(b).attr("href")
+                let rex = /(?:https:?\/{2})?(?:[a-zA-Z0-9])\.xx\.fbcdn\.net/
+                if (rex.test(dl)) {
+                    result.push(dl);
+                }
+            });
+        } catch (e) {
+            throw e.message;
+        } finally {
+            return result;
         }
-
-        const { sessid, ua } = await getToken()
-        const form = new FormData()
-        form.append("url", url)
-        // Post to snapsave.app
-        const { data } = await axios.post("https://snapsave.app/action.php", form, {
-            headers: {
-                ...form.getHeaders(),
-                cookie: sessid,
-                "User-Agent": ua,
-                "accept-language": "id,en-US;q=0.9,en;q=0.8,es;q=0.7,ms;q=0.6",
-                "accept-encoding": "gzip, deflate, br",
-                "accept": "*/*",
-                "origin": "https://snapsave.app",
-                "referer": "https://snapsave.app/"
-            },
-            responseType: "json"
-        })
-
-        const $ = cheerio.load(data.data)
-        let url_data = [];
-        $("div.column.is-12").find("tr").each((a, b) => {
-            url_data.push($(b).find("a").attr("href"))
-        })
-        return url_data.filter(v => /(?:https?)/.test(v));
     }
 }
 
