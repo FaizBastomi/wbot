@@ -8,12 +8,12 @@ module.exports = {
     category: 'downloader',
     desc: 'Play media from YouTube.',
     async exec(msg, sock, args) {
-        const { from } = msg
+        const { from } = msg;
         if (args.length < 1) return await msg.reply('No query given to search.');
-        const ytsData = await yts(args.join(' '), 'short')
+        const ytsData = await yts(args.join(' '), 'short');
         if (!ytsData.length > 0) return await msg.reply("No video found for that keyword, try another keyword");
-        let thumb = await fetchBuffer(ytsData[0].thumbnail)
-        const res = await yt(url, "audio");
+        let thumb = await fetchBuffer(ytsData[0].thumbnail);
+        const res = await yt(ytsData[0].url, "audio");
         if (res === "no_file") return await msg.reply("No download link found, maybe try another link?");
 
         // message struct
@@ -25,7 +25,7 @@ module.exports = {
                 headerType: 6,
                 buttons: [{ buttonText: { displayText: "Video" }, buttonId: `#ytv ${ytsData[0].url} SMH`, type: 1 }]
             }
-        }), { timestamp: new Date() })
+        }), { timestamp: new Date() });
 
         // Sending message
         await sock.relayMessage(from, prep.message, { messageId: prep.key.id }).then(async () => {
@@ -42,7 +42,7 @@ module.exports = {
                 console.log(e)
                 await msg.reply("Something wrong when sending the file");
             }
-        })
+        });
         thumb = null;
     }
 }
