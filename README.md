@@ -21,7 +21,6 @@ Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
     - [LibWebP](#libwebp-instalation)
     - [Cloning Repo](#cloning-this-repo)
     - [Start Bot](#start-bot)
-    - [Troubleshooting](#troubleshooting)
 
 ## Highlights
 
