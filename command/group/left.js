@@ -1,4 +1,4 @@
-const { checkData, modifyData } = require("../../database/group_setting")
+const { checkData, modifyData } = require("../../event/database/group_setting")
 const lang = require("../other/text.json")
 
 module.exports = {

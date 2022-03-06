@@ -1,4 +1,4 @@
-const { checkData, getData, deleteData } = require("../database/group_setting")
+const { checkData, getData, deleteData } = require("./database/group_setting")
 
 /**
  * @param {import("@adiwajshing/baileys/src").AnyWASocket} sock

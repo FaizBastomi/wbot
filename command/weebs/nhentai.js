@@ -1,4 +1,4 @@
-const { inputData, getData } = require("../../database/user_setting");
+const { inputData, getData } = require("../../event/database/user_setting");
 const nhentai = require("nhentai-js");
 
 module.exports = {

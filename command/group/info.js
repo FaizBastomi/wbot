@@ -1,4 +1,4 @@
-const { getData } = require("../../database/group_setting");
+const { getData } = require("../../event/database/group_setting");
 
 module.exports = {
     name: "groupinfo",
