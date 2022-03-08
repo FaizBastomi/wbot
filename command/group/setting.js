@@ -1,4 +1,5 @@
 const { WA_DEFAULT_EPHEMERAL } = require('@adiwajshing/baileys')
+const { checkData, modifyData } = require("../../event/database/group_setting")
 const lang = require('../other/text.json')
 
 module.exports = {
@@ -87,8 +88,35 @@ module.exports = {
                 }
                 break;
             }
+            case "invite":{
+                if (args.length < 2) return await msg.reply('Some argument appear to be missing');
+                let condition = args[1].toLowerCase();
+                let currentData;
+                switch (condition) {
+                    case "allow": case "izinkan":
+                        currentData = checkData(from.split("@")[0], "on/link");
+                        if (currentData === "active") {
+                            await msg.reply("```Already active/Sudah Aktif```");
+                        } else if (currentData === "no_file" || currentData === "inactive") {
+                            modifyData(from.split("@")[0], "on/link");
+                            await msg.reply("```Activated/Telah diaktifkan```");
+                        }
+                        break;
+                    case "disallow": case "dilarang":
+                        currentData = checkData(from.split("@")[0], "on/link");
+                        if (currentData === "inactive") {
+                            await msg.reply("```Never active/Tidak pernah diaktifkan```");
+                        } else if (currentData === "active") {
+                            modifyData(from.split("@")[0], "on/link");
+                            await msg.reply("```Success deactivated/Berhasil di nonaktifkan```")
+                        } else if (currentData === "no_file") {
+                            await msg.reply("```Please actived this feature first/Harap aktifkan fitur ini dahulu```")
+                        }
+                        break;
+                }
+                break;}
             default:
-                await msg.reply('Here all available group setting, ephemeral | edit_group | send_message');
+                await msg.reply('Here all available group setting, ephemeral | edit_group | send_message | invite');
         }
     }
 }

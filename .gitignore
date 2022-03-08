@@ -2,8 +2,8 @@ node_modules
 *session*.json
 *-lock.json
 yarn.lock
-database/group/*.json
-database/H/data.json
+event/database/group/*.json
+event/database/H/data.json
 temp/*net.exif
 temp/*webp
 tes*.js
