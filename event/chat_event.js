@@ -62,7 +62,10 @@ const checkLinkAndKick = async (sock, groupId = "", text = "", participant = "",
         };
 
         // If the invite code is not found or is the same as the current group invite code, ignore it
-        if (code === null || code === groupCode) {
+        if (
+            (!code || code === "")
+            || code === groupCode
+        ) {
             return console.log(color("[SYS]", "yellow"), `This (${code}) invite code is invalid or current group (${color(groupId, "green")}) invite code.`);
         } else {
             let status;
