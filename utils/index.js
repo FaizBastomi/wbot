@@ -1,17 +1,17 @@
+const axios = require("axios").default;
 const Bluebird = require("bluebird");
 const clc = require('chalk');
-const { default: axios } = require("axios");
-const { downloadContentFromMessage, proto } = require("@adiwajshing/baileys");
+const convert = require("../lib/convert");
 const fs = require('fs');
-const random = require("crypto").randomBytes;
-const moment = require('moment-timezone');
 const https = require("https");
-const run = require("child_process").exec;
-const { sizeFormatter } = require("human-readable");
-const { fromBuffer } = require('file-type');
+const moment = require('moment-timezone');
+const random = require("crypto").randomBytes;
 const webp = require('webp-converter');
+const { downloadContentFromMessage, proto } = require("@adiwajshing/baileys");
+const { fromBuffer } = require('file-type');
 const { join } = require('path');
 const { openWeather } = require("../config.json");
+const { sizeFormatter } = require("human-readable");
 
 // Exports from other
 const wiki = require("./wiki");
@@ -99,15 +99,8 @@ const fetchBuffer = async (url, config = { skipSSL: false, fixAudio: false }) =>
     } else {
       data3 = new Buffer.from(data1.data);
       if (config.fixAudio) {
-        tmp = join(__dirname, "../temp", getRandom() + ".m4a");
-        out = tmp + ".m4a";
-        await fs.promises.writeFile(tmp, data3);
-        run(`ffmpeg -y -i "${tmp}" -vn -ar 44100 -ac 2 -b:a 192k "${out}"`, (err, _, stderr) => {
-          if (err) reject(stderr) && fs.unlinkSync(tmp);
-          data3 = fs.readFileSync(out);
-          resolve(data3);
-          fs.unlinkSync(tmp), fs.unlinkSync(out);
-        });
+        data3 = await convert.toAudio(data3, "mp3").catch(reject);
+        resolve(data3);
       } else {
         resolve(data3);
       }
