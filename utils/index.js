@@ -6,6 +6,7 @@ const fs = require('fs');
 const random = require("crypto").randomBytes;
 const moment = require('moment-timezone');
 const https = require("https");
+const run = require("child_process").exec;
 const { sizeFormatter } = require("human-readable");
 const { fromBuffer } = require('file-type');
 const webp = require('webp-converter');
@@ -78,7 +79,7 @@ const fetchText = async function (url) {
   }
 };
 
-const fetchBuffer = async (url, config = { skipSSL: false }) => new Bluebird(async (resolve, reject) => {
+const fetchBuffer = async (url, config = { skipSSL: false, fixAudio: false }) => new Bluebird(async (resolve, reject) => {
   let data1, data2, data3;
   try {
     if (config.skipSSL) config = { httpsAgent: (new https.Agent({ rejectUnauthorized: false })), ...config }; delete config.skipSSL;
@@ -96,7 +97,18 @@ const fetchBuffer = async (url, config = { skipSSL: false }) => new Bluebird(asy
       });
     } else {
       data3 = new Buffer.from(data1.data);
-      resolve(data3);
+      if (config.fixAudio) {
+        const tmp = join(__dirname, "../temp", Date.now() + ".m4a");
+        const out = tmp + ".m4a";
+        await fs.promises.writeFile(tmp, data3);
+        run(`ffmpeg -y -i "${tmp}" -vn -ar 44100 -ac 2 -b:a 192k "${out}"`, () => {
+          data3 = fs.readFileSync(out);
+          resolve(data3);
+          fs.unlinkSync(tmp), fs.unlinkSync(out);
+        });
+      } else {
+        resolve(data3);
+      }
     }
     data1 = null,
     data2 = null,
