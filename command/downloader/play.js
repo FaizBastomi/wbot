@@ -36,7 +36,7 @@ module.exports = {
                         + `*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_Filesize to big_`
                     await sock.sendMessage(from, { image: { url: res.thumb }, caption: capt }, { quoted: prep });
                 } else {
-                    let respMsg = await sock.sendMessage(from, { audio: (await fetchBuffer(res.dl_link, { skipSSL: true, fixAudio: true })), mimetype: "audio/mp4" }, { quoted: prep });
+                    let respMsg = await sock.sendMessage(from, { audio: (await fetchBuffer(res.dl_link, { skipSSL: true })), mimetype: "audio/mpeg" }, { quoted: prep });
                     let sections = [{ title: "Select result", rows: [] }];
                     for (let idx in ytsData) {
                         sections[0].rows.push({ title: ytsData[idx].title, rowId: `#yta ${ytsData[idx].url}` });
