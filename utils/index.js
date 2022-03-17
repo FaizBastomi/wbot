@@ -80,14 +80,15 @@ const fetchText = async function (url) {
 };
 
 const fetchBuffer = async (url, config = { skipSSL: false, fixAudio: false }) => new Bluebird(async (resolve, reject) => {
-  let data1, data2, data3;
+  let data1, data2, data3,
+  tmp, out;
   try {
     if (config.skipSSL) config = { httpsAgent: (new https.Agent({ rejectUnauthorized: false })), ...config }; delete config.skipSSL;
     data1 = await axios.get(url, { responseType: "arraybuffer", ...config });
     const { ext } = await fromBuffer(data1.data);
     if (/webp/.test(ext)) {
-      const tmp = join(__dirname, '../temp', Date.now() + '.webp');
-      const out = tmp + '.png';
+      tmp = join(__dirname, '../temp', getRandom() + '.webp');
+      out = tmp + '.png';
       fs.writeFile(tmp, data1.data, async (err) => {
         if (err) reject(err) && fs.unlinkSync(tmp);
         await webp.dwebp(tmp, out, '-o');
@@ -98,10 +99,11 @@ const fetchBuffer = async (url, config = { skipSSL: false, fixAudio: false }) =>
     } else {
       data3 = new Buffer.from(data1.data);
       if (config.fixAudio) {
-        const tmp = join(__dirname, "../temp", Date.now() + ".m4a");
-        const out = tmp + ".m4a";
+        tmp = join(__dirname, "../temp", getRandom() + ".m4a");
+        out = tmp + ".m4a";
         await fs.promises.writeFile(tmp, data3);
-        run(`ffmpeg -y -i "${tmp}" -vn -ar 44100 -ac 2 -b:a 192k "${out}"`, () => {
+        run(`ffmpeg -y -i "${tmp}" -vn -ar 44100 -ac 2 -b:a 192k "${out}"`, (err, _, stderr) => {
+          if (err) reject(stderr) && fs.unlinkSync(tmp);
           data3 = fs.readFileSync(out);
           resolve(data3);
           fs.unlinkSync(tmp), fs.unlinkSync(out);
