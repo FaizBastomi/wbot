@@ -4,7 +4,7 @@ module.exports = {
     name: "profile",
     alias: ["p", "pro"],
     category: "general",
-    desc: "Show this your info",
+    desc: "Show your info",
     async exec(msg, sock) {
         const { pushName, from, isGroup, sender } = msg;
         if (!isGroup) return await msg.reply("Only can be executed in group");
