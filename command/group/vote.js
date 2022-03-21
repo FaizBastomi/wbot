@@ -4,47 +4,46 @@ const vote = new UtilVotes();
 module.exports = {
     name: "vote",
     desc: "Create a voting message",
-    use: "<option>\n\n*Options*:\n- create (create new vote room)\n- up (upvote current active vote room)\n"
-        + "- down (downvote current active vote room)\n- show (show current vote room data)\n- del_vote (delete your vote)\n"
-        + "- del_room (delete current vote room. Owner room only)",
+    use: "<option>\n\n*Options*:\n- start (start new vote)\n- up (upvote active vote)\n"
+        + "- down (downvote active vote)\n- show (show vote data)\n- del_vote (delete your vote)\n"
+        + "- del_room (delete current vote. Vote owner only)",
     category: "group",
     async exec(msg, sock, args) {
         const { from, isGroup, sender } = msg;
-        if (!isGroup) return await msg.reply("Only inside a group chat");
-        if (!args.length > 0) return await msg.reply("Please, read availabe option at #help vote");
-
         let voteState = args[0],
             voteData = vote.show(from),
-            sections, status = "";
+            buttons, status = "";
+
+        if (!isGroup) return await msg.reply("Only inside a group chat");
+        if (!args.length > 0) {
+            await sock.sendMessage(from, {
+                text: `#vote ${this.use}`,
+                footer: "Kaguya PublicBot • FaizBastomi"
+            }, { quoted: msg });
+        }
 
         try {
-            if (voteState === "create") {
+            if (voteState === "start") {
                 if (voteData.present) return await msg.reply(
-                    "There is already vote room in this group\nplease, delete current room."
+                    "There is already vote in this group\nplease, end current vote."
                 )
                 vote.create(from, sender, args.splice(1).join(" "));
                 if (
                     (vote.show(from)).present
                 ) {
-                    sections = [{
-                        title: "Select Options", rows: [
-                            { title: "Upvote", description: "Upvote this vote", rowId: "#vote up" },
-                            { title: "Downvote", description: "Downvote this vote", rowId: "#vote down" },
-                            { title: "Show", description: "Show current vote room data", rowId: "#vote show" },
-                            { title: "Delete Vote", description: "Delete your vote", rowId: "#vote del_vote" },
-                            { title: "Delete Room", description: "Delete current room (Room owner only)", rowId: "#vote del_room" }
-                        ]
-                    }]
+                    buttons = [
+                        { buttonId: "#vote up SMH", buttonText: { displayText: "Upvote" }, type: 1 },
+                        { buttonId: "#vote down SMH", buttonText: { displayText: "Downvote" }, type: 1 }
+                    ]
                     await sock.sendMessage(from, {
-                        text: "Room created.",
+                        text: `Vote name: *${(vote.show(from)).data.name}*\n\nVote created.`,
                         footer: "Kaguya PublicBot • FaizBastomi",
-                        buttonText: "Vote",
-                        sections
+                        buttons
                     }, { quoted: msg });
                 }
             }
             else if (voteState === "up") {
-                if (!voteData.present) return await msg.reply("Please, create a vote room first before.\nExample: *!vote create*");
+                if (!voteData.present) return await msg.reply("Please, create a vote first before.\nExample: *!vote start*");
                 status = vote.upvote(from, sender);
                 if (status === "added") {
                     await msg.reply("You voted.");
@@ -53,30 +52,25 @@ module.exports = {
                 }
             }
             else if (voteState === "down") {
-                if (!voteData.present) return await msg.reply("Please, create a vote room first before.\nExample: *!vote create*");
+                if (!voteData.present) return await msg.reply("Please, create a vote first before.\nExample: *!vote start*");
                 status = vote.downvote(from, sender);
                 if (status === "added") {
-                    await msg.reply("Success downvote current active vote.");
+                    await msg.reply("Success downvote this vote.");
                 } else if (status === "downvoted") {
                     await msg.reply("You already down voted this vote.");
                 }
             }
             else if (voteState === "show") {
-                if (!voteData.present) return await msg.reply("Please, create a vote room first before.\nExample: *!vote create*");
+                if (!voteData.present) return await msg.reply("Please, create a vote first before.\nExample: *!vote start*");
                 // 
                 voteData = voteData.data;
                 let text = `Current Group Vote (${voteData["name"]})\nOwner: ${voteData["owner"].split("@")[0]}\n\n`
                     + `Upvote:\n- ${voteData["upvote"].map(v => `@${v.split("@")[0]}`).join("\n- ")}\n\n`
                     + `Downvote:\n- ${voteData["downvote"].map(v => `@${v.split("@")[0]}`).join("\n- ")}\n`
-                sections = [{
-                    title: "Select Options", rows: [
-                        { title: "Upvote", description: "Upvote this vote", rowId: "#vote up" },
-                        { title: "Downvote", description: "Downvote this vote", rowId: "#vote down" },
-                        { title: "Show", description: "Show current vote room data", rowId: "#vote show" },
-                        { title: "Delete Vote", description: "Delete your vote", rowId: "#vote del_vote" },
-                        { title: "Delete Room", description: "Delete current room (Room owner only)", rowId: "#vote del_room" }
-                    ]
-                }]
+                buttons = [
+                    { buttonId: "#vote del_vote SMH", buttonText: { displayText: "Delete Your Vote" }, type: 1 },
+                    { buttonId: "#vote del_room SMH", buttonText: { displayText: "Delete Vote" }, type: 1 }
+                ]
                 await sock.sendMessage(from, {
                     text,
                     mentions: [
@@ -84,26 +78,25 @@ module.exports = {
                         ...voteData["downvote"]
                     ],
                     footer: "Kaguya PublicBot • FaizBastomi",
-                    buttonText: "Vote",
-                    sections
+                    buttons
                 }, { quoted: msg });
             }
             else if (voteState === "del_vote") {
-                if (!voteData.present) return await msg.reply("Please, create a vote room first before.\nExample: *!vote create*");
+                if (!voteData.present) return await msg.reply("Please, create a vote first before.\nExample: *!vote start*");
                 status = vote.delete_vote(from, sender);
                 if (status === "deleted") {
-                    await msg.reply("Deleted your vote from current room.");
+                    await msg.reply("Deleted your vote.");
                 }
                 else if (status === "no_vote") {
-                    await msg.reply("You never participate in current vote room.");
+                    await msg.reply("You never participate in this vote.");
                 }
             }
             else if (voteState === "del_room") {
-                if (!voteData.present) return await msg.reply("No active vote room in this group.");
-                if (voteData["data"]["owner"] !== sender) return await msg.reply("You're not the room owner.");
+                if (!voteData.present) return await msg.reply("No active vote in this group.");
+                if (voteData["data"]["owner"] !== sender) return await msg.reply("You're not the owner.");
                 status = vote.delete(from, sender);
                 if (status) {
-                    await msg.reply("Room deleted.");
+                    await msg.reply("Vote deleted.");
                 }
             }
             voteData = null;
