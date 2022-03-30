@@ -8,9 +8,9 @@ const API_TIMELINE = 'https://api.twitter.com/2/timeline/conversation/%s.json?tw
 const AUTH = 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA'
 
 const igdl = require("./instagram")
+
 /**
  * Get Twitter ID
- * 
  * @param {String} url Twitter URL
  * @returns {String} Twitter ID
  */
@@ -22,13 +22,13 @@ const getID = (url) => {
 
 async function getToken() {
     try {
-        const response = await axios.post(API_GUEST, null, {
+        const guestResponse = await axios.post(API_GUEST, null, {
             headers: {
                 'authorization': AUTH
             }
         })
-        if (response.status === 200 && response.data) {
-            return response.data
+        if (response.status === 200 && guestResponse.data) {
+            return guestResponse.data
         }
     } catch (e) {
         throw new Error(e)
@@ -45,32 +45,34 @@ class Downloader extends igdl {
         if (id) {
             let token
             try {
-                const response = await getToken()
-                token = response.guest_token
+                const tokenResponse = await getToken()
+                token = tokenResponse.guest_token
             } catch (e) {
                 throw new Error(e)
             }
-            const response = await axios.get(Util.format(API_TIMELINE, id), {
+            console.log(token)
+            const { data: response } = await axios.get(Util.format(API_TIMELINE, id), {
                 headers: {
                     'x-guest-token': token,
                     'authorization': AUTH
                 }
             })
-            if (!response.data['globalObjects']['tweets'][id]['extended_entities']) throw new Error('No media')
-            const media = response.data['globalObjects']['tweets'][id]['extended_entities']['media']
+
+            if (!response['globalObjects']['tweets'][id]['extended_entities']) throw new Error('No media')
+            const media = response['globalObjects']['tweets'][id]['extended_entities']['media']
             if (media[0].type === 'video') return {
                 type: media[0].type,
-                full_text: response.data['globalObjects']['tweets'][id]['full_text'],
+                full_text: response['globalObjects']['tweets'][id]['full_text'],
                 variants: media[0]['video_info']['variants']
             }
             if (media[0].type === 'photo') return {
                 type: media[0].type,
-                full_text: response.data['globalObjects']['tweets'][id]['full_text'],
+                full_text: response['globalObjects']['tweets'][id]['full_text'],
                 variants: media.map((x) => x.media_url_https)
             }
             if (media[0].type === 'animated_gif') return {
                 type: media[0].type,
-                full_text: response.data['globalObjects']['tweets'][id]['full_text'],
+                full_text: response['globalObjects']['tweets'][id]['full_text'],
                 variants: media[0]['video_info']['variants']
             }
         } else {

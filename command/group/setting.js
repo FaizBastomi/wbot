@@ -1,6 +1,7 @@
-const { WA_DEFAULT_EPHEMERAL } = require('@adiwajshing/baileys')
-const { checkData, modifyData } = require("../../event/database/group_setting")
-const lang = require('../other/text.json')
+const { WA_DEFAULT_EPHEMERAL, jidNormalizedUser } = require('@adiwajshing/baileys');
+const { checkData, modifyData } = require("../../event/database/group_setting");
+const lang = require('../other/text.json');
+const Jimp = require("jimp");
 
 module.exports = {
     name: 'gcset',
@@ -9,7 +10,7 @@ module.exports = {
     use: '<group_setting> <on|off|admin|everyone>',
     alias: ['gcst'],
     async exec(msg, sock, args) {
-        const { from, sender, isGroup } = msg
+        const { from, sender, isGroup, quoted } = msg
         const meta = isGroup ? await sock.groupMetadata(from) : ''
         const members = isGroup ? meta.participants : ''
         const admins = isGroup ? getAdmins(members) : ''
@@ -20,10 +21,10 @@ module.exports = {
          * @param {string} jid chat id
          * @param {number} ephemeralExpiration expiration
          */
-        const toggleEphemeral = async(jid, ephemeralExpiration) => {
+        const toggleEphemeral = async (jid, ephemeralExpiration) => {
             const content = ephemeralExpiration ?
-            [{ tag: "ephemeral", attrs: { expiration: ephemeralExpiration.toString() } }] :
-            [{ tag: "not_ephemeral", attrs: { } }]
+                [{ tag: "ephemeral", attrs: { expiration: ephemeralExpiration.toString() } }] :
+                [{ tag: "not_ephemeral", attrs: {} }]
             const BinaryNode = {
                 tag: 'iq',
                 attrs: {
@@ -88,7 +89,7 @@ module.exports = {
                 }
                 break;
             }
-            case "invite":{
+            case "invite": {
                 if (args.length < 2) return await msg.reply('Some argument appear to be missing');
                 let condition = args[1].toLowerCase();
                 let currentData;
@@ -114,9 +115,24 @@ module.exports = {
                         }
                         break;
                 }
-                break;}
+                break;
+            }
+            case "pp": {
+                if (
+                    (msg?.message?.imageMessage || quoted?.message?.imageMessage) ||
+                    (
+                        ["image/jpeg", "image/png"].includes(msg?.message?.documentMessage?.mimetype) ||
+                        ["image/jpeg", "image/png"].includes(quoted?.message?.documentMessage?.mimetype)
+                    )
+                ) {
+                    let imgBuffer = quoted ? await quoted.download() : await msg.download();
+                    await patchProfilePicture(from, sock, imgBuffer);
+                    imgBuffer = null;
+                } else { await msg.reply("Media type not acceptable") }
+                break;
+            }
             default:
-                await msg.reply('Here all available group setting, ephemeral | edit_group | send_message | invite');
+                await msg.reply('Here all available group setting, ephemeral | edit_group | send_message | invite | pp');
         }
     }
 }
@@ -127,4 +143,50 @@ function getAdmins(a) {
         !ids.admin ? '' : admins.push(ids.id)
     }
     return admins
+}
+
+/**
+ * Change Group Profile Picture
+ * @param {string} id current group chat
+ * @param sock any connection
+ * @param {Buffer} buffer image
+ * @returns 
+ */
+const patchProfilePicture = async (id, sock, buffer) => {
+    const jimp = await Jimp.read(buffer);
+    const applyPicture = async (jid, imgBuffer) => {
+        return await sock.query({
+            tag: 'iq',
+            attrs: {
+                to: jidNormalizedUser(jid),
+                type: 'set',
+                xmlns: 'w:profile:picture'
+            },
+            content: [
+                {
+                    tag: 'picture',
+                    attrs: { type: 'image' },
+                    content: imgBuffer
+                }
+            ]
+        })
+    }
+    // 
+    let height = jimp.getHeight(),
+        width = jimp.getWidth(),
+        img = null;
+    // 
+    if (width === height) {
+        let min = Math.min(width, height);
+        let crop = jimp.crop(0, 0, min, min);
+        img = await crop.resize(640, 640, Jimp.RESIZE_BILINEAR)
+            .quality(100)
+            .getBufferAsync(Jimp.MIME_JPEG);
+        return await applyPicture(id, img);
+    }
+    else if (width > height) width = 800, height = height / (jimp.getWidth() / width);
+    else if (width < height) height = 700, width = width / (jimp.getHeight() / height);
+    img = await jimp.resize(width, height).quality(100).getBufferAsync(Jimp.MIME_JPEG);
+    await applyPicture(id, img);
+    img = null;
 }
