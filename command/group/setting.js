@@ -38,7 +38,7 @@ module.exports = {
         }
 
         if (!isGroup) return await msg.reply(`Only can be executed in group.`);
-        if (args.length < 1) return await msg.reply('Here all available group setting, ephemeral | edit_group | send_message');
+        if (args.length < 1) return await msg.reply('Here all available group setting, ephemeral | edit_group | send_message | invite | pp');
         if (!cekAdmin(sender)) return await msg.reply(`IND:\n${lang.indo.group.gcset.noPerms}\n\nEN:\n${lang.eng.group.gcset.noPerms}`);
         if (!cekAdmin(myID)) return await msg.reply(`IND:\n${lang.indo.group.gcset.botNoPerms}\n\nEN:\n${lang.eng.group.gcset.botNoPerms}`);
 
