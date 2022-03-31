@@ -1,6 +1,6 @@
 {
   "name": "wbot-md",
-  "version": "1.0.1-1",
+  "version": "1.0.1-2",
   "main": "./lib/connect.js",
   "license": "MIT",
   "author": "FaizBastomi",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@adiwajshing/baileys": "^4.0.1",
-    "@vitalets/google-translate-api": "^7.0.0",
+    "@vitalets/google-translate-api": "^8.0.0",
     "axios": "^0.26.1",
     "brainly-scraper-v2": "1.1.2",
     "chalk": "4.1.2",
