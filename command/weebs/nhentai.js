@@ -11,9 +11,7 @@ module.exports = {
         const userData = getData();
         if (isGroup) return await msg.reply("Can't use this command inside the group.");
         try {
-            let opt = args[0];
-            let data;
-            let year;
+            let opt = args[0], data, year;
             switch (opt) {
                 case "reg":
                     year = args.slice(1)[0];
