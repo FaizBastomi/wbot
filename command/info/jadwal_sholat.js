@@ -1,4 +1,3 @@
-const { proto, generateWAMessageFromContent } = require("@adiwajshing/baileys")
 const axios = require("axios").default;
 let info = 'Data yang tersedia, dari Januari 2021 sampai Desember 2030\n'
     + 'Hanya tersedia untuk kota-kota besar di Indonesia. Kota lainnya, silakan disesuaikan sendiri sesuai plus minus waktu setempat.'
