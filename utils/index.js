@@ -2,6 +2,7 @@ const axios = require("axios").default;
 const Bluebird = require("bluebird");
 const clc = require('chalk');
 const convert = require("../lib/convert");
+const cheerio = require("cheerio");
 const fs = require('fs');
 const https = require("https");
 const moment = require('moment-timezone');
@@ -81,7 +82,7 @@ const fetchText = async function (url) {
 
 const fetchBuffer = async (url, config = { skipSSL: false, fixAudio: false }) => new Bluebird(async (resolve, reject) => {
   let data1, data2, data3,
-  tmp, out;
+    tmp, out;
   try {
     if (config.skipSSL) config = { httpsAgent: (new https.Agent({ rejectUnauthorized: false })), ...config }; delete config.skipSSL;
     data1 = await axios.get(url, { responseType: "arraybuffer", ...config });
@@ -106,8 +107,8 @@ const fetchBuffer = async (url, config = { skipSSL: false, fixAudio: false }) =>
       }
     }
     data1 = null,
-    data2 = null,
-    data3 = null;
+      data2 = null,
+      data3 = null;
   } catch (e) {
     reject(e);
   }
@@ -222,8 +223,39 @@ const openWeatherAPI = async function (q, type) {
   }
 }
 
+const telegramSticker = {
+  /**
+   * Search
+   * @param {string} query query to search
+   * @param {number} page page number
+   */
+  search: async (query, page = 1) => {
+    let stickers = [], pagePagination = [];
+    let { data: htmlResponse } = await axios.get(`https://combot.org/telegram/stickers?page=${page}&q=${query}`);
+    const $rootCombot = cheerio.load(htmlResponse);
+    $rootCombot('.sticker-packs-list > div').each(function () {
+      stickers.push({
+        name: $rootCombot(this).find('.sticker-pack__title').text()?.trim(),
+        link: $rootCombot(this).find('.sticker-pack__header > a.sticker-pack__btn').attr('href')
+      })
+    })
+    $rootCombot('.pagination__pages').find('a.pagination__link ').each(function (_, data) {
+      let link = $rootCombot(data).attr('href')
+      if (pagePagination.includes('https://combot.org' + link)) return;
+      pagePagination.push('https://combot.org' + link);
+    })
+    return {
+      stickers, pageInfo: {
+        pagePagination,
+        total: pagePagination.length
+      }
+    };
+  }
+}
+
 module.exports = {
   color, getRandom, downloadMedia, fetchText, fetchJson,
   fetchBuffer, calculatePing, textParse, fixNumber,
-  formatSize, UserAgent, openWeatherAPI, emojipedia, wiki
+  formatSize, UserAgent, openWeatherAPI, emojipedia, wiki,
+  telegramSticker
 };
