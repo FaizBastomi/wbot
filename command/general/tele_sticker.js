@@ -8,7 +8,7 @@ module.exports = {
     async exec(msg, sock, args, arg) {
         try {
             let dataSticker, text = "", page = parseInt(arg.split("|")[1]) || 1,
-                query = arg.split('|')[0] || null;
+                query = arg.split('|').slice(1)[0] || null;
             if (query === '' || !query) return await msg.reply("No query given to search");
 
             dataSticker = await telegramSticker.search(query, page);
@@ -44,7 +44,10 @@ module.exports = {
                     buttons,
                     headerType: 1
                 }, { quoted: msg });
-            } else if (page === dataSticker.pageInfo.total) {
+            } else if (
+                page === dataSticker.pageInfo.total ||
+                page === dataSticker.pageInfo.total && page === 1
+            ) {
                 const buttons = [
                     { buttonId: `#telestick ${query}|${page - 1} SMH`, buttonText: { displayText: '⬅️ Previous' }, type: 1 }
                 ]
