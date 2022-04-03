@@ -8,8 +8,8 @@ module.exports = {
     async exec(msg, sock, args, arg) {
         try {
             let dataSticker, text = "", page = parseInt(arg.split("|")[1]) || 1,
-                query = arg.split('|').slice(1)[0] || null;
-            if (query === '' || !query) return await msg.reply("No query given to search");
+                query = arg.split('|')[0] || null;
+            if (query === '' || !query || query === 'telestick') return await msg.reply("No query given to search");
 
             dataSticker = await telegramSticker.search(query, page);
             if (!dataSticker.stickers.length > 0) return await msg.reply("No sticker were found");
