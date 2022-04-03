@@ -9,7 +9,7 @@ module.exports = {
         try {
             let dataSticker, text = "", page = parseInt(arg.split("|")[1]) || 1,
                 query = arg.split('|')[0] || null;
-            if (query === '' || !query || query === 'telestick') return await msg.reply("No query given to search");
+            if (query === '' || !query || query === '.telestick') return await msg.reply("No query given to search");
 
             dataSticker = await telegramSticker.search(query, page);
             if (!dataSticker.stickers.length > 0) return await msg.reply("No sticker were found");
@@ -23,7 +23,9 @@ module.exports = {
 
             // delete old message
             if (msg.quoted) await msg.quoted.delete();
-            if (page < dataSticker.pageInfo.total && page === 1) {
+            if (dataSticker.pageInfo.total === 1) {
+                await msg.reply(text);
+            } else if (page < dataSticker.pageInfo.total && page === 1) {
                 const buttons = [
                     { buttonId: `#telestick ${query}|${page + 1} SMH`, buttonText: { displayText: '➡️ Next' }, type: 1 }
                 ]
@@ -44,10 +46,7 @@ module.exports = {
                     buttons,
                     headerType: 1
                 }, { quoted: msg });
-            } else if (
-                page === dataSticker.pageInfo.total ||
-                page === dataSticker.pageInfo.total && page === 1
-            ) {
+            } else if (page === dataSticker.pageInfo.total) {
                 const buttons = [
                     { buttonId: `#telestick ${query}|${page - 1} SMH`, buttonText: { displayText: '⬅️ Previous' }, type: 1 }
                 ]
