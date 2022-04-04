@@ -84,6 +84,33 @@ const sfile = {
         homePage = null, htmlResponse = null;
         return links;
     },
+    latest: async () => {
+        let sessCookie, agent = UserAgent(), links = [];
+        let homePage = await request("https://sfile.mobi", {
+            method: "GET",
+            headers: {
+                "User-Agent": agent
+            }
+        })
+        sessCookie = homePage.headers['set-cookie'][0];
+        let { data: htmlResponse } = await request(`https://sfile.mobi/uploads.php`, {
+            method: "GET",
+            headers: {
+                "User-Agent": agent,
+                cookie: sessCookie
+            }
+        })
+        const $rootSfile = cheerio.load(htmlResponse);
+        $rootSfile('body > div.w3-row-padding.w3-container > div > div.w3-card.white').find('div.list').each(function (_, data) {
+            let text = $rootSfile(data).find('a').text()?.trim()?.replace(/ +/g, '_');
+            let link = $rootSfile(data).find('a').attr('href');
+            let size = $rootSfile(data).find('small').text()?.split(', ')[0];
+            let upload = $rootSfile(data).find('small').text()?.split(', ')[1];
+            if (!link) return;
+            links.push({ name: text, size, upload, link });
+        })
+        return links;
+    },
     download: async (url) => {
         let sessCookie, agent = UserAgent(), dlink = null;
         let homePage = await request("https://sfile.mobi", {

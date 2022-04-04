@@ -4,7 +4,7 @@ module.exports = {
     name: 'sfile',
     alias: ['sf'],
     desc: 'Search and download file form sfile.mobi',
-    use: '<option> <query|link>\n\nOptions:\n- search\n- download',
+    use: '<option> <query|link>\n\nOptions:\n- search\n- latest\n- download',
     category: 'downloader',
     async exec(msg, sock, args) {
         try {
@@ -19,6 +19,15 @@ module.exports = {
                     }
                     await msg.reply(text);
                     break;
+                case "latest":
+                    searchResult = await sfile.latest();
+                    text += "Latest upload from sfile.mobi\n\n";
+                    for (let idx in searchResult) {
+                        text += `*Name*: ${searchResult[idx].name}\n*Size*: ${searchResult[idx].size}\n`
+                            + `*${searchResult[idx].upload}*\n*Link*: ${searchResult[idx].link}\n\n`
+                    }
+                    await msg.reply(text);
+                    break;
                 case "download":
                 case "dl":
                     let { dlink, filename, mime } = await sfile.download(query[0]);
@@ -28,8 +37,8 @@ module.exports = {
                 default:
                     await msg.reply("Available option *search* | *download*.\nExample: #sfile search MT Manager");
             }
-        } catch (e) {
-            await msg.reply(`Err: ${e.stack}`);
+        } catch {
+            await msg.reply("Error while processing your request");
         }
     }
 }
