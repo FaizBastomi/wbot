@@ -1,10 +1,11 @@
 const { sfile } = require("../../utils/scraper");
+const { fetchBuffer } = require("../../utils");
 
 module.exports = {
     name: 'sfile',
     alias: ['sf'],
     desc: 'Search and download file form sfile.mobi',
-    use: '<option> <query|link>\n\nOptions:\n- search\n- latest\n- download',
+    use: '<option> <query|link>\n\nOptions:\n- search\n- latest',
     category: 'downloader',
     async exec(msg, sock, args) {
         try {
@@ -28,14 +29,15 @@ module.exports = {
                     }
                     await msg.reply(text);
                     break;
-                case "download":
-                case "dl":
-                    let { dlink, filename, mime } = await sfile.download(query[0]);
-                    if (!dlink) return await msg.reply("No download link found");
-                    await sock.sendMessage(msg.from, { document: { url: dlink }, fileName: filename, mimetype: mime }, { quoted: msg });
-                    break;
+                // case "download":
+                // case "dl":
+                //     let { dlink, sessCookie, filename, mime } = await sfile.download(query[0]);
+                //     if (!dlink) return await msg.reply("No download link found");
+                //     let dBuffer = await fetchBuffer(dlink, { headers: { cookie: sessCookie }});
+                //     await sock.sendMessage(msg.from, { document: dBuffer, fileName: filename, mimetype: mime }, { quoted: msg });
+                //     break;
                 default:
-                    await msg.reply("Available option *search* | *download*.\nExample: #sfile search MT Manager");
+                    await msg.reply("Available option *search* | *latest*.\nExample: #sfile search MT Manager");
             }
         } catch {
             await msg.reply("Error while processing your request");

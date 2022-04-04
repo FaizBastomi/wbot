@@ -1,4 +1,5 @@
 const axios = require("axios").default;
+const Bluebird = require("bluebird");
 const cheerio = require("cheerio");
 const { UserAgent } = require("./index");
 
@@ -111,32 +112,7 @@ const sfile = {
         })
         return links;
     },
-    download: async (url) => {
-        let sessCookie, agent = UserAgent(), dlink = null;
-        let homePage = await request("https://sfile.mobi", {
-            method: "GET",
-            headers: {
-                "User-Agent": agent
-            }
-        })
-        sessCookie = homePage.headers['set-cookie'][0];
-        let { data: htmlResponse } = await request(url, {
-            method: "GET",
-            headers: {
-                "User-Agent": agent,
-                cookie: sessCookie
-            }
-        })
-        const $ = cheerio.load(htmlResponse);
-        let temp = $('body > div.w3-row-padding.w3-container.w3-white > div > div:nth-child(8) > script:nth-child(5)').toString();
-        let mime = $('body > div.w3-row-padding.w3-container.w3-white > div > div:nth-child(3)').remove('li').text()
-        ?.split(' - ')[1];
-        let filename = $('head > title').text()?.replace(/ +/g, '_')?.replace('._', '.');
-        temp = temp.replace(/\\/g, '');
-        dlink = /(?:https:?\/{2})sfile.mobi\/downIoad?(\/[a-zA-Z-.&=0-9\/]+)/.exec(temp)[0];
-        homePage = null, htmlResponse = null;
-        return { dlink, mime, filename };
-    }
+    download: (url) => { }
 }
 
 module.exports = {
