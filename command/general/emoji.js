@@ -1,4 +1,5 @@
-const { fetchBuffer, emojipedia } = require("../../utils");
+const { fetchBuffer } = require("../../utils");
+const { emojiped } = require("../../utils/scraper");
 const { sticker } = require("../../lib/convert");
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
         try {
             if (!args.length > 0) return await msg.reply("Need to specify emoji");
             if (args.length > 1 && args.length === 2) {
-                const links = await emojipedia(args.slice(1)[0]);
+                const links = await emojiped(args.slice(1)[0]);
                 let provider = Object.keys(links);
                 if (provider.includes(args[0])) {
                     emojiBuff = await fetchBuffer(links[args[0]]);
@@ -27,7 +28,7 @@ module.exports = {
                     await sock.sendMessage(from, { sticker: stickerBuff }, { quoted: msg });
                 }
             } else {
-                const links = await emojipedia(args[0]);
+                const links = await emojiped(args[0]);
                 emojiBuff = await fetchBuffer(links.whatsapp);
                 stickerBuff = await sticker(emojiBuff, { isImage: true, cmdType: "2" });
                 await sock.sendMessage(from, { sticker: stickerBuff }, { quoted: msg });

@@ -3,7 +3,7 @@ const { default: axios } = require('axios')
 const Util = require('util')
 const { fixNumber } = require('.')
 const { igCookie } = require("../config.json")
-const ttdl = require("./ttdl");
+const YouTube = require("./youtube");
 
 /* Instagram API */
 const highlight = "https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=%s"
@@ -174,7 +174,7 @@ async function igPost(url) {
     }
 }
 
-class igdl extends ttdl {
+class igdl extends YouTube {
     /**
      * Get Instagram User Profile Info
      * @param {String} username Instagram Username

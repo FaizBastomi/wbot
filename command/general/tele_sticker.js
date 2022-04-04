@@ -1,4 +1,4 @@
-const { telegramSticker } = require('../../utils');
+const { telegramSticker } = require('../../utils/scraper');
 
 module.exports = {
     name: "telestick",
