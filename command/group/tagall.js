@@ -1,4 +1,4 @@
-const lang = require('../other/text.json')
+const lang = require('../other/text.json');
 
 module.exports = {
     name: 'tagall',
@@ -6,19 +6,19 @@ module.exports = {
     desc: 'Tag all member',
     category: 'group',
     async exec(msg, sock, args) {
-        const { from, sender, isGroup, quoted } = msg
-        const meta = isGroup ? await sock.groupMetadata(from) : ''
-        const groupMem = isGroup ? meta.participants : ''
-        const admin = isGroup ? getAdmin(groupMem) : ''
-        const cekAdmin = (m) => admin.includes(m)
+        const { from, sender, isGroup, quoted } = msg;
+        const meta = isGroup ? await sock.groupMetadata(from) : '';
+        const groupMem = isGroup ? meta.participants : '';
+        const admin = isGroup ? getAdmin(groupMem) : '';
+        const cekAdmin = (m) => admin.includes(m);
 
         if (!isGroup) return await msg.reply(`Only can be executed in group.`);
         if (!cekAdmin(sender)) return await msg.reply(`IND:\n${lang.indo.group.tagall.noPerms}\n\nEN:\n${lang.eng.group.tagall.noPerms}`);
-        let mems_id = new Array()
-        let text = args.join(' ') + "\n\n"
+        let mems_id = new Array();
+        let text = args.join(' ') + "\n\n";
         for (let i of groupMem) {
-            text += `@${i.id.split('@')[0]}\n`
-            mems_id.push(i.id)
+            text += `@${i.id.split('@')[0]}\n`;
+            mems_id.push(i.id);
         }
         
         if (quoted) {
@@ -28,9 +28,9 @@ module.exports = {
 }
 
 function getAdmin(a) {
-    let admins = new Array()
+    let admins = new Array();
     for (let ids of a) {
-        !ids.admin ? '' : admins.push(ids.id)
+        !ids.admin ? '' : admins.push(ids.id);
     }
-    return admins
+    return admins;
 }

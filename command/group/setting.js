@@ -10,49 +10,29 @@ module.exports = {
     use: '<group_setting> <on|off|admin|everyone>',
     alias: ['gcst'],
     async exec(msg, sock, args) {
-        const { from, sender, isGroup, quoted } = msg
-        const meta = isGroup ? await sock.groupMetadata(from) : ''
-        const members = isGroup ? meta.participants : ''
-        const admins = isGroup ? getAdmins(members) : ''
-        const myID = sock.user.id.split(":")[0] + "@s.whatsapp.net"
-        const cekAdmin = (i) => admins.includes(i)
-        /**
-         * Toggle Ephemeral
-         * @param {string} jid chat id
-         * @param {number} ephemeralExpiration expiration
-         */
-        const toggleEphemeral = async (jid, ephemeralExpiration) => {
-            const content = ephemeralExpiration ?
-                [{ tag: "ephemeral", attrs: { expiration: ephemeralExpiration.toString() } }] :
-                [{ tag: "not_ephemeral", attrs: {} }]
-            const BinaryNode = {
-                tag: 'iq',
-                attrs: {
-                    type: "set",
-                    xmlns: "w:g2",
-                    to: jid,
-                },
-                content
-            }
-            await sock.query(BinaryNode);
-        }
+        const { from, sender, isGroup, quoted } = msg;
+        const meta = isGroup ? await sock.groupMetadata(from) : '';
+        const members = isGroup ? meta.participants : '';
+        const admins = isGroup ? getAdmins(members) : '';
+        const myID = sock.user.id.split(":")[0] + "@s.whatsapp.net";
+        const cekAdmin = (i) => admins.includes(i);
 
         if (!isGroup) return await msg.reply(`Only can be executed in group.`);
         if (args.length < 1) return await msg.reply('Here all available group setting, ephemeral | edit_group | send_message | invite | pp');
         if (!cekAdmin(sender)) return await msg.reply(`IND:\n${lang.indo.group.gcset.noPerms}\n\nEN:\n${lang.eng.group.gcset.noPerms}`);
         if (!cekAdmin(myID)) return await msg.reply(`IND:\n${lang.indo.group.gcset.botNoPerms}\n\nEN:\n${lang.eng.group.gcset.botNoPerms}`);
 
-        let setting = args[0].toLowerCase()
+        let setting = args[0].toLowerCase();
         switch (setting) {
             case 'ephemeral': {
                 if (args.length < 2) return await msg.reply('Some argument appear to be missing');
-                let condition = args[1].toLowerCase()
+                let condition = args[1].toLowerCase();
                 switch (condition) {
                     case 'on': case 'aktif':
-                        await toggleEphemeral(from, WA_DEFAULT_EPHEMERAL);
+                        await sock.groupToggleEphemeral(from, WA_DEFAULT_EPHEMERAL);
                         break;
                     case 'off': case 'mati':
-                        await toggleEphemeral(from, 0);
+                        await sock.groupToggleEphemeral(from, 0);
                         break;
                     default:
                         await msg.reply('Select setting condition, on/off');
@@ -61,13 +41,13 @@ module.exports = {
             }
             case 'edit_group': {
                 if (args.length < 2) return await msg.reply('Some argument appear to be missing');
-                let condition = args[1].toLowerCase()
+                let condition = args[1].toLowerCase();
                 switch (condition) {
                     case 'admin':
-                        await sock.groupSettingUpdate(from, "locked")
+                        await sock.groupSettingUpdate(from, "locked");
                         break;
                     case 'everyone':
-                        await sock.groupSettingUpdate(from, "unlocked")
+                        await sock.groupSettingUpdate(from, "unlocked");
                         break;
                     default:
                         await msg.reply('Select who can edit group info, admin/everyone');
@@ -76,13 +56,13 @@ module.exports = {
             }
             case 'send_message': {
                 if (args.length < 2) return await msg.reply('Some argument appear to be missing');
-                let condition = args[1].toLowerCase()
+                let condition = args[1].toLowerCase();
                 switch (condition) {
                     case 'admin':
-                        await sock.groupSettingUpdate(from, "announcement")
+                        await sock.groupSettingUpdate(from, "announcement");
                         break;
                     case 'everyone':
-                        await sock.groupSettingUpdate(from, "not_announcement")
+                        await sock.groupSettingUpdate(from, "not_announcement");
                         break;
                     default:
                         await msg.reply('Select who can send message to this group, admin/everyone');
@@ -109,9 +89,9 @@ module.exports = {
                             await msg.reply("```Never active/Tidak pernah diaktifkan```");
                         } else if (currentData === "active") {
                             modifyData(from.split("@")[0], "on/link");
-                            await msg.reply("```Success deactivated/Berhasil di nonaktifkan```")
+                            await msg.reply("```Success deactivated/Berhasil di nonaktifkan```");
                         } else if (currentData === "no_file") {
-                            await msg.reply("```Please actived this feature first/Harap aktifkan fitur ini dahulu```")
+                            await msg.reply("```Please actived this feature first/Harap aktifkan fitur ini dahulu```");
                         }
                         break;
                 }

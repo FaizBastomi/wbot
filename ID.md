@@ -7,6 +7,7 @@
 ## [![JavaScript](https://img.shields.io/badge/JavaScript-d6cc0f?style=for-the-badge&logo=javascript&logoColor=white)](https://javascript.com) [![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/) [![discord.js](https://img.shields.io/badge/discord.js-0026a3?style=for-the-badge&logo=discord&logoColor=white)](https://discord.js.org)
 
 > Build with Baileys and discord.js ( as a command handler ) <br />
+> [Legacy](https://github.com/FaizBastomi/wbot/tree/legacy) branch
 
 </div><br />
 <br />
@@ -23,7 +24,7 @@
 
 ## Highlights
 
-- [x] Mendukung Koneksi Legacy dan Multi Perangkat
+- [x] Mendukung Multi Perangkat
 - [x] Banyak Fitur
 - [x] Mudah untuk dirawat/diperbaiki
 
