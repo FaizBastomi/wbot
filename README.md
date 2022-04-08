@@ -18,8 +18,8 @@ Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
 - [TODO](#todo)
 - [Instalation](#instalation)
     - [Require](#require)
-    - [Ffmpeg](#ffmpeg-instalation)
-    - [LibWebP](#libwebp-instalation)
+    - [FFmpeg](#ffmpeg-instalation)
+    - [libWebP](#libwebp-instalation)
     - [Cloning Repo](#cloning-this-repo)
     - [Start Bot](#start-bot)
 
@@ -38,11 +38,11 @@ Fill in everything needed in the `config.json` file (follow `config.json.example
 OpenWeather API get from [openweathermap.org](https://openweathermap.org).
 
 ### Require
-1. [nodejs](https://nodejs.org/en/download) 16x/17x
-2. [FFMPEG](https://ffmpeg.org)
+1. [Nodejs](https://nodejs.org/en/download) 16x/17x
+2. [FFmpeg](https://ffmpeg.org)
 3. [libWebP](https://developers.google.com/speed/webp/download)
 
-### FFMPEG Instalation
+### FFmpeg Instalation
 - For Windows User, you can see this website, [WikiHow](https://www.wikihow.com/Install-FFmpeg-on-Windows).<br />
 - For Linux User, you can use your own package manager, below are for example
 
