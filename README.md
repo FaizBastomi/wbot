@@ -7,7 +7,7 @@
 ## [![JavaScript](https://img.shields.io/badge/JavaScript-d6cc0f?style=for-the-badge&logo=javascript&logoColor=white)](https://javascript.com) [![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/) [![discord.js](https://img.shields.io/badge/discord.js-0026a3?style=for-the-badge&logo=discord&logoColor=white)](https://discord.js.org)
 
 > Build with Baileys and discord.js ( as a command handler ) <br />
-> [Legacy](https://github.com/FaizBastomi/tree/legacy) branch <br />
+> [Legacy](https://github.com/FaizBastomi/wbot/tree/legacy) branch <br />
 Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
 
 </div><br />
@@ -39,10 +39,10 @@ OpenWeather API get from [openweathermap.org](https://openweathermap.org).
 
 ### Require
 1. [nodejs](https://nodejs.org/en/download) 16x/17x
-2. [FFMPEG](https://ffmpeg.org)
-3. [libWebP](https://developers.google.com/speed/webp/download)
+2. [ffmpeg](https://ffmpeg.org)
+3. [libwebp](https://developers.google.com/speed/webp/download)
 
-### FFMPEG Instalation
+### Ffmpeg Instalation
 - For Windows User, you can see this website, [WikiHow](https://www.wikihow.com/Install-FFmpeg-on-Windows).<br />
 - For Linux User, you can use your own package manager, below are for example
 
