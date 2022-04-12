@@ -17,28 +17,36 @@ module.exports = {
                 cityData = await cariKota(args.join(" "));
                 // array or string
                 if (!Array.isArray(cityData)) return await msg.reply(cityData);
-                for (let idx in cityData) {
-                    let sectionData = {
-                        title: "Pilih",
-                        rows: [
-                            { title: `Harian (${cityData[idx]?.lokasi})`, rowId: `#sholat ${cityData[idx]?.id} harian`, description: "Ambil jadwal sholat harian" },
-                            { title: `Bulanan (${cityData[idx]?.lokasi})`, rowId: `#sholat ${cityData[idx]?.id} bulanan`, description: "Ambil jadwal sholat bulanan" }
-                        ]
-                    }
-                    sections.push(sectionData);
+
+                if (cityData.length === 1) {
+                    // get prayer times by city id
+                    citySchedule = await getJadwal(cityData[0]?.id, "bulanan");
+                    await msg.reply(citySchedule);
                 }
-                await sock.sendMessage(msg.from, {
-                    text: "Hasil pencarian kota",
-                    buttonText: "hasil",
-                    footer: "Kaguya PublicBot • FaizBastomi",
-                    sections
-                }, { quoted: msg });
+                else {
+                    for (let idx in cityData) {
+                        let sectionData = {
+                            title: "Pilih",
+                            rows: [
+                                { title: `Harian (${cityData[idx]?.lokasi})`, rowId: `#sholat ${cityData[idx]?.id} harian`, description: "Ambil jadwal sholat harian" },
+                                { title: `Bulanan (${cityData[idx]?.lokasi})`, rowId: `#sholat ${cityData[idx]?.id} bulanan`, description: "Ambil jadwal sholat bulanan" }
+                            ]
+                        }
+                        sections.push(sectionData);
+                    }
+                    await sock.sendMessage(msg.from, {
+                        text: "Hasil pencarian kota",
+                        buttonText: "hasil",
+                        footer: "Kaguya PublicBot • FaizBastomi",
+                        sections
+                    }, { quoted: msg });
+                }
             } else {
                 // get prayer times by city id
                 citySchedule = await getJadwal(args[0], args[1]);
                 await msg.reply(citySchedule);
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e)
             await msg.reply("Galat telah terjadi.")
         }
