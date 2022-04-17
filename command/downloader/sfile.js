@@ -1,5 +1,4 @@
 const { sfile } = require("../../utils/scraper");
-const { fetchBuffer } = require("../../utils");
 
 module.exports = {
     name: 'sfile',
@@ -14,7 +13,8 @@ module.exports = {
             switch (opts) {
                 case "search":
                     searchResult = await sfile.search(query.join(' '));
-                    text += `Result for: \`\`\`${query.join(' ')}\`\`\`\n\n`
+                    if (!searchResult.length > 0) return await msg.reply("No result");
+                    text += `Result for: \`\`\`${query.join(' ')}\`\`\`\n\n`;
                     for (let idx in searchResult) {
                         text += `*Name*: ${searchResult[idx].name}\n*Size*: ${searchResult[idx].size}\n*Link*: ${searchResult[idx].link}\n\n`
                     }
