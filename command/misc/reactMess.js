@@ -14,5 +14,6 @@ module.exports = {
 			},
 		};
 		await sock.sendMessage(msg.from, reactionMessage);
+                await msg.reply("Done.")
 	},
 };
