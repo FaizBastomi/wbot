@@ -151,7 +151,7 @@ module.exports = chatHandler = async (m, sock) => {
         setTimeout(() => timestamps.delete(from), cdAmount);
 
         try {
-            cmd.exec(sock, { msg, args, arg, isOwner });
+            cmd.exec({ sock, msg, args, arg, isOwner });
         } catch (e) {
             console.error(e);
         }
