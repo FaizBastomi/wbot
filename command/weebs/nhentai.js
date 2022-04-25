@@ -6,7 +6,7 @@ module.exports = {
     alias: ["nhentai", "ncode"],
     category: "weebs",
     use: "<nuke code>",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         const { from, sender, isGroup } = msg;
         const userData = getData();
         if (isGroup) return await msg.reply("Can't use this command inside the group.");

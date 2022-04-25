@@ -5,7 +5,7 @@ module.exports = {
     alias: ["gcinfo", "grupinfo", "grupstats", "groupstats", "gcstats"],
     category: "group",
     desc: "Show this group information",
-    async exec(msg, sock) {
+    async exec({ sock, msg }) {
         const { from, isGroup } = msg;
         if (!isGroup) return await msg.reply("Only can be executed in group");
 

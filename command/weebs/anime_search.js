@@ -5,7 +5,7 @@ module.exports = {
     alias: ["anime"],
     category: "weebs",
     desc: "Search for anime\ndata from myanimelist.net",
-    async exec(msg, sock, args, arg) {
+    async exec({ sock, msg, args, arg }) {
         const { from } = msg;
         try {
             if (!args.length > 0) return msg.reply("No Anime title for search");
@@ -32,14 +32,14 @@ const search = (query, number = 0) => {
         try {
             const { data } = (await axios.get(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}`)).data
             let data3 = `*Result:* ${number + 1} of ${data.length}\n\n*📕Title:* ${data[number].title}/${data[number].title_english}/${data[number].title_japanese}\n*🔖Trailer:* ${data[number].trailer.url}\n`
-            + `*🔍MAL_ID:* ${data[number].mal_id}\n*✴️Type:* ${data[number].type}\n*🎬Episode(s):* ${data[number].episodes}\n*📢Airing:* ${data[number].status}\n*🔔Date:* ${data[number].aired.string}\n`
-            + `*🔱Rating:* ${data[number].rating}\n*⚜️Duration:* ${data[number].duration}\n*♨️Score:* ${data[number].score}\n*📦Studio(s):* ${data[number].studios.map((val) => `${val.name}`).join(", ")}\n`
-            + `*🎞️Genre(s):* ${data[number].genres.map((val) => `${val.name}`).join(", ")}\n*📚Synopsis:* ${data[number].synopsis}`
+                + `*🔍MAL_ID:* ${data[number].mal_id}\n*✴️Type:* ${data[number].type}\n*🎬Episode(s):* ${data[number].episodes}\n*📢Airing:* ${data[number].status}\n*🔔Date:* ${data[number].aired.string}\n`
+                + `*🔱Rating:* ${data[number].rating}\n*⚜️Duration:* ${data[number].duration}\n*♨️Score:* ${data[number].score}\n*📦Studio(s):* ${data[number].studios.map((val) => `${val.name}`).join(", ")}\n`
+                + `*🎞️Genre(s):* ${data[number].genres.map((val) => `${val.name}`).join(", ")}\n*📚Synopsis:* ${data[number].synopsis}`
             data2 = {
                 image: data[number].images.jpg.image_url,
                 data: data3
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         } finally {
             resolve(data2);

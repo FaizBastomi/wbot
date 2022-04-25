@@ -6,7 +6,7 @@ module.exports = {
     name: 'twtdl',
     alias: ['twt'],
     category: 'downloader',
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         if (!args.length > 0 || !args[0].includes('twitter.com') || args[0].includes('t.co')) return await msg.reply('URL needed');
         getInfo(args[0]).then(async (data) => {
             if (data.type === 'video') {

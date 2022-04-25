@@ -12,7 +12,7 @@ module.exports = {
     category: "general",
     desc: "Create sticker with author and packname",
     use: "packname|authorname",
-    async exec(msg, sock, args, arg) {
+    async exec({ msg, arg, sock }) {
         const { quoted, from, sender, type } = msg;
         let packname = arg.split("|")[0] || "Default";
         let author = arg.split("|")[1] || "SMH BOT";

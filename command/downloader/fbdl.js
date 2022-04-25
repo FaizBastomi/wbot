@@ -9,7 +9,7 @@ module.exports = {
     alias: ["fbdl", "facebook", "fbvid"],
     category: "downloader",
     desc: "Download Facebook video",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         try {
             if (!args.length > 0) return await msg.reply("No url provided");
             let data = await fbdl(args[0])

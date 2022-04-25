@@ -12,7 +12,7 @@ module.exports = {
         + "Ex:\n!welcome on\n!welcome off\n\n"
         + "For custom message:\n%member - tag new member\n%group - group name\n%desc - group description\n\n"
         + "Ex: !welcome message Hello %member, welcome to %group. Don't forget read our %desc",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         const { from, isGroup, sender } = msg;
         const gM = isGroup ? await sock.groupMetadata(from) : '';
         const admin = isGroup ? getAdmin(gM.participants) : '';

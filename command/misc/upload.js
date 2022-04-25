@@ -6,7 +6,7 @@ module.exports = {
     use: "*<hosting>*\nSend/Reply to a message media with caption\n\n"
         + "*Hosting*\n- telegraph\n- uguu\n- anonfiles",
     category: "misc",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         const { from, quoted, type } = msg;
         try {
             let host = args[0];

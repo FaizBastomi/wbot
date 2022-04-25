@@ -7,7 +7,7 @@ module.exports = {
     alias: ['delwm', 'wmdel'],
     category: "general",
     desc: "Erase authorname, packanme and link 'view more'",
-    async exec(msg, sock) {
+    async exec({ sock, msg }) {
         const { quoted, type, from } = msg;
         const content = JSON.stringify(quoted);
         const QStick = type === 'extendedTextMessage' && content.includes('stickerMessage');

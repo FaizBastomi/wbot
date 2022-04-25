@@ -6,7 +6,7 @@ module.exports = {
     alias: ['sticker', 'stick', 'stik', 'stiker', 'stickergif', 'stikergif', 'gifstiker', 'gifsticker'],
     category: "general",
     desc: "Create a sticker from image or video",
-    async exec(msg, sock) {
+    async exec({ msg, sock }) {
         const { quoted, from, type } = msg;
 
         const content = JSON.stringify(quoted);

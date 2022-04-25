@@ -5,7 +5,7 @@ module.exports = {
     alias: ["check"],
     category: "misc",
     use: "<link>",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
 
         if (!args.length > 0) return await msg.reply("No invite url.");
         // search for invite url

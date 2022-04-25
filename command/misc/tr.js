@@ -6,7 +6,7 @@ module.exports = {
     alias: ["translate"],
     category: "misc",
     use: "<text> atau reply sebuah pesan teks",
-    async exec(msg, _, args) {
+    async exec({ msg, args }) {
         const { quoted } = msg;
         try {
             let text;
@@ -27,6 +27,6 @@ async function translate(text, lang) {
     let text2;
     try {
         text2 = (await trAPI(text, { client: "gtx", to: lang })).text;
-    } catch(e) { throw "Failed to translate" }
+    } catch (e) { throw "Failed to translate" }
     finally { return text2; }
 }

@@ -6,7 +6,7 @@ module.exports = {
     desc: "Weather Report/Laporan Cuaca",
     use: "<city>\nEx: !weather jakarta",
     category: "information",
-    async exec(msg, sock, args) {
+    async exec({ msg, args }) {
         const { from, quoted } = msg
         if (!quoted?.message?.locationMessage && !quoted?.message?.liveLocationMessage && !args.length > 0) return await msg.reply("Please, input city name\nEx:\n*#weather Bengkulu* or reply to location message");
 

@@ -7,7 +7,7 @@ module.exports = {
     alias: ["jadwalsholat", "jadwal"],
     use: "<nama kota>",
     category: "information",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         if (!args.length > 0) return await msg.reply(`Masukan nama kota.\n\nNote: ${info}`);
 
         try {

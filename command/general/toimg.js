@@ -9,7 +9,7 @@ module.exports = {
     alias: ['toimg', 'tomedia', 'tovid', 'tovideo'],
     category: 'general',
     desc: 'Convert your sticker to media (image)',
-    async exec(msg, sock) {
+    async exec({ sock, msg }) {
         const { quoted, from, type } = msg;
 
         const content = JSON.stringify(quoted);

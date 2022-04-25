@@ -6,7 +6,7 @@ module.exports = {
     alias: ['ytsearch'],
     category: 'downloader',
     desc: 'Search on YouTube.',
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         if (args.length < 1) return await msg.reply('No query given to search.');
         const ytsData = await yts(args.join(' '), 'long')
         let txt = `YouTube Search\n   ~> Query: ${args.join(' ')}\n`

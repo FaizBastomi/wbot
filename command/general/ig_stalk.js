@@ -6,7 +6,7 @@ module.exports = {
     alias: ["igprofile"],
     category: "general",
     use: "<username>",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         try {
             if (!args.length > 0) return await msg.reply("Instagram username required!");
             const profile = await igProfile(args[0]);

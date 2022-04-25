@@ -8,7 +8,7 @@ module.exports = {
     desc: "Convert emoji to sticker.",
     category: "general",
     use: "[provider] <emoji>\n\nProvider:\n- WhatsApp\n- Samsung\n- Apple\n- Google",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         const { from } = msg;
 
         let emojiBuff, stickerBuff;

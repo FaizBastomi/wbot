@@ -11,7 +11,7 @@ module.exports = {
     category: "downloader",
     desc: 'Download TikTok Video',
     use: "[options] url\n\n- *Options* -\n\n1. audio\n2. video\n\nEx: !tiktok audio url",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         try {
             let opt = args[0]
             const { url } = parse(args.join(' '))

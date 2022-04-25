@@ -9,7 +9,7 @@ module.exports = {
     alias: ['ytmp4', 'ytvid', 'ytvideo'],
     category: 'downloader',
     desc: 'Download YouTube Video',
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         try {
             if (args.length < 1) return await msg.reply(`URL not provided`);
             let { url, opt } = textParse(args.join(" "))

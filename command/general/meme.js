@@ -6,7 +6,7 @@ module.exports = {
     category: "general",
     desc: "Add text to image",
     use: "<teks>|<teks>\n\nEx:\n!meme atas|bawah",
-    async exec(msg, sock, args, arg) {
+    async exec({ sock, msg, arg }) {
         const { quoted, from, type } = msg;
 
         const content = JSON.stringify(quoted);

@@ -8,7 +8,7 @@ module.exports = {
     name: "kata",
     category: "random",
     use: "<kategori>\n\n- bijak\n- pantun\n- fakta",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         try {
             if (!args.length > 0) {
                 const secs = [{

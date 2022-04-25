@@ -5,7 +5,7 @@ module.exports = {
     category: "general",
     desc: "Search telegram sticker for you.",
     use: "<query>|[page number].\nExample: #telestick Ame|2",
-    async exec(msg, sock, args, arg) {
+    async exec({ msg, arg, sock }) {
         try {
             let dataSticker, text = "", page = parseInt(arg.split("|")[1]) || 1,
                 query = arg.split('|')[0] || null;

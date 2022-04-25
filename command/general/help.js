@@ -4,7 +4,7 @@ module.exports = {
     name: "help",
     alias: ["h", "cmd", "menu"],
     category: "general",
-    async exec(sock, { msg, args }) {
+    async exec({ sock, msg, args }) {
         if (args[0]) {
             const data = [];
             const name = args[0].toLowerCase();

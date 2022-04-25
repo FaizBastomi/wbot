@@ -6,8 +6,7 @@ module.exports = {
     desc: "Search on Wikipedia\nLang: id and en",
     use: "[en|id] <query>",
     category: "information",
-    async exec(msg, sock, args) {
-        const { from } = msg
+    async exec({ msg, args }) {
         if (!args.length > 0) return await msg.reply('No query given to search');
         try {
             const lang = args[0];

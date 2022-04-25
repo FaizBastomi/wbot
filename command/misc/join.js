@@ -4,7 +4,7 @@ module.exports = {
     name: "join",
     category: "misc",
     desc: "Join to group using invite url.",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         // search for invite url
         const rex1 = /chat.whatsapp.com\/([\w\d]*)/g;
         const queryInvite = async (code) => {

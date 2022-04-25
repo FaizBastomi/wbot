@@ -5,7 +5,7 @@ module.exports = {
     alias: ["characters"],
     category: "weebs",
     desc: "Search anime characters\ndata from myanimelist.net",
-    async exec(msg, sock, args, arg) {
+    async exec({ sock, msg, args, arg }) {
         const { from } = msg;
         try {
             if (!args.length > 0) return msg.reply("No characters name to search");
@@ -14,7 +14,7 @@ module.exports = {
             if (isNaN(num)) num = 0;
             const searchRes = await search(title, num);
             await sock.sendMessage(from, { image: { url: searchRes.image }, caption: searchRes.data }, { quoted: msg });
-        } catch(e) {
+        } catch (e) {
             await msg.reply(`Something bad happen\n${e.message}`);
         }
     }
@@ -34,13 +34,13 @@ const search = (query, number) => {
             const { data: anime } = (await axios.get(`https://api.jikan.moe/v4/characters/${char[number].mal_id}/anime`)).data;
             const { data: voice } = (await axios.get(`https://api.jikan.moe/v4/characters/${char[number].mal_id}/voices`)).data;
             let data3 = `*Result:* ${number + 1} of ${char.length}\n\n*📕Name:* ${char[number].name}\n*⚜️About:* ${char[number].about}\n*🔍MAL_ID:* ${char[number].mal_id}\n`
-            + `\n*🔖Appears:*${anime.map((val) => `\n*🔮Role:* ${val.role}\n*🎬Title:* ${val.anime.title}`).join("\n")}\n`
-            + `\n*👥VA:*${voice.map((val) => `\n*🌐Language:* ${val.language}\n*👤Person:* ${val.person.name}`).join("\n")}`
+                + `\n*🔖Appears:*${anime.map((val) => `\n*🔮Role:* ${val.role}\n*🎬Title:* ${val.anime.title}`).join("\n")}\n`
+                + `\n*👥VA:*${voice.map((val) => `\n*🌐Language:* ${val.language}\n*👤Person:* ${val.person.name}`).join("\n")}`
             metadata = {
                 image: char[number].images.jpg.image_url,
                 data: data3
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         } finally {
             resolve(metadata);

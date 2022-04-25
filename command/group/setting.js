@@ -9,7 +9,7 @@ module.exports = {
     desc: 'Change your group setting.',
     use: '<group_setting> <on|off|admin|everyone>',
     alias: ['gcst'],
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         const { from, sender, isGroup, quoted } = msg;
         const meta = isGroup ? await sock.groupMetadata(from) : '';
         const members = isGroup ? meta.participants : '';

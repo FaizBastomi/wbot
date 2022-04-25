@@ -1,11 +1,11 @@
-const djs = require('@discordjs/collection');
+const djs = require('../../lib/Collection');
 const lang = require('../other/text.json');
 
 module.exports = {
     name: 'demote',
     category: 'group',
     desc: 'Demote someone from admin.',
-    async exec(msg, sock) {
+    async exec({ sock, msg }) {
         const { mentionedJid, quoted, from, sender, isGroup, body } = msg;
         try {
             const { prefix } = djs;

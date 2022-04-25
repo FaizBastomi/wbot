@@ -5,7 +5,7 @@ module.exports = {
     alias: ['htag'],
     desc: 'Tag all member',
     category: 'group',
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         const { from, sender, isGroup, quoted } = msg;
         const meta = isGroup ? await sock.groupMetadata(from) : '';
         const groupMem = isGroup ? meta.participants : '';

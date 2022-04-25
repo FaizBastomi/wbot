@@ -6,7 +6,7 @@ module.exports = {
     desc: 'Search and download file form sfile.mobi',
     use: '<option> <query|link>\n\nOptions:\n- search\n- latest',
     category: 'downloader',
-    async exec(msg, sock, args) {
+    async exec({ msg, args }) {
         try {
             if (!args.length > 0) return await msg.reply("No option entered.\nPlease refer to #help sfile");
             let opts = args[0], query = args.slice(1), searchResult, text = '';

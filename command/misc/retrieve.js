@@ -5,7 +5,7 @@ module.exports = {
     alias: ['rvo'],
     category: 'misc',
     desc: 'Retrieve viewOnceMessage.',
-    async exec(msg, sock) {
+    async exec({ sock, msg }) {
         const { quoted, from } = msg;
         if (quoted) {
             if (quoted.type === 'view_once') {

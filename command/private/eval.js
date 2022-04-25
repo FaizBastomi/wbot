@@ -1,13 +1,10 @@
-const { owner } = require("../../config.json");
-
 module.exports = {
     name: "eval",
     alias: ['ev', 'e', '>>', '=>'],
     category: "private",
-    async exec(msg, sock, args) {
-        const { sender, from } = msg;
+    async exec({ msg, args, isOwner, sock }) {
 
-        if (!owner.includes(sender)) return await msg.reply("You are not my owner");
+        if (!isOwner) return await msg.reply("You are not my owner");
         let code = args.join(" ");
         let text = "";
         try {

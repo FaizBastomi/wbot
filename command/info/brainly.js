@@ -7,7 +7,7 @@ module.exports = {
     category: "information",
     use: `[language] <question>\n\nAvailable language:\n${availableLang.join("\n")}`,
     desc: "Help find the right asnwers for school assignments.",
-    async exec(msg, _, args) {
+    async exec({ msg, args }) {
 
         let searchResult, textMsg = "";
         try {

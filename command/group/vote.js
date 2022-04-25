@@ -8,7 +8,7 @@ module.exports = {
         + "- down (downvote active vote)\n- show (show vote data)\n- del_vote (delete your vote)\n"
         + "- del_room (delete current vote. Vote owner only)",
     category: "group",
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         const { from, isGroup, sender } = msg;
         let voteState = args[0],
             voteData = vote.show(from),

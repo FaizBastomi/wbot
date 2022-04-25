@@ -7,7 +7,7 @@ module.exports = {
     name: 'play',
     category: 'downloader',
     desc: 'Play media from YouTube.',
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         const { from, sender } = msg;
         if (args.length < 1) return await msg.reply('No query given to search.');
         const ytsData = await yts(args.join(' '), 'short');

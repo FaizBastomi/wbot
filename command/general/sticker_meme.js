@@ -8,7 +8,7 @@ module.exports = {
         'smeme', 'stext'],
     category: "general",
     desc: "Create a sticker from image",
-    async exec(msg, sock, args, arg) {
+    async exec({ msg, arg, sock }) {
         const { quoted, from, type } = msg;
 
         const content = JSON.stringify(quoted);

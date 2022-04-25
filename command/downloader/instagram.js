@@ -9,7 +9,7 @@ module.exports = {
     alias: ['ig'],
     category: 'downloader',
     desc: 'Download instagram media',
-    async exec(msg, sock, args) {
+    async exec({ sock, msg, args }) {
         if (!args.length > 0) return await msg.reply('Ex: !igdl *instagram_url*');
         try {
             const ar = await insta(args[0])
