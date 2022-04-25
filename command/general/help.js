@@ -1,10 +1,10 @@
-const djs = require("@discordjs/collection")
+const djs = require("../../lib/Collection");
 
 module.exports = {
     name: "help",
     alias: ["h", "cmd", "menu"],
     category: "general",
-    async exec(msg, sock, args) {
+    async exec(sock, { msg, args }) {
         if (args[0]) {
             const data = [];
             const name = args[0].toLowerCase();

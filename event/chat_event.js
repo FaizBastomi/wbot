@@ -1,8 +1,9 @@
-const { getBinaryNodeChild } = require("@adiwajshing/baileys")
-const { serialize } = require("../lib/helper")
-const { checkData } = require("./database/group_setting")
-const djs = require("@discordjs/collection")
-const { color } = require("../utils")
+const { getBinaryNodeChild } = require("@adiwajshing/baileys");
+const { serialize } = require("../lib/helper");
+const { checkData } = require("./database/group_setting");
+const djs = require("../lib/Collection");
+const { color } = require("../utils");
+const { owner } = require('../config.json');
 
 const cooldown = new djs.Collection();
 const prefix = '!';
@@ -100,6 +101,7 @@ module.exports = chatHandler = async (m, sock) => {
         const { isGroup, sender, from } = msg;
         const gcMeta = isGroup ? await sock.groupMetadata(from) : '';
         const gcName = isGroup ? gcMeta.subject : '';
+        const isOwner = owner.includes(sender);
 
         // no group invite
         checkLinkAndKick(sock, from, body, sender, gcMeta);
@@ -149,7 +151,7 @@ module.exports = chatHandler = async (m, sock) => {
         setTimeout(() => timestamps.delete(from), cdAmount);
 
         try {
-            cmd.exec(msg, sock, args, arg);
+            cmd.exec(sock, { msg, args, arg, isOwner });
         } catch (e) {
             console.error(e);
         }
