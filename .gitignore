@@ -1,10 +1,24 @@
+# modules
 node_modules
+
+# session
 *session*.json
+
+# lock files
 *-lock.json
 yarn.lock
+
+# database
 event/database/group/*.json
 event/database/H/data.json
+lib/baileys-store.json
+
+# temp files
 temp/*net.exif
 temp/*webp
+
+# test files
 tes*.js
+
+# config file
 config.json
