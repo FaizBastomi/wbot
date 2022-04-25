@@ -6,12 +6,12 @@ module.exports = {
 	name: "term",
 	alias: ["exec"],
 	category: "private",
-	async exec({ msg, conn, args, arg, isOwner }) {
+	async exec({ msg, conn, args, isOwner }) {
                 if (!isOwner) return msg.reply("This command is only for the owner")
 		await msg.reply("Executing...");
 		let o;
 		try {
-			o = await exec(arg);
+			o = await exec(args.join(" "));
 		} catch (e) {
 			o = e;
 		} finally {
