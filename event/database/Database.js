@@ -1,3 +1,8 @@
+/**
+ * Author https://github.com/Rizky878
+ * source https://github.com/Rizky878/rzky-multidevice/blob/main/lib/Database.js
+ * Modified to my need
+ */
 const { existsSync, statSync, writeFileSync, renameSync, unlinkSync } = require("fs");
 const { formatSize } = require("../../utils");
 const { join, basename } = require("path");

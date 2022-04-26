@@ -7,16 +7,13 @@ function print(message) {
 }
 
 class Users {
-	constructor() {
-		this.print = print;
-	}
 	addUser(id) {
 		if (!id || typeof id !== "string") {
 			print(TypeError(`'id' is ${typeof id}. 'id' must be a string`));
 		}
 		if (usersMap.has(id)) return print(`ignoring: '${id}' already in database`);
 		try {
-			let data = { id, premium: false, expire: null, limit: 20, type: null };
+			let data = { id, premium: false, expire: null, limit: 50, type: null };
 			usersMap.set(id, data);
 			print(`Success adding user ${id}`);
 			return true;
