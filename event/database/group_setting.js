@@ -12,11 +12,11 @@ function modifyData(filename, type, insertData) {
             case "join":
                 data["join"]["msg"] = insertData
                 fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
-                break;
+                break
             case "left":
                 data["left"]["msg"] = insertData
                 fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
-                break;
+                break
             case "on/join":
                 if (data["join"]["active"]) {
                     data["join"]["active"] = false
@@ -25,7 +25,7 @@ function modifyData(filename, type, insertData) {
                     data["join"]["active"] = true
                     fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
                 }
-                break;
+                break
             case "on/left":
                 if (data["left"]["active"]) {
                     data["left"]["active"] = false
@@ -34,7 +34,7 @@ function modifyData(filename, type, insertData) {
                     data["left"]["active"] = true
                     fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
                 }
-                break;
+                break
             case "on/link":
                 if (data["link"]["active"]) {
                     data["link"]["active"] = false
@@ -43,7 +43,7 @@ function modifyData(filename, type, insertData) {
                     data["link"]["active"] = true
                     fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
                 }
-                break;
+                break
         }
     } else {
         let data = {
@@ -55,28 +55,28 @@ function modifyData(filename, type, insertData) {
             case "on/join":
                 data["join"]["active"] = true
                 fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
-                break;
+                break
             case "on/left":
                 data["left"]["active"] = true
                 fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
-                break;
+                break
             case "on/link":
                 data["link"]["active"] = true
                 fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
-                break;
+                break
             case "join":
                 data["join"]["msg"] = insertData
                 fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
-                break;
+                break
             case "left":
                 data["left"]["msg"] = insertData
                 fs.writeFileSync(join(rootDir, filename + ".json"), JSON.stringify(data, null, 2))
-                break;
+                break
         }
     }
 }
 
-function checkData (filename, type) {
+function checkData(filename, type) {
     // Checking if file present
     const present = fs.readdirSync(rootDir).includes(filename + ".json")
     // Processing Data
@@ -90,21 +90,21 @@ function checkData (filename, type) {
                 } else if (!data["join"]["active"]) {
                     status = "inactive"
                 }
-                break;
+                break
             case "on/left":
                 if (data["left"]["active"]) {
                     status = "active"
                 } else if (!data["left"]["active"]) {
                     status = "inactive"
                 }
-                break;
+                break
             case "on/link":
                 if (data["link"]["active"]) {
                     status = "active"
                 } else if (!data["link"]["active"]) {
                     status = "inactive"
                 }
-                break;
+                break
         }
     } else {
         status = "no_file"
@@ -112,20 +112,20 @@ function checkData (filename, type) {
     return status
 }
 
-function getData (filename) {
+function getData(filename) {
     // Checking if file present
     const present = fs.readdirSync(rootDir).includes(filename + ".json")
-    let data;
+    let data
     if (present) {
         // Start proccesing data
         data = JSON.parse(fs.readFileSync(join(rootDir, filename + ".json")))
     } else {
         data = "no_file"
     }
-    return data;
+    return data
 }
 
-function deleteData (filename) {
+function deleteData(filename) {
     // Checking if file present
     const present = fs.readdirSync(rootDir).includes(filename + ".json")
     if (present) {

@@ -1,12 +1,14 @@
 const { getBinaryNodeChild } = require("@adiwajshing/baileys");
 const { serialize } = require("../lib/helper");
 const { checkData } = require("./database/group_setting");
+const Users = require('./database/Users')
 const djs = require("../lib/Collection");
 const { color } = require("../utils");
 const { owner } = require('../config.json');
 
 const cooldown = new djs.Collection();
 const prefix = '!';
+const user = new Users()
 const multi_pref = new RegExp('^[' + '!#$%&?/;:,.<>~-+='.replace(/[|\\{}()[\]^$+*?.\-\^]/g, '\\$&') + ']');
 
 function printSpam(isGc, sender, gcName) {
@@ -124,6 +126,9 @@ module.exports = chatHandler = async (m, sock) => {
         const cmdName = body.slice(temp_pref.length).trim().split(/ +/).shift().toLowerCase();
         const cmd = djs.commands.get(cmdName) || djs.commands.find((cmd) => cmd.alias && cmd.alias.includes(cmdName));
         if (!cmd) return;
+
+        // auto register
+        user.addUser(sender);
 
         if (!cooldown.has(from)) {
             cooldown.set(from, new djs.Collection());
