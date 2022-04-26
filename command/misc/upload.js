@@ -5,7 +5,7 @@ module.exports = {
 	limit: true,
 	consume: 4,
 	premium: true,
-	premiumType: ["basic", "support", "vip"],
+	premiumType: ["drakath", "nulgath", "artix"],
 	alias: ["upld"],
 	use: "*<hosting>*\nSend/Reply to a message media with caption\n\n" + "*Hosting*\n- telegraph\n- uguu\n- anonfiles",
 	category: "misc",

@@ -186,7 +186,7 @@ module.exports = chatHandler = async (m, sock) => {
 
 		try {
 			// check if command has limit consume
-			if (cmd.limit && !isOwner && userData.type !== "vip") {
+			if (cmd.limit && !isOwner && userData.type !== "vip" && !userData.type) {
 				let data = user.getUser(sender);
 				let consume = cmd.consume || 1;
 				if (data.limit < consume) return await msg.reply("Your limit not enough");

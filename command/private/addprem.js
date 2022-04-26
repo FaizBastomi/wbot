@@ -8,8 +8,8 @@ module.exports = {
 	owner: true,
 	use:
 		"<number>|<expired>|<type>\n\n*number* - can accept multi id, seperate with comma\n" +
-		"*expired* - expire in day\n*type* - premium type (basic|support|vip)\n\n" +
-		"Example: #addprem 6281111111111,6281122222222|30d|basic",
+		"*expired* - expire in day\n*type* - premium type (drakath|nulgath|artix)\n\n" +
+		"Example: #addprem 6281111111111,6281122222222|30d|nulgath",
 	async exec({ msg, args, arg }) {
 		const { mentions } = msg;
 		if (!args.length >= 1) return await msg.reply("Please see #help addprem");

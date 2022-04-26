@@ -5,7 +5,7 @@ module.exports = {
 	limit: true,
 	consume: 3,
 	premium: true,
-	premiumType: ["basic", "support", "vip"],
+	premiumType: ["drakath", "nulgath", "artix"],
 	alias: ["htag"],
 	desc: "Tag all member",
 	category: "group",

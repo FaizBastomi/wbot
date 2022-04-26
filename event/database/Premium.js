@@ -3,9 +3,9 @@ const toMs = require("ms");
 const { user_db } = require("../../config.json");
 
 const limitMap = {
-	basic: 200,
-	support: 500,
-	vip: 999,
+	drakath: 200,
+	nulgath: 500,
+	artix: 999,
 };
 
 function print(message) {

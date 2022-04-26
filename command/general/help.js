@@ -39,12 +39,13 @@ module.exports = {
 				}
 			}
 			let str =
-				"\t".repeat(13) +
-				"```SMH BOT```\n\n" +
-				`Hello, ${pushName === undefined ? sender.split("@")[0] : pushName}\n*Here My Command List*\n\n`;
+				`Hello, ${pushName === undefined ? sender.split("@")[0] : pushName}\n*Here My Command List*\n\n` +
+				"╭──────❨ *SMH BOT* ❩\n╰─────────\n\n";
 			const keys = Object.keys(category);
 			for (const key of keys) {
-				str += `*${key.toUpperCase()}*\n~> \`\`\`${category[key].map((cmd) => cmd.name).join(", ")}\`\`\`\n\n`;
+				str += `╭──────❨ *${key.toUpperCase()}* ❩\n\`\`\`${category[key]
+					.map((cmd, idx) => `├ ${idx + 1}. ${cmd.name}${cmd.limit ? ` (${cmd.consume || 1} limit)` : ""}`)
+					.join("\n")}\`\`\`\n╰──────────────\n`;
 			}
 			str += `send ${prefix}help followed by a command name to get detail of command, e.g. ${prefix}help sticker`;
 			await sock.sendMessage(

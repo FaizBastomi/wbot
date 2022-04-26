@@ -9,7 +9,7 @@ module.exports = {
 	limit: true,
 	consume: 5,
 	premium: true,
-	premiumType: ["basic", "support", "vip"],
+	premiumType: ["drakath", "nulgath", "artix"],
 	alias: ["fbdl", "facebook", "fbvid"],
 	category: "downloader",
 	desc: "Download Facebook video",

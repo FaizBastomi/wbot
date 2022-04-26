@@ -9,7 +9,7 @@ module.exports = {
 	limit: true,
 	consume: 3,
 	premium: true,
-	premiumType: ["basic", "support", "vip"],
+	premiumType: ["drakath", "nulgath", "artix"],
 	alias: ["ig"],
 	category: "downloader",
 	desc: "Download instagram media",

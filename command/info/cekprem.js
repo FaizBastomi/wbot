@@ -7,7 +7,7 @@ module.exports = {
 	alias: ["cekprem", "checkpremium", "cekpremium"],
 	category: "information",
 	premium: true,
-	premiumType: ["basic", "support", "vip"],
+	premiumType: ["drakath", "nulgath", "artix"],
 	async exec({ msg }) {
 		let userData = user.getUser(msg.sender);
 		if (userData) {
