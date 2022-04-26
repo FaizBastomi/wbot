@@ -2,7 +2,7 @@ module.exports = {
     name: 'bc',
     alias: ['broadcast'],
     category: 'private',
-    async exec({ sock, args, isOwner }) {
+    async exec({ sock, ,msg, args, isOwner }) {
         if (!isOwner) return;
 
         try {
