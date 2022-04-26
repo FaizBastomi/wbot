@@ -1,0 +1,15 @@
+# modules
+node_modules
+
+# config
+config.json
+
+# session
+*session.json
+
+# package
+package.json
+
+# lock files
+*-lock.json
+yarn.lock

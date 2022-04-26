@@ -11,7 +11,8 @@ yarn.lock
 # database
 event/database/group/*.json
 event/database/H/data.json
-lib/baileys-store.json
+baileys-store.json
+users-*.json
 
 # temp files
 temp/*net.exif
