@@ -1,10 +1,9 @@
 module.exports = {
-    name: 'bc',
-    alias: ['broadcast'],
-    category: 'private',
-    async exec({ sock, msg, args, isOwner }) {
-        if (!isOwner) return;
-
+	name: "bc",
+	alias: ["broadcast"],
+	category: "private",
+	owner: true,
+	async exec({ sock, msg, args }) {
 		try {
 			const chats = check4Duplicate(sock.chats.all().map((v) => v.id));
 			let text = `*Broadcast*\n\n${args.join(" ")}`;

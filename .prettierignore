@@ -5,7 +5,7 @@ node_modules
 config.json
 
 # session
-*session.json
+*session*.json
 
 # package
 package.json

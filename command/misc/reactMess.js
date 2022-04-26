@@ -1,12 +1,14 @@
-const EmojiRegex = require('../../lib/emojiRegex')
+const EmojiRegex = require("../../lib/emojiRegex");
 
 module.exports = {
 	name: "react",
+	limit: true,
+	consume: 1,
 	category: "misc",
 	desc: "Reaction message",
 	use: "<emoji>",
-	async exec({msg, sock, args}) {
-        if (!EmojiRegex.test(args.join(" "))) return msg.reply("Invalid emoji")
+	async exec({ msg, sock, args }) {
+		if (!EmojiRegex.test(args.join(" "))) return msg.reply("Invalid emoji");
 		const reactionMessage = {
 			react: {
 				text: `${args.join(" ")}`,
@@ -14,6 +16,6 @@ module.exports = {
 			},
 		};
 		await sock.sendMessage(msg.from, reactionMessage);
-                await msg.reply("Done.")
+		await msg.reply("Done.");
 	},
 };
