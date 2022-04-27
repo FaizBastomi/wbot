@@ -31,7 +31,51 @@
 ## Instalasi
 Ganti nama atau buat baru file bernama `config.json`.<br />
 Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example`.<br />
-[OpenWeather API](https://openweathermap.org)
+```ts
+{
+    "owner": ["Your_Phonenumber@s.whatsapp.net"],   // your phone number or friend
+    "openWeather": "OpenWeather_APIkey",    // openWeather API
+    "igCookie": "Instagram_Cookie",         // Instagram Cookie
+    "session": "session-md.json",           // session filename
+    "user_db": "users-db.json",             // user DB filename
+    "timezone": "Asia/Jakarta"              // your timezone (for cron and moment-timezone)
+}
+```
+OpenWeather API get from [openweathermap.org](https://openweathermap.org).
+
+### Plugin/Command config
+- config set
+```ts
+{
+	"name": string,
+	"desc": string,
+	"use": string,
+	"alias": string[],
+	"cooldown": number,
+	"limit": boolean,
+	"consume": number,
+	"premium": boolean,
+	"premiumType": string[],
+	"owner": boolean,
+	async exec({ msg, sock, args, arg, isOwner }) { }
+}
+```
+- example
+```ts
+{
+	"name": "igdl",
+	"desc": "Instagram Downloader",
+	"use": "<link>",
+	"alias": ["instagramdl"],
+	"cooldown": 3,
+	"limit": true,
+	"consume": 2,
+	"premium": true,
+	"premiumType": ["drakath", "nulgath", "artix"],
+	"owner": false,
+	async exec({ msg, sock, args, arg, isOwner }) { }
+}
+```
 
 ## TODO
 Untuk to do list bisa dilihat disini [#1](https://github.com/FaizBastomi/wbot/issues/1)
