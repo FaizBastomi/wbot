@@ -10,6 +10,8 @@
 > [Legacy](https://github.com/FaizBastomi/wbot/tree/legacy) branch <br />
 Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/FaizBastomi/wbot/tree/heroku)
+
 </div><br />
 <br />
 
@@ -33,8 +35,7 @@ Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
 For a to do list, see here [#1](https://github.com/FaizBastomi/wbot/issues/1)
 
 ## Instalation
-Rename `config.json.example` to `config.json` or create new file called `config.json`.<br />
-Fill in everything needed in the `config.json` file (follow `config.json.example`).<br />
+Edit `env` in `app.json` file.<br />
 OpenWeather API get from [openweathermap.org](https://openweathermap.org).
 
 ### Require

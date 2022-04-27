@@ -1,7 +1,0 @@
-{
-    "owner": ["Your_Phonenumber@s.whatsapp.net"],
-    "openWeather": "OpenWeather_APIkey",
-    "igCookie": "Instagram_Cookie",
-    "session": "session-md.json",
-    "legacySession": "legacy-session.json"
-}

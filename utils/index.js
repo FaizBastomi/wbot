@@ -10,7 +10,7 @@ const webp = require("webp-converter");
 const { downloadContentFromMessage, proto } = require("@adiwajshing/baileys");
 const { fromBuffer } = require("file-type");
 const { join } = require("path");
-const { openWeather } = require("../config.json");
+// const { openWeather } = require("../config.json");
 const { sizeFormatter } = require("human-readable");
 
 // Exports from other
@@ -187,7 +187,7 @@ const openWeatherAPI = async function (q, type) {
 			case "geo":
 				let geo = q.split("|");
 				info = await axios.get(
-					`https://api.openweathermap.org/data/2.5/weather?lat=${geo[0]}&lon=${geo[1]}&appid=${openWeather}&units=metric&lang=id`
+					`https://api.openweathermap.org/data/2.5/weather?lat=${geo[0]}&lon=${geo[1]}&appid=${process.env.openWeather}&units=metric&lang=id`
 				);
 				data = {
 					status: 200,
@@ -204,7 +204,7 @@ const openWeatherAPI = async function (q, type) {
 				break;
 			case "city":
 				info = await axios.get(
-					`https://api.openweathermap.org/data/2.5/weather?q=${q}&appid=${openWeather}&units=metric&lang=id`
+					`https://api.openweathermap.org/data/2.5/weather?q=${q}&appid=${process.env.openWeather}&units=metric&lang=id`
 				);
 				data = {
 					status: 200,

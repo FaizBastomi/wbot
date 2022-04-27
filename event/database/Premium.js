@@ -1,6 +1,6 @@
 const Users = require("./Users");
 const toMs = require("ms");
-const { user_db } = require("../../config.json");
+const { user_db } = process.env;
 
 const limitMap = {
 	drakath: 200,

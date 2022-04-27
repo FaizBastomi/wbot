@@ -1,0 +1,37 @@
+{
+    "name": "wbot-md",
+    "description": "A WhatsApp Bot built with Baileys",
+    "buildpacks": [{
+        "url": "heroku/nodejs"
+    }, {
+        "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }, {
+        "url": "https://github.com/jayshreeanand/heroku-buildpack-libwebp.git"
+    }],
+    "env": {
+        "owner": {
+            "description": "Your Phonenumber[]",
+            "value": ["62xx@s.whatsapp.net"]
+        },
+        "openWeather": {
+            "description": "Open Wheater Apikey",
+            "value": ""
+        },
+        "igCookie": {
+            "description": "Instagram Cooke",
+            "value": ""
+        },
+        "session": {
+            "description": "Name MD Session",
+            "value": "session-md.json"
+        },
+        "legacySession": {
+            "description": "Name Legacy Session",
+            "value": "legacy-session.json"
+        },
+        "user_db": {
+            "description": "Name User Database",
+            "value": "user_db.json"
+        }
+    }
+}

@@ -4,7 +4,8 @@ const { checkData } = require("./database/group_setting");
 const Premium = require("./database/Premium");
 const djs = require("../lib/Collection");
 const { color } = require("../utils");
-const { owner } = require("../config.json");
+// const { owner } = require("../config.json");
+const { owner } = process.env;
 
 const cooldown = new djs.Collection();
 const prefix = "!";

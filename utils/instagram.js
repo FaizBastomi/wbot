@@ -2,14 +2,14 @@
 const { default: axios } = require("axios");
 const Util = require("util");
 const { fixNumber } = require(".");
-const { igCookie } = require("../config.json");
+// const { igCookie } = require("../config.json");
 const YouTube = require("./youtube");
 
 /* Instagram API */
 const highlight = "https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=%s";
 const story = "https://i.instagram.com/api/v1/feed/user/%s/reel_media/";
 const profile = "https://instagram.com/%s?__a=1";
-const cookie = igCookie;
+const cookie = process.env.igCookie;
 const UA = "Instagram 10.3.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+";
 
 const req = async (url, options) => {
