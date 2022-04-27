@@ -1,5 +1,6 @@
 const Users = require("./Users");
 const toMs = require("ms");
+const { color } = require("../../utils");
 const { user_db } = process.env;
 
 const limitMap = {
@@ -9,7 +10,7 @@ const limitMap = {
 };
 
 function print(message) {
-	console.log("[PremDB] " + message);
+	console.log(color("[PremDB]", "yellow"), message);
 }
 
 class Premium extends Users {
@@ -21,7 +22,12 @@ class Premium extends Users {
 		}
 		let data = this.getUser(id);
 		if (!data) return;
-		this.editUser(id, { premium: true, expire: Date.now() + toMs(expire), limit: data.limit + limitMap[type], type });
+		this.editUser(id, {
+			premium: true,
+			expire: Date.now() + toMs(expire),
+			limit: data.limit + limitMap[type],
+			type,
+		});
 		print(`Success adding '${id}' to premium`);
 		this.writeToFile(`./event/database/users/${user_db}`);
 		return true;
@@ -30,7 +36,7 @@ class Premium extends Users {
 		if (!id) return print("'id' empty");
 		let data = this.getUser(id);
 		if (!data) return;
-		this.editUser(id, { premium: false, expire: null, limit: 20, type: null });
+		this.editUser(id, { premium: false, expire: null, limit: 50, type: null });
 		print(`Success delete '${id}' from premium`);
 		this.writeToFile(`./event/database/users/${user_db}`);
 		return true;

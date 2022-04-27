@@ -1,9 +1,10 @@
 const { writeFileSync, readFileSync, existsSync } = require("fs");
 const { Collection } = require("../../lib/Collection");
+const { color } = require("../../utils");
 const usersMap = new Collection();
 
 function print(message) {
-	console.log("[UserDB] " + message);
+	console.log(color("[UserDB]", "yellow"), message);
 }
 
 class Users {
