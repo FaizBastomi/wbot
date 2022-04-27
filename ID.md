@@ -28,6 +28,9 @@
 - [x] Banyak Fitur
 - [x] Mudah untuk dirawat/diperbaiki
 
+## TODO
+Untuk to do list bisa dilihat disini [#1](https://github.com/FaizBastomi/wbot/issues/1)
+
 ## Instalasi
 Edit `env` in `app.json` file.<br />
 OpenWeather API get from [openweathermap.org](https://openweathermap.org).
@@ -65,9 +68,6 @@ OpenWeather API get from [openweathermap.org](https://openweathermap.org).
 	async exec({ msg, sock, args, arg, isOwner }) { }
 }
 ```
-
-## TODO
-Untuk to do list bisa dilihat disini [#1](https://github.com/FaizBastomi/wbot/issues/1)
 
 ### Dibutuhkan
 1. [nodejs](https://nodejs.org/en/download) 16x/17x
