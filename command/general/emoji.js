@@ -7,7 +7,7 @@ module.exports = {
 	limit: true,
 	consume: 2,
 	premium: true,
-	premiumType: ["support", "vip"],
+	premiumType: ["nulgath", "artix"],
 	alias: ["emoji"],
 	desc: "Convert emoji to sticker.",
 	category: "general",
