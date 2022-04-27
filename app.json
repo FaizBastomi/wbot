@@ -9,10 +9,6 @@
         "url": "https://github.com/jayshreeanand/heroku-buildpack-libwebp.git"
     }],
     "env": {
-        "NODE_ENV": {
-            "description": "NODE_ENV",
-            "value": "development"
-        },
         "owner": {
             "description": "Your Phonenumber[]",
             "value": ["62xx@s.whatsapp.net"]
