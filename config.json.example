@@ -3,5 +3,6 @@
     "openWeather": "OpenWeather_APIkey",
     "igCookie": "Instagram_Cookie",
     "session": "session-md.json",
-    "legacySession": "legacy-session.json"
+    "legacySession": "legacy-session.json",
+    "user_db": "user-db.json"
 }
