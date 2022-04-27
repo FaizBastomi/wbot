@@ -28,7 +28,11 @@
 - [x] Banyak Fitur
 - [x] Mudah untuk dirawat/diperbaiki
 
+## TODO
+Untuk to do list bisa dilihat disini [#1](https://github.com/FaizBastomi/wbot/issues/1)
+
 ## Instalasi
+### Config
 Ganti nama atau buat baru file bernama `config.json`.<br />
 Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example`.<br />
 ```ts
@@ -76,9 +80,6 @@ OpenWeather API get from [openweathermap.org](https://openweathermap.org).
 	async exec({ msg, sock, args, arg, isOwner }) { }
 }
 ```
-
-## TODO
-Untuk to do list bisa dilihat disini [#1](https://github.com/FaizBastomi/wbot/issues/1)
 
 ### Dibutuhkan
 1. [nodejs](https://nodejs.org/en/download) 16x/17x

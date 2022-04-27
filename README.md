@@ -33,6 +33,7 @@ Untuk instalasi bahasa Indonesia lihat [disini](./ID.md)<br />
 For a to do list, see here [#1](https://github.com/FaizBastomi/wbot/issues/1)
 
 ## Instalation
+### Config
 Rename `config.json.example` to `config.json` or create new file called `config.json`.<br />
 Fill in everything needed in the `config.json` file (follow `config.json.example`).<br />
 ```ts
