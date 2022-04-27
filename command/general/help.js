@@ -31,7 +31,7 @@ module.exports = {
 			for (let cmd of cmds) {
 				let info = commands.get(cmd);
 				if (!cmd) continue;
-				if (!info.category || info.category === "private") continue;
+				if (!info.category || info.category === "private" || info.owner) continue;
 				if (Object.keys(category).includes(info.category)) category[info.category].push(info);
 				else {
 					category[info.category] = [];

@@ -46,8 +46,7 @@ const checkLinkAndKick = async (sock, groupId = "", text = "", participant = "",
 		// Extract the original invitation code for further checking
 		let code = text.match(/chat\.whatsapp\.com\/([\w\d]*)/g)?.[0]?.replace("chat.whatsapp.com/", "");
 		// Filter to check bot and sender is admin or not
-		let isBotAdmin = gcMeta?.participants?.filter((ids) => ids.id === sock.user.id.replace(/:([0-9]+)/, ""))[0]
-			?.admin;
+		let isBotAdmin = gcMeta?.participants?.filter((ids) => ids.id === sock.user.id.replace(/:([0-9]+)/, ""))[0]?.admin;
 		let isSenderAdmin = gcMeta?.participants?.filter((ids) => ids.id === participant)[0]?.admin;
 		// Don't execute if bot is not admin or if sender is admin
 		if (!isBotAdmin || isSenderAdmin) {
@@ -186,7 +185,7 @@ module.exports = chatHandler = async (m, sock) => {
 
 		try {
 			// check if command has limit consume
-			if (cmd.limit && !isOwner && userData.type !== "vip" && !userData.type) {
+			if (cmd.limit && !isOwner && userData.type !== "artix" && !userData.type) {
 				let data = user.getUser(sender);
 				let consume = cmd.consume || 1;
 				if (data.limit < consume) return await msg.reply("Your limit not enough");

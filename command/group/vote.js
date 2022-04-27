@@ -6,7 +6,7 @@ module.exports = {
 	limit: true,
 	consume: 5,
 	premium: true,
-	premiumType: ["support", "vip"],
+	premiumType: ["nulgath", "artix"],
 	desc: "Create a voting message",
 	use:
 		"<option>\n\n*Options*:\n- start (start new vote)\n- up (upvote active vote)\n" +
