@@ -11,7 +11,7 @@
     "env": {
         "NODE_ENV": {
             "description": "NODE_ENV",
-            "value": "BOT"
+            "value": "development"
         },
         "owner": {
             "description": "Your Phonenumber[]",
