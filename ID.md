@@ -29,9 +29,42 @@
 - [x] Mudah untuk dirawat/diperbaiki
 
 ## Instalasi
-Ganti nama atau buat baru file bernama `config.json`.<br />
-Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example`.<br />
-[OpenWeather API](https://openweathermap.org)
+Edit `env` in `app.json` file.<br />
+OpenWeather API get from [openweathermap.org](https://openweathermap.org).
+
+### Plugin/Command config
+- config set
+```ts
+{
+	"name": string,
+	"desc": string,
+	"use": string,
+	"alias": string[],
+	"cooldown": number,
+	"limit": boolean,
+	"consume": number,
+	"premium": boolean,
+	"premiumType": string[],
+	"owner": boolean,
+	async exec({ msg, sock, args, arg, isOwner }) { }
+}
+```
+- example
+```ts
+{
+	"name": "igdl",
+	"desc": "Instagram Downloader",
+	"use": "<link>",
+	"alias": ["instagramdl"],
+	"cooldown": 3,
+	"limit": true,
+	"consume": 2,
+	"premium": true,
+	"premiumType": ["drakath", "nulgath", "artix"],
+	"owner": false,
+	async exec({ msg, sock, args, arg, isOwner }) { }
+}
+```
 
 ## TODO
 Untuk to do list bisa dilihat disini [#1](https://github.com/FaizBastomi/wbot/issues/1)

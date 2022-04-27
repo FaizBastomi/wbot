@@ -38,6 +38,40 @@ For a to do list, see here [#1](https://github.com/FaizBastomi/wbot/issues/1)
 Edit `env` in `app.json` file.<br />
 OpenWeather API get from [openweathermap.org](https://openweathermap.org).
 
+### Plugin/Command config
+- config set
+```ts
+{
+	"name": string,
+	"desc": string,
+	"use": string,
+	"alias": string[],
+	"cooldown": number,
+	"limit": boolean,
+	"consume": number,
+	"premium": boolean,
+	"premiumType": string[],
+	"owner": boolean,
+	async exec({ msg, sock, args, arg, isOwner }) { }
+}
+```
+- example
+```ts
+{
+	"name": "igdl",
+	"desc": "Instagram Downloader",
+	"use": "<link>",
+	"alias": ["instagramdl"],
+	"cooldown": 3,
+	"limit": true,
+	"consume": 2,
+	"premium": true,
+	"premiumType": ["drakath", "nulgath", "artix"],
+	"owner": false,
+	async exec({ msg, sock, args, arg, isOwner }) { }
+}
+```
+
 ### Require
 1. [nodejs](https://nodejs.org/en/download) 16x/17x
 2. [ffmpeg](https://ffmpeg.org)
