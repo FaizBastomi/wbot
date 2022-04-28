@@ -14,7 +14,14 @@ class Users {
 		}
 		if (usersMap.has(id)) return print(`ignoring: '${id}' already in database`);
 		try {
-			let data = { id, premium: false, expire: null, limit: 50, type: null };
+			let data = {
+				id,
+				premium: false,
+				expire: null,
+				limit: 50,
+				type: null,
+				info: { age: null, adult: false },
+			};
 			usersMap.set(id, data);
 			print(`Success adding user ${id}`);
 			return true;
@@ -36,7 +43,16 @@ class Users {
 			throw e;
 		}
 	}
-	editUser(id, data = { premium: false, expire: null, limit: 0, type: null }) {
+	editUser(
+		id,
+		data = {
+			premium: false,
+			expire: null,
+			limit: 0,
+			type: null,
+			info: { age: null, adult: false },
+		}
+	) {
 		if (!usersMap.has(id)) {
 			print(`'${id}' not found in database`);
 			return false;
