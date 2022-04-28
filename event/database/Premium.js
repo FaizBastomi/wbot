@@ -27,6 +27,7 @@ class Premium extends Users {
 			expire: Date.now() + toMs(expire),
 			limit: data.limit + limitMap[type],
 			type,
+			info: { ...data.info },
 		});
 		print(`Success adding '${id}' to premium`);
 		this.writeToFile(`./event/database/users/${user_db}`);
@@ -36,7 +37,13 @@ class Premium extends Users {
 		if (!id) return print("'id' empty");
 		let data = this.getUser(id);
 		if (!data) return;
-		this.editUser(id, { premium: false, expire: null, limit: 50, type: null });
+		this.editUser(id, {
+			premium: false,
+			expire: null,
+			limit: 50,
+			type: null,
+			info: { ...data.info },
+		});
 		print(`Success delete '${id}' from premium`);
 		this.writeToFile(`./event/database/users/${user_db}`);
 		return true;
