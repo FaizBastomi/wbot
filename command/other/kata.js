@@ -4,6 +4,10 @@ let pantun = fs.readFileSync(join(__dirname, "text/pantun.txt"), { encoding: "ut
 let kata_bijak = fs.readFileSync(join(__dirname, "text/katabijax.txt"), { encoding: "utf-8" }).split("\n");
 let fakta = fs.readFileSync(join(__dirname, "text/faktaunix.txt"), { encoding: "utf-8" }).split("\n");
 
+const random = a => {
+  return a[~~(Math.random() * a.length)];
+}
+
 module.exports = {
 	name: "kata",
 	category: "random",
@@ -32,13 +36,13 @@ module.exports = {
 				const type = args[0].toLowerCase();
 				switch (type) {
 					case "bijak":
-						await msg.reply(kata_bijak[~~(Math.random() * kata_bijak.length)]);
+						await msg.reply(random(kata_bijak));
 						break;
 					case "pantun":
-						await msg.reply(pantun[~~(Math.random() * pantun.length)].split("|").join("\n"));
+						await msg.reply(random(pantun).split("|").join("\n"));
 						break;
 					case "fakta":
-						await msg.reply(fakta[~~(Math.random() * fakta.length)]);
+						await msg.reply(random(fakta));
 						break;
 				}
 			}
