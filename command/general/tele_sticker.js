@@ -1,5 +1,5 @@
 const { telegramSticker } = require("../../utils/scraper");
-const { footer } = require("../../config.json");
+const { footer } = process.env;
 
 module.exports = {
 	name: "telestick",

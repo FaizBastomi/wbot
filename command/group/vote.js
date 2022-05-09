@@ -1,4 +1,4 @@
-const { footer } = require("../../config.json");
+const { footer } = process.env;
 const UtilVotes = require("../../event/database/votes");
 const vote = new UtilVotes();
 

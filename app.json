@@ -13,6 +13,10 @@
 		}
 	],
 	"env": {
+		"botName":{
+			"description":"Your bot name",
+			"value":"SMH BOT"
+		},
 		"owner": {
 			"description": "Your Phonenumber[]",
 			"value": ["62xx@s.whatsapp.net"]
@@ -29,10 +33,6 @@
 			"description": "Name MD Session",
 			"value": "session-md.json"
 		},
-		"legacySession": {
-			"description": "Name Legacy Session",
-			"value": "legacy-session.json"
-		},
 		"user_db": {
 			"description": "Name User Database",
 			"value": "user_db.json"
@@ -40,6 +40,10 @@
 		"timezone": {
 			"description": "Your Timezone",
 			"value": "Asia/Jakarta"
+		},
+		"footer":{
+			"description":"Footer for some message",
+			"value":"SMH BOT"
 		}
 	}
 }

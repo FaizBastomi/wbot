@@ -1,5 +1,5 @@
 const djs = require("../../lib/Collection");
-const { footer, botName } = require("../../config.json");
+const { footer, botName } = process.env;
 
 module.exports = {
 	name: "help",

@@ -1,6 +1,6 @@
 const fs = require("fs");
 const join = require("path").join;
-const { footer } = require("../../config.json");
+const { footer } = process.env;
 let pantun = fs.readFileSync(join(__dirname, "text/pantun.txt"), { encoding: "utf-8" }).split("\n");
 let kata_bijak = fs.readFileSync(join(__dirname, "text/katabijax.txt"), { encoding: "utf-8" }).split("\n");
 let fakta = fs.readFileSync(join(__dirname, "text/faktaunix.txt"), { encoding: "utf-8" }).split("\n");

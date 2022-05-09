@@ -2,7 +2,7 @@ const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys");
 const Downloader = require("../../utils/downloader");
 const { yt, yts } = new Downloader();
 const { fetchBuffer, fetchText } = require("../../utils");
-const { footer } = require("../../config.json");
+const { footer } = process.env;
 
 module.exports = {
 	name: "play",
