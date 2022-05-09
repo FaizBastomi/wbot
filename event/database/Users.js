@@ -1,4 +1,4 @@
-const { writeFileSync, readFileSync, existsSync } = require("fs");
+const { promises, existsSync } = require("fs");
 const { Collection } = require("../../lib/Collection");
 const { color } = require("../../utils");
 const usersMap = new Collection();
@@ -76,16 +76,16 @@ class Users {
 	toArray() {
 		return Array.from(usersMap.values());
 	}
-	writeToFile(path) {
+	async writeToFile(path) {
 		if (!path) print(`'path' is empty`);
-		writeFileSync(path, JSON.stringify(this.toArray(usersMap), null, "\t"));
+		await promises.writeFile(path, JSON.stringify(this.toArray(usersMap), null, "\t"));
 		print("write user db to: " + path);
 	}
-	readFromFile(path) {
+	async readFromFile(path) {
 		if (!path || !existsSync(path)) return `'path' is empty or not found`;
 		if (existsSync(path)) {
 			print("read user db from: " + path);
-			const dbStr = readFileSync(path, { encoding: "utf-8" });
+			const dbStr = await promises.readFile(path, { encoding: "utf-8" });
 			const dbJson = JSON.parse(dbStr);
 			if (Array.isArray(dbJson)) {
 				for (let dbX of dbJson) {

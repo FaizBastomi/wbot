@@ -6,7 +6,7 @@ module.exports = {
 	category: "group",
 	desc: "Promote someone to be admin.",
 	async exec({ sock, msg }) {
-		const { mentionedJid, quoted, from, sender, isGroup, body } = msg;
+		const { mentions, quoted, from, sender, isGroup, body } = msg;
 		try {
 			const { prefix } = djs;
 			const command = body.slice(prefix.length).trim().split(/ +/).shift().toLowerCase();
@@ -43,8 +43,8 @@ module.exports = {
 				// promote start
 				await sock.groupParticipantsUpdate(from, [mention], "promote");
 				await msg.reply(`IND:\n${lang.indo.group.promote.success}\n\nEN:\n${lang.eng.group.promote.success}`);
-			} else if (mentionedJid) {
-				const mention = mentionedJid[0];
+			} else if (mentions) {
+				const mention = mentions[0];
 				if (!checkInGroup(mention)) return await msg.reply("Member no longer in group");
 				if (cekAdmin(mention))
 					return await msg.reply(

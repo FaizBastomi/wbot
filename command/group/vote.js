@@ -1,3 +1,4 @@
+const { footer } = require("../../config.json");
 const UtilVotes = require("../../event/database/votes");
 const vote = new UtilVotes();
 
@@ -26,7 +27,7 @@ module.exports = {
 				from,
 				{
 					text: `#vote ${this.use}`,
-					footer: "Kaguya PublicBot • FaizBastomi",
+					footer: footer,
 				},
 				{ quoted: msg }
 			);
@@ -46,7 +47,7 @@ module.exports = {
 						from,
 						{
 							text: `Vote name: *${vote.show(from).data.name}*\n\nVote created.`,
-							footer: "Kaguya PublicBot • FaizBastomi",
+							footer: footer,
 							buttons,
 						},
 						{ quoted: msg }
@@ -88,7 +89,7 @@ module.exports = {
 					{
 						text,
 						mentions: [...voteData["upvote"], ...voteData["downvote"]],
-						footer: "Kaguya PublicBot • FaizBastomi",
+						footer: footer,
 						buttons,
 					},
 					{ quoted: msg }

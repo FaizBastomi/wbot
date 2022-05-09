@@ -1,4 +1,5 @@
 const axios = require("axios").default;
+const { footer } = require("../../config.json");
 let info =
 	"Data yang tersedia, dari Januari 2021 sampai Desember 2030\n" +
 	"Hanya tersedia untuk kota-kota besar di Indonesia. Kota lainnya, silakan disesuaikan sendiri sesuai plus minus waktu setempat.";
@@ -51,7 +52,7 @@ module.exports = {
 						{
 							text: "Hasil pencarian kota",
 							buttonText: "hasil",
-							footer: "Kaguya PublicBot • FaizBastomi",
+							footer: footer,
 							sections,
 						},
 						{ quoted: msg }
