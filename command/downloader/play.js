@@ -2,6 +2,7 @@ const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys");
 const Downloader = require("../../utils/downloader");
 const { yt, yts } = new Downloader();
 const { fetchBuffer, fetchText } = require("../../utils");
+const { footer } = require("../../config.json");
 
 module.exports = {
 	name: "play",
@@ -23,7 +24,7 @@ module.exports = {
 				buttonsMessage: {
 					locationMessage: { jpegThumbnail: thumb.toString("base64") },
 					contentText: `📙 Title: ${ytsData[0].title}\n📎 Url: ${ytsData[0].url}\n🚀 Upload: ${ytsData[0].ago}\n\nWant a video version? click button below, or you don\'t see it? type *!ytv youtube_url*\n\nAudio on progress....`,
-					footerText: "Kaguya PublicBot • FaizBastomi",
+					footerText: footer,
 					headerType: 6,
 					buttons: [
 						{ buttonText: { displayText: "Video" }, buttonId: `#ytv ${ytsData[0].url} SMH`, type: 1 },
@@ -57,7 +58,7 @@ module.exports = {
 						{
 							text: "Wrong music?\nclick button below to choose another search result.",
 							buttonText: "Search Result",
-							footer: "Kaguya PublicBot • FaizBastomi",
+							footer: footer,
 							mentions: [sender],
 							sections,
 						},

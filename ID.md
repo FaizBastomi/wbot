@@ -4,10 +4,9 @@
 # Kaguya PublicBot - MD
 ### Use at your own risk!
 
-## [![JavaScript](https://img.shields.io/badge/JavaScript-d6cc0f?style=for-the-badge&logo=javascript&logoColor=white)](https://javascript.com) [![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/) [![discord.js](https://img.shields.io/badge/discord.js-0026a3?style=for-the-badge&logo=discord&logoColor=white)](https://discord.js.org)
+## [![JavaScript](https://img.shields.io/badge/JavaScript-d6cc0f?style=for-the-badge&logo=javascript&logoColor=white)](https://javascript.com) [![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 
-> Build with Baileys and discord.js ( as a command handler ) <br />
-> [Legacy](https://github.com/FaizBastomi/wbot/tree/legacy) branch
+> [Legacy](https://github.com/FaizBastomi/wbot/tree/legacy) branch <br />
 
 </div><br />
 <br />
@@ -37,12 +36,14 @@ Ganti nama atau buat baru file bernama `config.json`.<br />
 Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example`.<br />
 ```ts
 {
-    "owner": ["Your_Phonenumber@s.whatsapp.net"],   // your phone number or friend
-    "openWeather": "OpenWeather_APIkey",    // openWeather API
-    "igCookie": "Instagram_Cookie",         // Instagram Cookie
-    "session": "session-md.json",           // session filename
-    "user_db": "users-db.json",             // user DB filename
-    "timezone": "Asia/Jakarta"              // your timezone (for cron and moment-timezone)
+    "botName": "SMH BOT",				// Your Bot Name
+    "owner": ["Your_Phonenumber@s.whatsapp.net"],	// Your phone number or friend
+    "openWeather": "OpenWeather_APIkey",		// OpenWeather API
+    "igCookie": "Instagram_Cookie",			// Instagram Cookie
+    "session": "session-md.json",			// Session filename
+    "user_db": "users-db.json",				// User DB filename
+    "timezone": "Asia/Jakarta",				// Your timezone (for cron and moment-timezone)
+    "footer": "Kaguya PublicBot • FaizBastomi"		// Footer for some message
 }
 ```
 OpenWeather API get from [openweathermap.org](https://openweathermap.org).
@@ -144,8 +145,6 @@ Start and Scan QR<br />
 1. MD Connection
 ```
 npm run start
-```
-2. Legacy Connection
-```
-npm run legacy
+# or
+node ./lib/connect.js
 ```

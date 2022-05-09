@@ -1,4 +1,5 @@
 const { telegramSticker } = require("../../utils/scraper");
+const { footer } = require("../../config.json");
 
 module.exports = {
 	name: "telestick",
@@ -42,7 +43,7 @@ module.exports = {
 					msg.from,
 					{
 						text,
-						footer: "Kaguya PublicBot • FaizBastomi",
+						footer: footer,
 						buttons,
 						headerType: 1,
 					},
@@ -65,7 +66,7 @@ module.exports = {
 					msg.from,
 					{
 						text,
-						footer: "Kaguya PublicBot • FaizBastomi",
+						footer: footer,
 						buttons,
 						headerType: 1,
 					},
@@ -83,7 +84,7 @@ module.exports = {
 					msg.from,
 					{
 						text,
-						footer: "Kaguya PublicBot • FaizBastomi",
+						footer: footer,
 						buttons,
 						headerType: 1,
 					},

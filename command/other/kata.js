@@ -1,12 +1,13 @@
 const fs = require("fs");
 const join = require("path").join;
+const { footer } = require("../../config.json");
 let pantun = fs.readFileSync(join(__dirname, "text/pantun.txt"), { encoding: "utf-8" }).split("\n");
 let kata_bijak = fs.readFileSync(join(__dirname, "text/katabijax.txt"), { encoding: "utf-8" }).split("\n");
 let fakta = fs.readFileSync(join(__dirname, "text/faktaunix.txt"), { encoding: "utf-8" }).split("\n");
 
-const random = a => {
-  return a[~~(Math.random() * a.length)];
-}
+const random = (a) => {
+	return a[~~(Math.random() * a.length)];
+};
 
 module.exports = {
 	name: "kata",
@@ -27,7 +28,7 @@ module.exports = {
 				];
 				await sock.sendMessage(msg.from, {
 					text: "Silahkan Pilih Melalui Tombol Dibawah.",
-					footer: "Kaguya PublicBot • FaizBastomi",
+					footer: footer,
 					title: "Random Kata",
 					buttonText: "List",
 					sections: secs,

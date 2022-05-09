@@ -1,4 +1,5 @@
 const djs = require("../../lib/Collection");
+const { footer, botName } = require("../../config.json");
 
 module.exports = {
 	name: "help",
@@ -40,11 +41,16 @@ module.exports = {
 			}
 			let str =
 				`Hello, ${pushName === undefined ? sender.split("@")[0] : pushName}\n*Here My Command List*\n\n` +
-				"╭──────❨ *SMH BOT* ❩\n╰─────────\n\n";
+				`╭──────❨ *${botName}* ❩\n╰─────────\n\n`;
 			const keys = Object.keys(category);
 			for (const key of keys) {
 				str += `╭──────❨ *${key.toUpperCase()}* ❩\n\`\`\`${category[key]
-					.map((cmd, idx) => `├ ${idx + 1}. ${cmd.name}${cmd.limit ? ` (${cmd.consume || 1} limit)` : ""}`)
+					.map(
+						(cmd, idx) =>
+							`├ ${idx + 1}. ${cmd.name}${cmd.limit ? ` (${cmd.consume || 1} limit)` : ""}${
+								cmd.premium ? ` (Premium Only)` : ""
+							}`
+					)
 					.join("\n")}\`\`\`\n╰──────────────\n`;
 			}
 			str += `send ${prefix}help followed by a command name to get detail of command, e.g. ${prefix}help sticker`;
@@ -52,7 +58,7 @@ module.exports = {
 				msg.from,
 				{
 					text: str,
-					footer: "Kaguya PublicBot • FaizBastomi",
+					footer: footer,
 					templateButtons: [
 						{ urlButton: { displayText: "Telegram Bot", url: "https://t.me/secondMidnight_bot" } },
 						{
