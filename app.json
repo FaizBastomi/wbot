@@ -13,9 +13,9 @@
 		}
 	],
 	"env": {
-		"botName":{
-			"description":"Your bot name",
-			"value":"SMH BOT"
+		"botName": {
+			"description": "Your bot name",
+			"value": "SMH BOT"
 		},
 		"owner": {
 			"description": "Your Phonenumber[]",
@@ -41,9 +41,9 @@
 			"description": "Your Timezone",
 			"value": "Asia/Jakarta"
 		},
-		"footer":{
-			"description":"Footer for some message",
-			"value":"SMH BOT"
+		"footer": {
+			"description": "Footer for some message",
+			"value": "SMH BOT"
 		}
 	}
 }
