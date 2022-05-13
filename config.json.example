@@ -5,6 +5,7 @@
     "igCookie": "Instagram_Cookie",
     "session": "session-md.json",
     "user_db": "users-db.json",
+    "chat_store": "baileys-store.json",
     "timezone": "Asia/Jakarta",
     "footer": "Kaguya PublicBot • FaizBastomi"
 }

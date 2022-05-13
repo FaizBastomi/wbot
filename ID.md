@@ -42,6 +42,7 @@ Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example
     "igCookie": "Instagram_Cookie",			// Instagram Cookie
     "session": "session-md.json",			// Session filename
     "user_db": "users-db.json",				// User DB filename
+    "chat_store": "baileys-store.json",			// Chat Store
     "timezone": "Asia/Jakarta",				// Your timezone (for cron and moment-timezone)
     "footer": "Kaguya PublicBot • FaizBastomi"		// Footer for some message
 }
