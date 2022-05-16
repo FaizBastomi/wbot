@@ -30,7 +30,7 @@ class Premium extends Users {
 			info: { ...data.info },
 		});
 		print(`Success adding '${id}' to premium`);
-		this.writeToFile(`./event/database/users/${user_db}`);
+		this.writeToFile(user_db);
 		return true;
 	}
 	deletePremium(id) {
@@ -45,7 +45,7 @@ class Premium extends Users {
 			info: { ...data.info },
 		});
 		print(`Success delete '${id}' from premium`);
-		this.writeToFile(`./event/database/users/${user_db}`);
+		this.writeToFile(user_db);
 		return true;
 	}
 	checkPremium(id) {
