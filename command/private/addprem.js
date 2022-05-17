@@ -17,10 +17,11 @@ module.exports = {
 		if (!args.length >= 1) return await msg.reply("Please see #help addprem");
 		let raw = args.join(" "),
 			number = raw.match(/\+([\d ()-]{3,16})/g),
-			expire = raw.match(/([\d]{1,4})d/g),
-			type = raw.match(/(?:drakath|nulgath|artix)/g),
+			expire = raw.match(/([\d]{1,4})d/g)[0],
+			type = raw.match(new RegExp("(?:" + tierList.join("|") + ")"))[0],
 			valid = [];
 
+		if (!expire || !type) return await msg.reply("Expire or tier is blank");
 		if (mentions) {
 			mentions.forEach((i) => {
 				if (!user.getUser(i)) user.addUser(i);
