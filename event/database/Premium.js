@@ -1,13 +1,7 @@
 const Users = require("./Users");
 const toMs = require("ms");
 const { color } = require("../../utils");
-const { user_db } = require("../../config.json");
-
-const limitMap = {
-	drakath: 200,
-	nulgath: 500,
-	artix: 999,
-};
+const { user_db, tier } = require("../../config.json");
 
 function print(message) {
 	console.log(color("[PremDB]", "yellow"), message);
@@ -25,7 +19,7 @@ class Premium extends Users {
 		this.editUser(id, {
 			premium: true,
 			expire: Date.now() + toMs(expire),
-			limit: data.limit + limitMap[type],
+			limit: data.limit + tier[type],
 			type,
 			info: { ...data.info },
 		});
