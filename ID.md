@@ -20,6 +20,8 @@
     - [LibWebP](#libwebp-instalation)
     - [Cloning Repo](#cloning-this-repo)
     - [Start Bot](#start-bot)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
 
 ## Highlights
 
@@ -36,17 +38,28 @@ Ganti nama atau buat baru file bernama `config.json`.<br />
 Isi semua yang dibutuhkan di file `config.json` berdasarkan `config.json.example`.<br />
 ```ts
 {
-    "botName": "SMH BOT",				// Your Bot Name
-    "owner": ["Your_Phonenumber@s.whatsapp.net"],	// Your phone number or friend
-    "openWeather": "OpenWeather_APIkey",		// OpenWeather API
-    "igCookie": "Instagram_Cookie",			// Instagram Cookie
-    "session": "session-md.json",			// Session filename
-    "user_db": "users-db.json",				// User DB filename
-    "chat_store": "baileys-store.json",			// Chat Store
-    "timezone": "Asia/Jakarta",				// Your timezone (for cron and moment-timezone)
-    "footer": "Kaguya PublicBot • FaizBastomi"		// Footer for some message
+    "botName": "SMH BOT",			// Your Bot Name
+    "owner": [					// Your phone number or friend
+        "Your_Phonenumber@s.whatsapp.net",
+        "another_one@s.whatsapp.net"
+    ],
+    "openWeather": "OpenWeather_APIkey",	// OpenWeather API
+    "igCookie": "Instagram_Cookie",		// Instagram Cookie
+    "session": "session-md.json",		// Session filename
+    "user_db": "users-db.json",			// User DB filename
+    "chat_store": "baileys-store.json",		// Chat Store
+    "timezone": "Asia/Jakarta",			// Your timezone (for cron and moment-timezone)
+    "footer": "Kaguya PublicBot • FaizBastomi",	// Footer for some message
+    "tier": {					// Premium Tier
+        "drakath": 200,
+        "nulgath": 500,
+        "artix": 999
+    }
 }
 ```
+- Phone Number<br>
+Gunakan format internasional dan selalu tambahkan _@s.whatsapp.net_ (e.g. `6282122232224@s.whatsapp.net`)
+
 OpenWeather API get from [openweathermap.org](https://openweathermap.org).
 
 ### Plugin/Command config
@@ -134,11 +147,6 @@ cd wbot
 npm install
 # or
 yarn install
-
-# bila depedensi @adiwajshing/baileys tidak terkompilasi secara otomatis
-cd ./node_modules/@adiwajshing/baileys
-npm install -g typescript # jalankan sebagai root atau admin (Windows)
-npm run build:tsc
 ```
 
 ### Start Bot
@@ -149,3 +157,13 @@ npm run start
 # or
 node ./lib/connect.js
 ```
+
+## Contributing
+Pull requests are welcome. Your contribution is helping me a lot :^)
+
+## Contributors
+<a href="https://github.com/FaizBastomi/wbot/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=FaizBastomi/wbot" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
