@@ -30,7 +30,7 @@ module.exports = {
 		});
 		const text =
 			`Subject: ${check.subject}\nGroupId: ${check.id}${
-				check.creator ? `\nCreator: ${check.creator.split("@")[0]}` : ""
+				check.creator ? `\nCreator: ${check.creator}` : ""
 			}\nCreate At: ${new Date(check.creation * 1000).toLocaleString()}` +
 			`${check.desc ? `\nDesc: ${check.desc}\nDescId: ${check.descId}` : ""}\n\nJSON\n\`\`\`${JSON.stringify(
 				check,
@@ -53,7 +53,11 @@ const extractGroupInviteMetadata = (content) => {
 	const metadata = {
 		id: groupId,
 		subject: group.attrs?.subject,
-		creator: group.attrs?.creator,
+		creator: group.attrs?.creator
+			? group.attrs?.creator
+			: groupId.includes("-")
+			? groupId.split("-")[0]
+			: group.attrs?.creator,
 		creation: group.attrs?.creation,
 		desc,
 		descId,
