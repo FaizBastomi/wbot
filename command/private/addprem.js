@@ -2,6 +2,7 @@ const Prem = require("../../event/database/Premium");
 const user = new Prem();
 const { tier } = require("../../config.json");
 
+let tierList = Object.keys(tier);
 module.exports = {
 	name: "addprem",
 	category: "private",
@@ -9,8 +10,8 @@ module.exports = {
 	owner: true,
 	use:
 		"<expire> <number> <tier>\n\n*number* - can accept multi id\n" +
-		`*expire* - expire in day (4 digits)\n*tier* - tier type (${Object.keys(tier).join("|")})\n\n` +
-		"Example: #addprem 30d +62 81-1111-1111 +62 82-2222-2222 drakath",
+		`*expire* - expire in day (4 digits)\n*tier* - tier type (${tierList.join("|")})\n\n` +
+		`Example: #addprem 30d +62 81-1111-1111 +62 82-2222-2222 ${tierList[~~(Math.random() * tierList.length)]}`,
 	async exec({ msg, args, arg }) {
 		const { mentions } = msg;
 		if (!args.length >= 1) return await msg.reply("Please see #help addprem");
