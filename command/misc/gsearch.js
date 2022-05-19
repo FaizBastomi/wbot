@@ -30,7 +30,7 @@ module.exports = {
 							? gResult?.results?.[0]?.favicons?.high_res
 							: "https://telegra.ph/file/177a7901780b35d7123c7.png");
 					for (let res of gResult.results) {
-						text += `*Title:* ${res.title}\n*Desc:* ${res.description}\n*URL:* ${res.url}\n\n`;
+						text += `*${res.title}*\n${res.description}\n${res.url}\n\n`;
 					}
 					await sock.sendMessage(from, { image: { url: img }, caption: text }, { quoted: msg });
 					break;
@@ -41,7 +41,7 @@ module.exports = {
 							: "https://telegra.ph/file/177a7901780b35d7123c7.png"),
 						(text = `*Google Image Search*\nQuery ~> ${query}\n\n`);
 					for (let res of gResult) {
-						text += `*Title:* ${res.origin.title}\n*URL:* ${res.origin.source}\n*Img:* ${res.url}\n\n`;
+						text += `*Title:* ${res.origin.title}\n*URL:* ${res.origin.source}\n\n`;
 					}
 					await sock.sendMessage(from, { image: { url: img }, caption: text }, { quoted: msg });
 					break;
@@ -52,7 +52,7 @@ module.exports = {
 						(gResult = await gsearch.search(urlMedia.data.url, { safe: false, ris: true })),
 							(text = `*Google Reverse Image Search*\n\n`);
 						for (let res of gResult.results) {
-							text += `*Title:* ${res.title}\n*URL:* ${res.url}\n*Desc:* ${res.description}\n\n`;
+							text += `*${res.title}*\n${res.description}\n${res.url}\n\n`;
 						}
 						await sock.sendMessage(from, { text }, { quoted: msg });
 					} else {
@@ -66,7 +66,7 @@ module.exports = {
 							? gResult?.results?.[0]?.favicons?.high_res
 							: "https://telegra.ph/file/177a7901780b35d7123c7.png");
 					for (let res of gResult.results) {
-						text += `*Title:* ${res.title}\n*Desc:* ${res.description}\n*URL:* ${res.url}\n\n`;
+						text += `*${res.title}*\n${res.description}\n${res.url}\n\n`;
 					}
 					await sock.sendMessage(from, { image: { url: img }, caption: text }, { quoted: msg });
 			}
