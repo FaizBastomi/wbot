@@ -1,6 +1,6 @@
 const Prem = require("../../event/database/Premium");
 const user = new Prem();
-const { tier } = require("../../config.json");
+const { user_db, tier } = require("../../config.json");
 
 let tierList = Object.keys(tier);
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
 		if (!args.length >= 1) return await msg.reply("Please see #help addprem");
 		let raw = args.join(" "),
 			number = raw.match(/\+([\d ()-]{3,16})/g),
-			expire = raw.match(/([\d]{1,4})d/g)[0],
+			expire = raw.match(/([\d]{1,4})(?:d|m)/g)[0],
 			type = raw.match(new RegExp("(?:" + tierList.join("|") + ")"))[0],
 			valid = [];
 
@@ -27,6 +27,7 @@ module.exports = {
 				if (!user.getUser(i)) user.addUser(i);
 				user.addPremium(i, expire, type);
 			});
+			user.writeToFile(user_db);
 			await msg.reply(`Success add ${mentions.length} user(s) to premium`);
 		} else if (number.length >= 1) {
 			number.forEach((i) => {
@@ -40,6 +41,7 @@ module.exports = {
 					console.log(`'${i}' not a valid WhatsApp number`);
 				}
 			});
+			user.writeToFile(user_db);
 			await msg.reply(`Success add ${valid.length} user(s) to premium`);
 		} else {
 			await msg.reply("Please provide user number");

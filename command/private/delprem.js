@@ -1,5 +1,6 @@
 const Prem = require("../../event/database/Premium");
 const user = new Prem();
+const { user_db } = require("../../config.json");
 
 module.exports = {
 	name: "delprem",
@@ -20,6 +21,7 @@ module.exports = {
 				if (!user.getUser(i)) return console.log(`'${i}' not in database, ignoring`);
 				user.deletePremium(i);
 			});
+			user.writeToFile(user_db);
 			await msg.reply(`Success delete ${mentions.length} user(s) from premium`);
 		} else if (number.length >= 1) {
 			number.forEach((i) => {
@@ -34,6 +36,7 @@ module.exports = {
 					console.log(`'${id}' not a valid WhatsApp number`);
 				}
 			});
+			user.writeToFile(user_db);
 			await msg.reply(`Success delete ${valid.length} user(s) from premium`);
 		} else {
 			await msg.reply("Please provide user number");
