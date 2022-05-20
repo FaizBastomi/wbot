@@ -1,5 +1,6 @@
 const gsearch = require("googlethis");
 const { uploaderAPI } = require("../../utils/uploader");
+const { footer } = require("../../config.json");
 
 module.exports = {
 	name: "gsearch",
@@ -11,6 +12,7 @@ module.exports = {
 	async exec({ sock, msg, args }) {
 		if (!args.length > 0) return await msg.reply("'query' need for this command");
 		let gResult,
+			data = null,
 			text = "",
 			img = null,
 			query = args.join(" ").replace(/\-(?:search|reverse|image)/g, ""),
@@ -36,14 +38,21 @@ module.exports = {
 					break;
 				case "-image":
 					(gResult = await gsearch.image(query, { safe: false })),
-						(img = gResult?.[0]?.url
-							? gResult?.[0]?.url
-							: "https://telegra.ph/file/177a7901780b35d7123c7.png"),
-						(text = `*Google Image Search*\nQuery ~> ${query}\n\n`);
-					for (let res of gResult) {
-						text += `*Title:* ${res.origin.title}\n*URL:* ${res.origin.source}\n\n`;
-					}
-					await sock.sendMessage(from, { image: { url: img }, caption: text }, { quoted: msg });
+						(data = gResult?.[Math.floor(Math.random() * gResult.length)]),
+						(img = data?.url ? data.url : "https://telegra.ph/file/177a7901780b35d7123c7.png");
+					await sock.sendMessage(
+						from,
+						{
+							image: { url: img },
+							caption: `*Google Image Search*\n\n*${data?.origin?.title}*\nwidth: ${data?.width}\nheight: ${data?.height}`,
+							templateButtons: [
+								{ urlButton: { displayText: "source", url: data?.url } },
+								{ quickReplyButton: { displayText: "➡️ Next", id: `#gsearch -image ${query}` } },
+							],
+							footer,
+						},
+						{ quoted: msg }
+					);
 					break;
 				case "-reverse":
 					if ((isMedia && !msg.message.videoMessage) || isQImg) {
@@ -56,7 +65,9 @@ module.exports = {
 						}
 						await sock.sendMessage(from, { text }, { quoted: msg });
 					} else {
-						await msg.reply("this option only accept image\nSend/reply image with caption ```#gsearch -reverse```");
+						await msg.reply(
+							"this option only accept image\nSend/reply image with caption ```#gsearch -reverse```"
+						);
 					}
 					break;
 				default:

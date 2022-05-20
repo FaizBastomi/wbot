@@ -24,12 +24,16 @@ module.exports = {
 					{ urlButton: { displayText: "source", url: data?.url } },
 					{ quickReplyButton: { displayText: "➡️ Next", id: `#pin ${args.join(" ")}` } },
 				];
-				await sock.sendMessage(msg.from, {
-					image: { url: data?.url },
-                    caption: `*${data?.origin?.title}*\nwidth: ${data?.width}\nheight: ${data?.height}`,
-					templateButtons: buttons,
-					footer,
-				});
+				await sock.sendMessage(
+					msg.from,
+					{
+						image: { url: data?.url },
+						caption: `*${data?.origin?.title}*\nwidth: ${data?.width}\nheight: ${data?.height}`,
+						templateButtons: buttons,
+						footer,
+					},
+					{ quoted: msg }
+				);
 			}
 		} catch (e) {
 			await msg.reply(`Err;\n${e.message}`);
