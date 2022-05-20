@@ -3,7 +3,7 @@ const { uploaderAPI } = require("../../utils/uploader");
 
 module.exports = {
 	name: "gsearch",
-	category: "misc",
+	category: "random",
 	desc: "Search on Google",
 	use:
 		"[-options] <query>\n\nOptions:\n- image (Image search)\n- reverse (Reverse Image Search)" +
