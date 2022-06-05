@@ -11,7 +11,7 @@
   "dependencies": {
     "@adiwajshing/baileys": "^4.1.0",
     "@vitalets/google-translate-api": "^8.0.0",
-    "axios": "^0.26.1",
+    "axios": "^0.27.2",
     "brainly-scraper-v2": "1.1.2",
     "chalk": "4.1.2",
     "cheerio": "1.0.0-rc.10",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
-    "@hapi/boom": "^9.1.4",
+    "@hapi/boom": "^10.0.0",
     "bluebird": "^3.7.2",
     "jimp": "^0.16.1",
     "node-cron": "^3.0.0",
