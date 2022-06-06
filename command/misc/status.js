@@ -1,5 +1,7 @@
 const os = require("os");
+const fs = require("fs");
 const { formatSize } = require("../../utils");
+const { session } = require(`../../config.json`);
 
 module.exports = {
 	name: "stats",
@@ -7,12 +9,15 @@ module.exports = {
 	category: "misc",
 	desc: "Bot Stats",
 	async exec({ msg }) {
-		let text = "";
-		text += `HOST:\n- Arch: ${os.arch()}\n- CPU: ${os.cpus()[0].model}${
-			os.cpus().length > 1 ? " (" + os.cpus().length + "x)" : ""
-		}\n- Release: ${os.release()}\n- Version: ${os.version()}\n`;
-		text += `- Memory: ${formatSize(os.totalmem() - os.freemem())} / ${formatSize(os.totalmem())}\n`;
-		text += `- Platform: ${os.platform()}`;
-		await msg.reply(text);
+		let cpus = os.cpus(),
+			sessionStats = fs.statSync(`./${session}`),
+			txt =
+				`*Server:*\n\n- Nodejs: ${process.version}\n- Memory: ${
+					formatSize(os.totalmem() - os.freemem()) + "/" + formatSize(os.totalmem())
+				}\n` +
+				`- CPU: ${cpus[0].model} ${
+					cpus.length > 1 ? `(${cpus.length} core)` : ""
+				}\n- Platform: ${os.platform()}\n- Session Size: ${formatSize(sessionStats.size)}`;
+		await msg.reply(txt);
 	},
 };
