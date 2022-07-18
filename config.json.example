@@ -3,6 +3,7 @@
     "owner": [
         "Your_Phonenumber@s.whatsapp.net"
     ],
+    "unsplashAccessKey": "unsplash_Access_Key",
     "openWeather": "OpenWeather_APIkey",
     "igCookie": "Instagram_Cookie",
     "session": "session-md.json",
