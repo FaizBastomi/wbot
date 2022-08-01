@@ -3,6 +3,7 @@ const Downloader = require("../../utils/downloader");
 const { yt, yts } = new Downloader();
 const { fetchBuffer, fetchText } = require("../../utils");
 const { footer } = require("../../config.json");
+const jimp = require('jimp');
 
 module.exports = {
 	name: "play",
@@ -16,13 +17,16 @@ module.exports = {
 		let thumb = await fetchBuffer(ytsData[0].thumbnail);
 		const res = await yt(ytsData[0].url, "audio");
 		if (res === "no_file") return await msg.reply("No download link found, maybe try another keyword?");
-
+		//            adjust image size width ↓ height ↓
+		const img = await jimp.read(thumb)
+		const adjustImgSize = await img.resize(250, 130).getBufferAsync(jimp.MIME_JPEG)
+		
 		// message struct
 		let prep = generateWAMessageFromContent(
 			from,
 			proto.Message.fromObject({
 				buttonsMessage: {
-					locationMessage: { jpegThumbnail: thumb.toString("base64") },
+					locationMessage: { jpegThumbnail: adjustImgSize },
 					contentText: `📙 Title: ${ytsData[0].title}\n📎 Url: ${ytsData[0].url}\n🚀 Upload: ${ytsData[0].ago}\n\nWant a video version? click button below, or you don\'t see it? type *!ytv youtube_url*\n\nAudio on progress....`,
 					footerText: footer,
 					headerType: 6,
