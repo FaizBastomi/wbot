@@ -14,19 +14,16 @@ module.exports = {
 		if (args.length < 1) return await msg.reply("No query given to search.");
 		const ytsData = await yts(args.join(" "), "short");
 		if (!ytsData.length > 0) return await msg.reply("No video found for that keyword, try another keyword");
-		let thumb = await fetchBuffer(ytsData[0].thumbnail);
+		let thumb = await jimp.read(ytsData[0].thumbnail).then(res => res.resize(jimp.AUTO, 160).quality(100).getBufferAsync(jimp.MIME_JPEG))
 		const res = await yt(ytsData[0].url, "audio");
 		if (res === "no_file") return await msg.reply("No download link found, maybe try another keyword?");
-		//            adjust image size width ↓ height ↓
-		const img = await jimp.read(thumb)
-		const adjustImgSize = await img.resize(250, 130).getBufferAsync(jimp.MIME_JPEG)
 		
 		// message struct
 		let prep = generateWAMessageFromContent(
 			from,
 			proto.Message.fromObject({
 				buttonsMessage: {
-					locationMessage: { jpegThumbnail: adjustImgSize },
+					locationMessage: { jpegThumbnail: thumb },
 					contentText: `📙 Title: ${ytsData[0].title}\n📎 Url: ${ytsData[0].url}\n🚀 Upload: ${ytsData[0].ago}\n\nWant a video version? click button below, or you don\'t see it? type *!ytv youtube_url*\n\nAudio on progress....`,
 					footerText: footer,
 					headerType: 6,
