@@ -1,4 +1,7 @@
 <div align="center">
+
+# THIS REPOSITORY IS OUTDATED AND NOT MAINTAINED AGAIN, ALL THE ISSUES OR PULL REQUESTS WILL BE IGNORED.
+
 <img src="https://telegra.ph/file/fbe3160f0ad0e14abeeeb.jpg" width="150" height="150" border="0" alt="PFP">
 
 # Kaguya PublicBot - MD
