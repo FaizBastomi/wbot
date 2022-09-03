@@ -2,7 +2,7 @@
 node_modules
 
 # session
-*session*.json
+*session*
 
 # lock files
 *-lock.json

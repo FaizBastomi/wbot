@@ -1,4 +1,3 @@
-const { generateWAMessageFromContent, proto } = require("@adiwajshing/baileys");
 const Downloader = require("../../utils/downloader");
 const { yt, yts } = new Downloader();
 const { fetchBuffer, fetchText } = require("../../utils");
@@ -13,41 +12,33 @@ module.exports = {
 		if (args.length < 1) return await msg.reply("No query given to search.");
 		const ytsData = await yts(args.join(" "), "short");
 		if (!ytsData.length > 0) return await msg.reply("No video found for that keyword, try another keyword");
-		let thumb = await fetchBuffer(ytsData[0].thumbnail);
 		const res = await yt(ytsData[0].url, "audio");
 		if (res === "no_file") return await msg.reply("No download link found, maybe try another keyword?");
 
 		// message struct
-		let prep = generateWAMessageFromContent(
-			from,
-			proto.Message.fromObject({
-				buttonsMessage: {
-					locationMessage: { jpegThumbnail: thumb.toString("base64") },
-					contentText: `📙 Title: ${ytsData[0].title}\n📎 Url: ${ytsData[0].url}\n🚀 Upload: ${ytsData[0].ago}\n\nWant a video version? click button below, or you don\'t see it? type *!ytv youtube_url*\n\nAudio on progress....`,
-					footerText: footer,
-					headerType: 6,
-					buttons: [
-						{ buttonText: { displayText: "Video" }, buttonId: `#ytv ${ytsData[0].url} SMH`, type: 1 },
-					],
-				},
-			}),
-			{ timestamp: new Date() }
-		);
+		let buttonMessage = {
+			image: { url: ytsData[0].thumbnail },
+			caption: `📙 Title: ${ytsData[0].title}\n📎 Url: ${ytsData[0].url}\n🚀 Upload: ${ytsData[0].ago}\n\nWant a video version? click button below, or you don\'t see it? type *!ytv youtube_url*\n\nAudio on progress....`,
+			footer,
+			headerType: 4,
+			buttons: [{ buttonText: { displayText: "Video" }, buttonId: `#ytv ${ytsData[0].url} SMH`, type: 1 }],
+			viewOnce: false,
+		};
 
 		// Sending message
-		await sock.relayMessage(from, prep.message, { messageId: prep.key.id }).then(async () => {
+		await sock.sendMessage(from, buttonMessage).then(async (msg) => {
 			try {
 				if (res.size >= 10 << 10) {
 					let short = await fetchText(`https://tinyurl.com/api-create.php?url=${res.dl_link}`);
 					let capt =
 						`*Title:* ${res.title}\n` +
 						`*Quality:* ${res.q}\n*Size:* ${res.sizeF}\n*Download:* ${short}\n\n_Filesize to big_`;
-					await sock.sendMessage(from, { image: { url: res.thumb }, caption: capt }, { quoted: prep });
+					await sock.sendMessage(from, { image: { url: res.thumb }, caption: capt }, { quoted: msg });
 				} else {
 					let respMsg = await sock.sendMessage(
 						from,
 						{ audio: await fetchBuffer(res.dl_link, { skipSSL: true }), mimetype: "audio/mpeg" },
-						{ quoted: prep }
+						{ quoted: msg }
 					);
 					let sections = [{ title: "Select result", rows: [] }];
 					for (let idx in ytsData) {

@@ -43,7 +43,8 @@ module.exports = {
 				`Hello, ${pushName === undefined ? sender.split("@")[0] : pushName}\n*Here My Command List*\n\n` +
 				`╭──────❨ *${botName}* ❩\n╰─────────\n` +
 				"╭──────❨ *DONATE* ❩\n├ Ko-fi: https://ko-fi.com/faizbastomi\n├ saweria: https://saweria.co/faizbastomi\n" +
-				"├ trakteer: https://trakteer.id/faizbastomi\n╰─────────\n\n";
+				"├ trakteer: https://trakteer.id/faizbastomi\n╰─────────\n"+
+				"╭──────❨ *SOURCE CODE* ❩\n├ https://github.com/FaizBastomi/wbot\n╰────────────\n\n";
 			const keys = Object.keys(category);
 			for (const key of keys) {
 				str += `╭──────❨ *${key.toUpperCase()}* ❩\n\`\`\`${category[key]
@@ -56,23 +57,7 @@ module.exports = {
 					.join("\n")}\`\`\`\n╰──────────────\n`;
 			}
 			str += `send ${prefix}help followed by a command name to get detail of command, e.g. ${prefix}help sticker`;
-			await sock.sendMessage(
-				msg.from,
-				{
-					text: str,
-					footer: footer,
-					templateButtons: [
-						{ urlButton: { displayText: "Telegram Bot", url: "https://t.me/secondMidnight_bot" } },
-						{
-							urlButton: {
-								displayText: "Source Code",
-								url: "https://github.com/FaizBastomi/wbot/tree/multi-device",
-							},
-						},
-					],
-				},
-				{ quoted: msg }
-			);
+			await sock.sendMessage(msg.from, { text: str });
 		}
 	},
 };

@@ -122,14 +122,23 @@ pacman -S ffmpeg
 1. Download libWebP for Windows. [download](https://developers.google.com/speed/webp/download).
 2. Extract to C:\
 3. Rename extracted folder to `libwebp`
-4. on PowerShell
-```cmd
-setx /m PATH "C:\libwebp\bin;%PATH%"
-```
-> if libWebP properly isntalled. Check it with this command in Command Prompt
-```cmd
-webpmux -version
-```
+4. See below
+
+<details>
+<summary>Image Tutorial</summary>
+    <ul>
+    <li>Press <code>Windows Key + S</code> and find <code>Edit the system environment and variabels</code></li>
+    <img src="./images/image_1.png">
+    <li>Select <code>Environment Variabels...</code></li>
+    <img src="./images/image_2.png">
+    <li>On <b>User variabels</b>, select <code>Path</code> and click <code>Edit...</code></li>
+    <img srsc="./images/image_3.png">
+    <li>Then click <code>New</code></li>
+    <img src="./images/image_4.png">
+    <li>input this, <code>C:\libwebp\bin</code></li>
+    <img src="./images/image_5.png">
+    </ul>
+</details>
 
 - For Linux User, you can use your own package manager, below for example
 ```bash
