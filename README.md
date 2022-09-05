@@ -47,7 +47,7 @@ Fill in everything needed in the `config.json` file (follow `config.json.example
     ],
     "openWeather": "OpenWeather_APIkey",	// OpenWeather API
     "igCookie": "Instagram_Cookie",		// Instagram Cookie
-    "session": "session",		// Session folder
+    "session": "session",			// Session folder
     "user_db": "users-db.json",			// User DB filename
     "chat_store": "baileys-store.json",		// Chat Store
     "timezone": "Asia/Jakarta",			// Your timezone (for cron and moment-timezone)
