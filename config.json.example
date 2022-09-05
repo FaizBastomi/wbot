@@ -5,7 +5,7 @@
     ],
     "openWeather": "OpenWeather_APIkey",
     "igCookie": "Instagram_Cookie",
-    "session": "session-md.json",
+    "session": "session",
     "user_db": "users-db.json",
     "chat_store": "baileys-store.json",
     "timezone": "Asia/Jakarta",
