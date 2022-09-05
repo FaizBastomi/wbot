@@ -1,7 +1,5 @@
 <div align="center">
 
-# THIS REPOSITORY IS OUTDATED AND NOT MAINTAINED AGAIN, ALL THE ISSUES OR PULL REQUESTS WILL BE IGNORED.
-
 <img src="https://telegra.ph/file/fbe3160f0ad0e14abeeeb.jpg" width="150" height="150" border="0" alt="PFP">
 
 # Kaguya PublicBot - MD
@@ -132,7 +130,7 @@ pacman -S ffmpeg
     <li>Select <code>Environment Variabels...</code></li>
     <img src="./images/image_2.png">
     <li>On <b>User variabels</b>, select <code>Path</code> and click <code>Edit...</code></li>
-    <img srsc="./images/image_3.png">
+    <img src="./images/image_3.png">
     <li>Then click <code>New</code></li>
     <img src="./images/image_4.png">
     <li>input this, <code>C:\libwebp\bin</code></li>
@@ -152,7 +150,7 @@ pacman -S libwebp
 ### Cloning this repo
 ```bash
 # clone begin
-git clone https://github.com/FaizBastomi/wbot.git --branch "multi-device"
+git clone https://github.com/FaizBastomi/wbot.git
 
 # change dir
 cd wbot
