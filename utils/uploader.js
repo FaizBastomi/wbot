@@ -72,7 +72,7 @@ const uploaderAPI = (fileData, type) =>
 				return {
 					host: "telegraph",
 					data: {
-						name: filePath.replace("utils/", ""),
+						name: filePath.replace(/utils([\\\/])/i, ""),		/** Use regex to support Windows Path */
 						url: "https://telegra.ph" + data[0].src,
 						size: formatSize(fileData.length),
 					},
