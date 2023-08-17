@@ -1,3 +1,7 @@
+> [!WARNING]\
+> This repository is no longer maintained and will be archived.
+
+
 <div align="center">
 
 <img src="https://telegra.ph/file/fbe3160f0ad0e14abeeeb.jpg" width="150" height="150" border="0" alt="PFP">
